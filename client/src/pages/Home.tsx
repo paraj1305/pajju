@@ -1,11 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Code, Terminal, Github, Twitter, Linkedin, ExternalLink, Mail, MapPin, Send, Instagram, Youtube } from "lucide-react";
+import { ArrowRight, Code, Terminal, Github, Twitter, Linkedin, ExternalLink, Mail, MapPin, Send, Instagram, Youtube, Sparkles, Database, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const Home = () => {
+  const techSkills = ['Python', 'Django', 'FastAPI', 'Laravel', 'PostgreSQL', 'MongoDB'];
+  const aiTools = ['Rettel AI', 'n8n', 'Replit', 'Lovable'];
+
   return (
     <div className="min-h-screen text-foreground selection:bg-primary/30 selection:text-primary">
       {/* Navigation */}
@@ -65,13 +68,37 @@ const Home = () => {
           </h2>
           <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind', 'PostgreSQL', 'Docker', 'AWS'].map((skill) => (
-            <div key={skill} className="bg-card/50 border border-white/5 p-6 rounded-lg hover:border-primary/50 transition-all group">
-              <Code className="w-8 h-8 text-primary mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="font-mono text-white">{skill}</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Technology Skills */}
+          <div>
+            <h3 className="text-xl font-mono text-primary mb-8 flex items-center gap-2">
+              <Code className="w-5 h-5" /> Technology
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {techSkills.map((skill) => (
+                <div key={skill} className="bg-card/30 border border-white/5 p-4 rounded-lg hover:border-primary/50 transition-all flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary/40" />
+                  <span className="font-mono text-sm text-white/80">{skill}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* AI Tools */}
+          <div>
+            <h3 className="text-xl font-mono text-primary mb-8 flex items-center gap-2">
+              <Sparkles className="w-5 h-5" /> AI & Productivity Tools
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {aiTools.map((tool) => (
+                <div key={tool} className="bg-card/30 border border-white/5 p-4 rounded-lg hover:border-primary/50 transition-all flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary/40" />
+                  <span className="font-mono text-sm text-white/80">{tool}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -99,38 +126,56 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Work Section - Improved Design */}
       <section id="projects" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="flex items-center gap-4 mb-16">
           <h2 className="text-3xl font-bold text-white flex items-center">
             <span className="text-primary font-mono text-xl mr-3 font-normal">03.</span>
-            Selected Works
+            Selected Work
           </h2>
           <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3].map((item) => (
-            <div key={item} className="bg-card border border-white/5 rounded-xl p-6 group hover:border-primary/30 transition-all">
-              <div className="flex justify-between items-start mb-6">
-                <Terminal className="text-primary w-10 h-10" />
-                <div className="flex gap-4 text-muted-foreground">
-                  <Github className="w-5 h-5 hover:text-primary cursor-pointer" />
-                  <ExternalLink className="w-5 h-5 hover:text-primary cursor-pointer" />
+        
+        <div className="space-y-32">
+          {[1, 2].map((item) => (
+            <div key={item} className={`flex flex-col ${item % 2 === 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-center group`}>
+              {/* Project Image Placeholder / Visual */}
+              <div className="w-full lg:w-3/5 aspect-video bg-[#1f2528] rounded-xl overflow-hidden border border-white/5 relative group-hover:border-primary/20 transition-all shadow-2xl">
+                <div className="absolute inset-0 bg-primary/10 mix-blend-multiply opacity-50 group-hover:opacity-0 transition-opacity" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                   <Layers className="w-20 h-20 text-primary/10 group-hover:text-primary/20 transition-colors" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Project Name {item}</h3>
-              <p className="text-muted-foreground text-sm mb-4">A high-performance web application built with the latest technologies.</p>
-              <div className="flex gap-3 text-xs font-mono text-primary/80">
-                <span>React</span>
-                <span>Tailwind</span>
-                <span>Node</span>
+
+              {/* Project Info */}
+              <div className={`w-full lg:w-2/5 ${item % 2 === 0 ? 'text-left' : 'lg:text-right'}`}>
+                <p className="text-primary font-mono text-sm mb-2">Featured Project</p>
+                <h3 className="text-3xl font-bold text-white mb-6 group-hover:text-primary transition-colors">Digital Innovation Platform {item}</h3>
+                
+                <div className={`bg-[#1f2528] p-6 rounded-lg border border-white/5 shadow-xl mb-6 relative z-10 ${item % 2 === 0 ? 'lg:-mr-20' : 'lg:-ml-20'} backdrop-blur-sm`}>
+                  <p className="text-muted-foreground leading-relaxed">
+                    A comprehensive full-stack solution built with Python and React, enabling seamless data visualization and real-time processing for enterprise clients.
+                  </p>
+                </div>
+                
+                <ul className={`flex flex-wrap gap-4 font-mono text-xs text-muted-foreground mb-8 ${item % 2 === 0 ? '' : 'lg:justify-end'}`}>
+                  <li>React</li>
+                  <li>FastAPI</li>
+                  <li>PostgreSQL</li>
+                  <li>Docker</li>
+                </ul>
+                
+                <div className={`flex gap-6 text-white ${item % 2 === 0 ? '' : 'lg:justify-end'}`}>
+                  <Github className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
+                  <ExternalLink className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Contact Section - Replicating Reference Image Style */}
+      {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left Column */}
