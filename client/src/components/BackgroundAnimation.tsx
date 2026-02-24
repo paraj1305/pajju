@@ -13,31 +13,23 @@ const BackgroundAnimation: React.FC = () => {
     let animationFrameId: number;
     let particles: Particle[] = [];
     
-    // Canvas setup
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       initParticles();
     };
 
-    // Particle class
     class Particle {
       x: number;
       y: number;
-      size: number;
       speedX: number;
       speedY: number;
-      color: string;
 
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.1;
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 - 0.5;
-        // Use a mix of primary color (#19e6bd) and some dimmer variants
-        const colors = ['rgba(25, 230, 189, 0.8)', 'rgba(25, 230, 189, 0.3)', 'rgba(199, 209, 209, 0.2)'];
-        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
       }
 
       update() {
@@ -53,16 +45,16 @@ const BackgroundAnimation: React.FC = () => {
 
       draw() {
         if (!ctx) return;
-        ctx.fillStyle = this.color;
+        ctx.fillStyle = 'rgba(25, 230, 189, 0.5)';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, 1, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     const initParticles = () => {
       particles = [];
-      const numberOfParticles = Math.min((canvas.width * canvas.height) / 15000, 100);
+      const numberOfParticles = Math.min((canvas.width * canvas.height) / 10000, 100);
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle());
       }
@@ -70,18 +62,26 @@ const BackgroundAnimation: React.FC = () => {
 
     const drawLines = () => {
       for (let i = 0; i < particles.length; i++) {
-        for (let j = i; j < particles.length; j++) {
+        for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 150) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(25, 230, 189, ${0.1 - distance / 1500})`;
+            ctx.strokeStyle = `rgba(25, 230, 189, ${0.2 * (1 - distance / 150)})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
+            
+            // Add a small joint/node at the intersection of some lines for "connected node" feel
+            if (distance < 50) {
+               ctx.fillStyle = `rgba(25, 230, 189, ${0.3 * (1 - distance / 50)})`;
+               ctx.beginPath();
+               ctx.arc(particles[i].x, particles[i].y, 2, 0, Math.PI * 2);
+               ctx.fill();
+            }
           }
         }
       }
@@ -89,14 +89,6 @@ const BackgroundAnimation: React.FC = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw grid background (subtle)
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
-      ctx.lineWidth = 1;
-      const gridSize = 50;
-      
-      // We don't draw the grid every frame for performance, just use CSS background for that
-      
       particles.forEach((particle) => {
         particle.update();
         particle.draw();
@@ -116,14 +108,13 @@ const BackgroundAnimation: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]">
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-[1px]" />
+    <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-[#0d1012]">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(25,230,189,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(25,230,189,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
       <canvas
         ref={canvasRef}
-        className="block w-full h-full opacity-60"
-        style={{ background: 'transparent' }}
+        className="block w-full h-full"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0d1012]/80" />
     </div>
   );
 };
