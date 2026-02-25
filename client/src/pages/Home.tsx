@@ -83,28 +83,48 @@ const Home = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto flex flex-col justify-center min-h-[80vh]">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-primary font-mono mb-4 text-sm md:text-base">Hi, my name is</p>
-          <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-white mb-2">
-            Rahul Patel.
-          </h1>
-          <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-muted-foreground mb-6">
-            I build things for the web.
-          </h2>
-          <p className="max-w-2xl text-lg text-muted-foreground mb-10 leading-relaxed">
-            I'm a software engineer specializing in building exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button size="lg" className="bg-primary text-background hover:bg-primary/90 font-medium px-8 h-14 rounded-sm">
-              Check out my work <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </div>
-        </motion.div>
+      <section className="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto flex flex-col justify-center min-h-[90vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-primary font-mono mb-4 text-sm md:text-base">Hi, my name is</p>
+            <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-white mb-2">
+              Rahul Patel.
+            </h1>
+            <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-muted-foreground mb-6">
+              I build things for the web.
+            </h2>
+            <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
+              I'm a software engineer specializing in building exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button size="lg" className="bg-primary text-background hover:bg-primary/90 font-medium px-8 h-14 rounded-sm">
+                Check out my work <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative flex justify-center lg:justify-end"
+          >
+            <div className="relative w-full max-w-[500px] aspect-square">
+              {/* Decorative background glow */}
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
+              
+              <img 
+                src="/avatar.png" 
+                alt="Rahul Patel 3D Avatar" 
+                className="relative z-10 w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
+              />
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Skills Section - Redesigned as Marquee */}
@@ -210,6 +230,7 @@ const Home = () => {
       {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Left Column */}
           <div>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">Let's Connect</h2>
             <p className="text-muted-foreground text-lg mb-12">Open for projects, collaborations, and opportunities</p>
@@ -248,6 +269,7 @@ const Home = () => {
             </div>
           </div>
 
+          {/* Right Column - Form */}
           <div className="bg-[#1f2528]/50 p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-sm">
             <form className="space-y-8">
               <div className="space-y-2">
