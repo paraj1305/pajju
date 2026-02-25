@@ -28,8 +28,8 @@ const BackgroundAnimation: React.FC = () => {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.speedX = (Math.random() - 0.8) * 0.8;
+        this.speedY = (Math.random() - 0.8) * 0.8;
       }
 
       update() {
@@ -69,7 +69,7 @@ const BackgroundAnimation: React.FC = () => {
 
           if (distance < 150) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(25, 230, 189, ${0.2 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `rgba(25, 230, 189, ${0.2 * (1 - distance / 250)})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);

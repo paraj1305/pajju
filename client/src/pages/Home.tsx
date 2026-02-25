@@ -1,13 +1,61 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Code, Terminal, Github, Twitter, Linkedin, ExternalLink, Mail, MapPin, Send, Instagram, Youtube, Sparkles, Database, Layers } from "lucide-react";
+import { ArrowRight, Code, Terminal, Github, Twitter, Linkedin, ExternalLink, Mail, MapPin, Instagram, Youtube, Sparkles, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+// Skill Card Component
+const SkillCard = ({ name, icon: Icon }: { name: string; icon: any }) => (
+  <div className="flex-shrink-0 bg-[#1f2528] border border-white/5 px-6 py-4 rounded-xl flex items-center gap-4 hover:border-primary/50 transition-all group min-w-[180px]">
+    <div className="text-primary group-hover:scale-110 transition-transform">
+      <Icon size={24} />
+    </div>
+    <span className="font-mono text-white text-sm whitespace-nowrap">{name}</span>
+  </div>
+);
+
+// Marquee Row Component
+const MarqueeRow = ({ skills, direction = "left" }: { skills: any[]; direction?: "left" | "right" }) => {
+  const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
+  
+  return (
+    <div className="relative flex overflow-x-hidden py-4 mask-fade-edges">
+      <motion.div
+        animate={{
+          x: direction === "left" ? [0, -1035] : [-1035, 0],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="flex gap-6 pr-6"
+      >
+        {duplicatedSkills.map((skill, idx) => (
+          <SkillCard key={idx} {...skill} />
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
 const Home = () => {
-  const techSkills = ['Python', 'Django', 'FastAPI', 'Laravel', 'PostgreSQL', 'MongoDB'];
-  const aiTools = ['Rettel AI', 'n8n', 'Replit', 'Lovable'];
+  const techSkills = [
+    { name: 'Python', icon: Code },
+    { name: 'Django', icon: Layers },
+    { name: 'FastAPI', icon: Sparkles },
+    { name: 'Laravel', icon: Code },
+    { name: 'PostgreSQL', icon: Code },
+    { name: 'MongoDB', icon: Code },
+  ];
+
+  const aiTools = [
+    { name: 'Rettel AI', icon: Sparkles },
+    { name: 'n8n', icon: Layers },
+    { name: 'Replit', icon: Terminal },
+    { name: 'Lovable', icon: Sparkles },
+  ];
 
   return (
     <div className="min-h-screen text-foreground selection:bg-primary/30 selection:text-primary">
@@ -59,45 +107,31 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-16">
-          <h2 className="text-3xl font-bold text-white flex items-center">
-            <span className="text-primary font-mono text-xl mr-3 font-normal">01.</span>
-            My Skills
-          </h2>
-          <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
+      {/* Skills Section - Redesigned as Marquee */}
+      <section id="skills" className="py-24 overflow-hidden">
+        <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
+          <div className="flex items-center gap-4">
+            <h2 className="text-3xl font-bold text-white flex items-center">
+              <span className="text-primary font-mono text-xl mr-3 font-normal">01.</span>
+              My Stack
+            </h2>
+            <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Technology Skills */}
+        <div className="space-y-8">
           <div>
-            <h3 className="text-xl font-mono text-primary mb-8 flex items-center gap-2">
-              <Code className="w-5 h-5" /> Technology
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {techSkills.map((skill) => (
-                <div key={skill} className="bg-card/30 border border-white/5 p-4 rounded-lg hover:border-primary/50 transition-all flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary/40" />
-                  <span className="font-mono text-sm text-white/80">{skill}</span>
-                </div>
-              ))}
+            <div className="px-6 md:px-12 max-w-7xl mx-auto mb-4">
+              <h3 className="text-sm font-mono text-primary/60 uppercase tracking-widest">Technology</h3>
             </div>
+            <MarqueeRow skills={techSkills} direction="left" />
           </div>
 
-          {/* AI Tools */}
           <div>
-            <h3 className="text-xl font-mono text-primary mb-8 flex items-center gap-2">
-              <Sparkles className="w-5 h-5" /> AI & Productivity Tools
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {aiTools.map((tool) => (
-                <div key={tool} className="bg-card/30 border border-white/5 p-4 rounded-lg hover:border-primary/50 transition-all flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary/40" />
-                  <span className="font-mono text-sm text-white/80">{tool}</span>
-                </div>
-              ))}
+            <div className="px-6 md:px-12 max-w-7xl mx-auto mb-4">
+              <h3 className="text-sm font-mono text-primary/60 uppercase tracking-widest">AI & Productivity</h3>
             </div>
+            <MarqueeRow skills={aiTools} direction="right" />
           </div>
         </div>
       </section>
@@ -126,7 +160,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Work Section - Improved Design */}
+      {/* Work Section */}
       <section id="projects" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="flex items-center gap-4 mb-16">
           <h2 className="text-3xl font-bold text-white flex items-center">
@@ -139,7 +173,6 @@ const Home = () => {
         <div className="space-y-32">
           {[1, 2].map((item) => (
             <div key={item} className={`flex flex-col ${item % 2 === 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-center group`}>
-              {/* Project Image Placeholder / Visual */}
               <div className="w-full lg:w-3/5 aspect-video bg-[#1f2528] rounded-xl overflow-hidden border border-white/5 relative group-hover:border-primary/20 transition-all shadow-2xl">
                 <div className="absolute inset-0 bg-primary/10 mix-blend-multiply opacity-50 group-hover:opacity-0 transition-opacity" />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -147,7 +180,6 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Project Info */}
               <div className={`w-full lg:w-2/5 ${item % 2 === 0 ? 'text-left' : 'lg:text-right'}`}>
                 <p className="text-primary font-mono text-sm mb-2">Featured Project</p>
                 <h3 className="text-3xl font-bold text-white mb-6 group-hover:text-primary transition-colors">Digital Innovation Platform {item}</h3>
@@ -178,7 +210,6 @@ const Home = () => {
       {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left Column */}
           <div>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">Let's Connect</h2>
             <p className="text-muted-foreground text-lg mb-12">Open for projects, collaborations, and opportunities</p>
@@ -217,7 +248,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right Column - Form */}
           <div className="bg-[#1f2528]/50 p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-sm">
             <form className="space-y-8">
               <div className="space-y-2">
