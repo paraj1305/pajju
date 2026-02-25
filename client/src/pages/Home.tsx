@@ -118,7 +118,7 @@ const Home = () => {
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
               
               <img 
-                src="/avatar.png" 
+                src="/avatar_v2.png" 
                 alt="Rahul Patel 3D Avatar" 
                 className="relative z-10 w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
               />
