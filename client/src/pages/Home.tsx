@@ -23,6 +23,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+// Typewriter Effect Component
+const Typewriter = ({ sentences }: { sentences: string[] }) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+
+  // typing effect
+  useEffect(() => {
+    if (subIndex === sentences[index].length + 1 && !reverse) {
+      setTimeout(() => setReverse(true), 2000);
+      return;
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev) => (prev + 1) % sentences.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, reverse ? 75 : 150);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, sentences]);
+
+  return (
+    <span className="text-primary inline-block min-h-[1.2em]">
+      {sentences[index].substring(0, subIndex)}
+      <span className="animate-pulse ml-1">|</span>
+    </span>
+  );
+};
+
 // Skill Card Component
 const SkillCard = ({ name, icon: Icon, description }: { name: string; icon: any; description: string }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -45,12 +79,14 @@ const SkillCard = ({ name, icon: Icon, description }: { name: string; icon: any;
         {isHovered && (
           <motion.div
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: -10, scale: 1 }}
+            animate={{ opacity: 1, y: -20, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute bottom-full left-0 w-64 p-4 bg-[#1f2528] border border-primary/20 rounded-xl shadow-2xl z-50 pointer-events-none mb-2 backdrop-blur-xl"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none mb-4 backdrop-blur-xl"
+            style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)' }}
           >
-            <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider">{name}</p>
-            <p className="text-sm text-white/80 leading-relaxed">
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#1f2528] border-r border-b border-primary/30 rotate-45" />
+            <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider relative z-10">{name}</p>
+            <p className="text-sm text-white/90 leading-relaxed relative z-10">
               {description}
             </p>
           </motion.div>
@@ -200,21 +236,11 @@ const MarqueeRow = ({
   );
 };
 
-const Home = () => {
-  const techSkills = [
-    { name: "Python", icon: Code, description: "Advanced scripting and automation with focus on clean, scalable code." },
-    { name: "Django", icon: Layers, description: "Building robust enterprise-grade backends with security and scalability." },
-    { name: "FastAPI", icon: Sparkles, description: "Creating high-performance modern APIs with asynchronous support." },
-    { name: "Laravel", icon: Code, description: "Elegant PHP development for complex web application architectures." },
-    { name: "PostgreSQL", icon: Code, description: "Relational database design and complex query optimization." },
-    { name: "MongoDB", icon: Code, description: "NoSQL data modeling for flexible and rapid application development." },
-  ];
-
-  const aiTools = [
-    { name: "Rettel AI", icon: Sparkles, description: "Leveraging generative AI for enhanced development workflows." },
-    { name: "n8n", icon: Layers, description: "Workflow automation and integration across diverse platforms." },
-    { name: "Replit", icon: Terminal, description: "Cloud-based collaborative development and rapid prototyping." },
-    { name: "Lovable", icon: Sparkles, description: "Building interactive UI components with AI-assisted design." },
+  const typewriterSentences = [
+    "I craft premium digital experiences.",
+    "I build scalable AI-driven solutions.",
+    "I design modern architectural systems.",
+    "I turn complex problems into elegant code.",
   ];
 
   return (
@@ -271,13 +297,11 @@ const Home = () => {
             <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-white mb-2">
               Rahul Patel.
             </h1>
-            <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-muted-foreground mb-6">
-              Working seamlessly with AI.
+            <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-muted-foreground mb-6 min-h-[1.2em]">
+              <Typewriter sentences={typewriterSentences} />
             </h2>
             <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
-              I'm a software engineer crafting creative solutions in action.
-              Specializing in building exceptional digital experiences with a
-              human-centered approach.
+              I am a Design Engineer dedicated to crafting sophisticated digital ecosystems that bridge the gap between human intuition and machine intelligence. My work focuses on building high-performance, accessible, and human-centric products.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button
@@ -327,19 +351,26 @@ const Home = () => {
                     stiffness: 100,
                     duration: 0.8 
                   }}
-                  className="absolute -bottom-4 -left-4 md:-left-12 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[200px]"
+                  className="absolute bottom-10 -right-4 md:-right-12 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[260px] hover:border-primary/50 transition-colors group"
                 >
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
-                      <User className="text-primary w-6 h-6" />
+                    <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
+                      <img 
+                        src="/Photo_1771955679545 (1).jpg" 
+                        alt="Paraj Bhatasana" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.parentElement?.querySelector('.fallback-user')?.classList.remove('hidden');
+                        }}
+                      />
+                      <User className="fallback-user hidden text-primary w-8 h-8" />
                     </div>
-                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-[#1f2528] animate-pulse" />
+                    <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-primary rounded-full border-2 border-[#1f2528] animate-pulse shadow-[0_0_10px_#19e6bd]" />
                   </div>
                   <div>
-                    <p className="text-white font-bold text-sm leading-none mb-1">Rahul Patel</p>
-                    <div className="flex items-center gap-1.5">
-                      <p className="text-[10px] text-primary uppercase font-mono tracking-widest font-bold">Available for Work</p>
-                    </div>
+                    <p className="text-white font-bold text-lg leading-none mb-1.5">Paraj Bhatasana</p>
+                    <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold">Available for Work</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -368,6 +399,54 @@ const Home = () => {
             </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="flex items-center gap-4 mb-12">
+            <h2 className="text-3xl font-bold text-white flex items-center">
+              <span className="text-primary font-mono text-xl mr-3 font-normal">
+                00.
+              </span>
+              About Me
+            </h2>
+            <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+              <p>
+                I am a passionate <span className="text-white font-semibold">Full Stack Developer</span> and <span className="text-white font-semibold">AI Specialist</span> based in Ahmedabad. My journey in technology is driven by a relentless curiosity for how things work and a desire to build tools that make a difference.
+              </p>
+              <p>
+                With a background in both engineering and design, I specialize in creating seamless digital experiences that are as beautiful as they are functional. I believe that the future of software lies at the intersection of human intuition and powerful automation.
+              </p>
+              <p>
+                Currently, I'm exploring the latest advancements in <span className="text-primary">Large Language Models</span> and how they can be integrated into modern web architectures to create smarter, more responsive applications.
+              </p>
+            </div>
+            
+            <div className="relative">
+              <div className="aspect-[4/5] bg-[#1f2528] rounded-2xl border border-white/10 overflow-hidden group">
+                <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                   <User className="w-32 h-32 text-white/5" />
+                </div>
+                {/* Image placeholder for future update */}
+                <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
+                   <p className="font-mono text-xs text-primary/40 uppercase tracking-widest">Premium Portrait Placeholder</p>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-primary/20 rounded-2xl -z-10 group-hover:-bottom-4 group-hover:-right-4 transition-all duration-500" />
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Skills Section */}
