@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -27,42 +27,83 @@ import { Textarea } from "@/components/ui/textarea";
 const Typewriter = ({ sentences }: { sentences: string[] }) => {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
-  const [reverse, setReverse] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  // typing effect
+  const typingSpeed = 45;
+  const deletingSpeed = 30;
+  const pauseAfterTyping = 1000;
+
   useEffect(() => {
-    if (subIndex === sentences[index].length + 1 && !reverse) {
-      setTimeout(() => setReverse(true), 2000);
-      return;
+    const currentText = sentences[index];
+
+    if (!isDeleting && subIndex === currentText.length) {
+      const timeout = setTimeout(() => setIsDeleting(true), pauseAfterTyping);
+      return () => clearTimeout(timeout);
     }
 
-    if (subIndex === 0 && reverse) {
-      setReverse(false);
+    if (isDeleting && subIndex === 0) {
+      setIsDeleting(false);
       setIndex((prev) => (prev + 1) % sentences.length);
       return;
     }
 
-    const timeout = setTimeout(() => {
-      setSubIndex((prev) => prev + (reverse ? -1 : 1));
-    }, reverse ? 75 : 150);
+    const timeout = setTimeout(
+      () => {
+        setSubIndex((prev) => prev + (isDeleting ? -1 : 1));
+      },
+      isDeleting ? deletingSpeed : typingSpeed,
+    );
 
     return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse, sentences]);
+  }, [subIndex, isDeleting, index, sentences]);
 
   return (
-    <span className="text-primary inline-block min-h-[1.2em]">
-      {sentences[index].substring(0, subIndex)}
-      <span className="animate-pulse ml-1">|</span>
+    <span className="relative inline-block min-h-[1.2em]">
+      {/* 🔥 Gradient AI Text */}
+      <span
+        className="
+        bg-gradient-to-r 
+        from-cyan-400 
+        via-emerald-400 
+        to-teal-400 
+        bg-[length:200%_200%] 
+        bg-clip-text 
+        text-transparent 
+        animate-[gradientMove_4s_linear_infinite]
+      "
+      >
+        {sentences[index].substring(0, subIndex)}
+      </span>
+
+      {/* 🤖 AI Cursor Glow */}
+      <span
+        className="
+        ml-2 inline-block 
+        w-[3px] h-6 
+        bg-cyan-400 
+        shadow-[0_0_8px_#22d3ee] 
+        animate-pulse
+        align-middle
+      "
+      />
     </span>
   );
 };
 
 // Skill Card Component
-const SkillCard = ({ name, icon: Icon, description }: { name: string; icon: any; description: string }) => {
+const SkillCard = ({
+  name,
+  icon: Icon,
+  description,
+}: {
+  name: string;
+  icon: any;
+  description: string;
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div 
+    <div
       className="relative flex-shrink-0 bg-[#1f2528] border border-white/5 px-6 py-4 rounded-xl flex items-center gap-4 hover:border-primary/50 transition-all group min-w-[180px] cursor-default"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -77,15 +118,16 @@ const SkillCard = ({ name, icon: Icon, description }: { name: string; icon: any;
 
       <AnimatePresence>
         {isHovered && (
-          <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: -20, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none mb-4 backdrop-blur-xl"
-            style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)' }}
-          >
+      <motion.div
+        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+        animate={{ opacity: 1, y: -20, scale: 1 }}
+        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+        className="absolute bottom-full left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none mb-4 backdrop-blur-xl"
+      >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#1f2528] border-r border-b border-primary/30 rotate-45" />
-            <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider relative z-10">{name}</p>
+            <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider relative z-10">
+              {name}
+            </p>
             <p className="text-sm text-white/90 leading-relaxed relative z-10">
               {description}
             </p>
@@ -100,31 +142,47 @@ const SkillCard = ({ name, icon: Icon, description }: { name: string; icon: any;
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'bot', content: "Hey 👋 I'm Rahul's AI assistant. Ask me anything about him!" }
+    {
+      role: "bot",
+      content: "Hey 👋 I'm Rahul's AI assistant. Ask me anything about him!",
+    },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     const userMessage = input;
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
 
     // Simple mock responses based on portfolio content
     setTimeout(() => {
-      let botResponse = "That's a great question! Rahul specializes in building modern web applications with Python, React, and AI tools. He has experience at Tech Corp and Dev Agency.";
-      
-      if (userMessage.toLowerCase().includes('skill') || userMessage.toLowerCase().includes('stack')) {
-        botResponse = "Rahul's tech stack includes Python, Django, FastAPI, Laravel, and React. He also uses AI tools like Rettel AI and n8n to boost productivity.";
-      } else if (userMessage.toLowerCase().includes('contact') || userMessage.toLowerCase().includes('email')) {
-        botResponse = "You can reach Rahul at rahulpatel.code@gmail.com or through the contact form on this page!";
-      } else if (userMessage.toLowerCase().includes('project') || userMessage.toLowerCase().includes('work')) {
-        botResponse = "Rahul has worked on several featured projects like Digital Innovation Platforms using FastAPI and React. Check out the 'Work' section for more details!";
+      let botResponse =
+        "That's a great question! Rahul specializes in building modern web applications with Python, React, and AI tools. He has experience at Tech Corp and Dev Agency.";
+
+      if (
+        userMessage.toLowerCase().includes("skill") ||
+        userMessage.toLowerCase().includes("stack")
+      ) {
+        botResponse =
+          "Rahul's tech stack includes Python, Django, FastAPI, Laravel, and React. He also uses AI tools like Rettel AI and n8n to boost productivity.";
+      } else if (
+        userMessage.toLowerCase().includes("contact") ||
+        userMessage.toLowerCase().includes("email")
+      ) {
+        botResponse =
+          "You can reach Rahul at rahulpatel.code@gmail.com or through the contact form on this page!";
+      } else if (
+        userMessage.toLowerCase().includes("project") ||
+        userMessage.toLowerCase().includes("work")
+      ) {
+        botResponse =
+          "Rahul has worked on several featured projects like Digital Innovation Platforms using FastAPI and React. Check out the 'Work' section for more details!";
       }
 
-      setMessages(prev => [...prev, { role: 'bot', content: botResponse }]);
+      setMessages((prev) => [...prev, { role: "bot", content: botResponse }]);
     }, 1000);
   };
 
@@ -141,7 +199,12 @@ const Chatbot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9, transformOrigin: 'bottom right' }}
+            initial={{
+              opacity: 0,
+              y: 20,
+              scale: 0.9,
+              transformOrigin: "bottom right",
+            }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             className="fixed bottom-24 right-6 z-[60] w-[calc(100vw-3rem)] sm:w-[400px] h-[500px] bg-[#1f2528]/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
@@ -152,10 +215,14 @@ const Chatbot = () => {
                 RP
               </div>
               <div>
-                <p className="text-white font-semibold text-sm">Rahul's AI Assistant</p>
+                <p className="text-white font-semibold text-sm">
+                  Rahul's AI Assistant
+                </p>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-                  <span className="text-[10px] text-primary uppercase font-mono tracking-widest">Online</span>
+                  <span className="text-[10px] text-primary uppercase font-mono tracking-widest">
+                    Online
+                  </span>
                 </div>
               </div>
             </div>
@@ -164,16 +231,18 @@ const Chatbot = () => {
             <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-hide">
               {messages.map((msg, i) => (
                 <motion.div
-                  initial={{ opacity: 0, x: msg.role === 'user' ? 10 : -10 }}
+                  initial={{ opacity: 0, x: msg.role === "user" ? 10 : -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   key={i}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
-                    msg.role === 'user' 
-                      ? 'bg-primary text-background rounded-tr-none' 
-                      : 'bg-white/5 text-white rounded-tl-none border border-white/5'
-                  }`}>
+                  <div
+                    className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                      msg.role === "user"
+                        ? "bg-primary text-background rounded-tr-none"
+                        : "bg-white/5 text-white rounded-tl-none border border-white/5"
+                    }`}
+                  >
                     {msg.content}
                   </div>
                 </motion.div>
@@ -181,7 +250,10 @@ const Chatbot = () => {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSend} className="p-4 border-t border-white/5 bg-white/5">
+            <form
+              onSubmit={handleSend}
+              className="p-4 border-t border-white/5 bg-white/5"
+            >
               <div className="relative">
                 <input
                   type="text"
@@ -190,7 +262,7 @@ const Chatbot = () => {
                   placeholder="Ask me anything..."
                   className="w-full bg-[#0d1012] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors pr-12"
                 />
-                <button 
+                <button
                   type="submit"
                   className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary hover:text-primary/80 transition-colors"
                 >
@@ -216,7 +288,7 @@ const MarqueeRow = ({
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
 
   return (
-    <div className="relative flex overflow-x-hidden py-12 mask-fade-edges -my-8">
+    <div className="relative flex overflow-visible py-12 mask-fade-edges -my-8">
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -229,7 +301,9 @@ const MarqueeRow = ({
         className="flex gap-6 pr-6"
       >
         {duplicatedSkills.map((skill, idx) => (
-          <SkillCard key={idx} {...skill} />
+          <div key={idx} className="relative">  {/* ✅ added wrapper */}
+            <SkillCard {...skill} />
+          </div>
         ))}
       </motion.div>
     </div>
@@ -238,19 +312,68 @@ const MarqueeRow = ({
 
 const Home = () => {
   const techSkills = [
-    { name: "Python", icon: Code, description: "Advanced scripting and automation with focus on clean, scalable code." },
-    { name: "Django", icon: Layers, description: "Building robust enterprise-grade backends with security and scalability." },
-    { name: "FastAPI", icon: Sparkles, description: "Creating high-performance modern APIs with asynchronous support." },
-    { name: "Laravel", icon: Code, description: "Elegant PHP development for complex web application architectures." },
-    { name: "PostgreSQL", icon: Code, description: "Relational database design and complex query optimization." },
-    { name: "MongoDB", icon: Code, description: "NoSQL data modeling for flexible and rapid application development." },
+    {
+      name: "Python",
+      icon: Code,
+      description:
+        "Advanced scripting and automation with focus on clean, scalable code.",
+    },
+    {
+      name: "Django",
+      icon: Layers,
+      description:
+        "Building robust enterprise-grade backends with security and scalability.",
+    },
+    {
+      name: "FastAPI",
+      icon: Sparkles,
+      description:
+        "Creating high-performance modern APIs with asynchronous support.",
+    },
+    {
+      name: "Laravel",
+      icon: Code,
+      description:
+        "Elegant PHP development for complex web application architectures.",
+    },
+    {
+      name: "PostgreSQL",
+      icon: Code,
+      description: "Relational database design and complex query optimization.",
+    },
+    {
+      name: "MongoDB",
+      icon: Code,
+      description:
+        "NoSQL data modeling for flexible and rapid application development.",
+    },
   ];
 
   const aiTools = [
-    { name: "Rettel AI", icon: Sparkles, description: "Leveraging generative AI for enhanced development workflows." },
-    { name: "n8n", icon: Layers, description: "Workflow automation and integration across diverse platforms." },
-    { name: "Replit", icon: Terminal, description: "Cloud-based collaborative development and rapid prototyping." },
-    { name: "Lovable", icon: Sparkles, description: "Building interactive UI components with AI-assisted design." },
+    {
+      name: "Rettel AI",
+      icon: Sparkles,
+      description:
+        "Leveraging generative AI for enhanced development workflows.",
+    },
+    {
+      name: "n8n",
+      icon: Layers,
+      description:
+        "Workflow automation and integration across diverse platforms.",
+    },
+    {
+      name: "Replit",
+      icon: Terminal,
+      description:
+        "Cloud-based collaborative development and rapid prototyping.",
+    },
+    {
+      name: "Lovable",
+      icon: Sparkles,
+      description:
+        "Building interactive UI components with AI-assisted design.",
+    },
   ];
 
   const typewriterSentences = [
@@ -314,11 +437,14 @@ const Home = () => {
             <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-white mb-2">
               Rahul Patel.
             </h1>
-            <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-muted-foreground mb-6 min-h-[1.2em]">
+            <h6 className="text-lg md:text-2xl font-medium tracking-tight text-muted-foreground/80 mb-6 min-h-[1.2em]">
               <Typewriter sentences={typewriterSentences} />
-            </h2>
+            </h6>
             <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
-              I am a Design Engineer dedicated to crafting sophisticated digital ecosystems that bridge the gap between human intuition and machine intelligence. My work focuses on building high-performance, accessible, and human-centric products.
+              I am a Design Engineer dedicated to crafting sophisticated digital
+              ecosystems that bridge the gap between human intuition and machine
+              intelligence. My work focuses on building high-performance,
+              accessible, and human-centric products.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button
@@ -362,32 +488,38 @@ const Home = () => {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8, rotate: -5, y: 20 }}
                   animate={{ opacity: 1, scale: 1, rotate: 3, y: 0 }}
-                  transition={{ 
-                    delay: 1.2, 
-                    type: "spring", 
+                  transition={{
+                    delay: 1.2,
+                    type: "spring",
                     stiffness: 100,
-                    duration: 0.8 
+                    duration: 0.8,
                   }}
-                  className="absolute bottom-10 -right-4 md:-right-12 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[260px] hover:border-primary/50 transition-colors group"
+                  className="absolute bottom-2 -right-0 md:-right-4 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[260px] hover:border-primary/50 transition-colors group"
                 >
                   <div className="relative">
                     <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
-                      <img 
-                        src="/Photo_1771955679545 (1).jpg" 
-                        alt="Paraj Bhatasana" 
+                      <img
+                        src="/Photo_1771955679545 (1).jpg"
+                        alt="Paraj Bhatasana"
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.parentElement?.querySelector('.fallback-user')?.classList.remove('hidden');
+                          e.currentTarget.style.display = "none";
+                          e.currentTarget.parentElement
+                            ?.querySelector(".fallback-user")
+                            ?.classList.remove("hidden");
                         }}
                       />
                       <User className="fallback-user hidden text-primary w-8 h-8" />
                     </div>
-                    <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-primary rounded-full border-2 border-[#1f2528] animate-pulse shadow-[0_0_10px_#19e6bd]" />
+                    <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-[#22c55e] rounded-full border-2 border-[#1f2528] animate-pulse shadow-[0_0_10px_#22c55e]" />
                   </div>
                   <div>
-                    <p className="text-white font-bold text-lg leading-none mb-1.5">Paraj Bhatasana</p>
-                    <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold">Available for Work</p>
+                    <p className="text-white font-bold text-lg leading-none mb-1.5">
+                      Paraj Bhatasana
+                    </p>
+                    <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold">
+                      Available for Work
+                    </p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -439,35 +571,36 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                I am a passionate <span className="text-white font-semibold">Full Stack Developer</span> and <span className="text-white font-semibold">AI Specialist</span> based in Ahmedabad. My journey in technology is driven by a relentless curiosity for how things work and a desire to build tools that make a difference.
+                I am a passionate{" "}
+                <span className="text-white font-semibold">
+                  Full Stack Developer
+                </span>{" "}
+                and{" "}
+                <span className="text-white font-semibold">AI Specialist</span>{" "}
+                based in Ahmedabad. My journey in technology is driven by a
+                relentless curiosity for how things work and a desire to build
+                tools that make a difference.
               </p>
               <p>
-                With a background in both engineering and design, I specialize in creating seamless digital experiences that are as beautiful as they are functional. I believe that the future of software lies at the intersection of human intuition and powerful automation.
+                With a background in both engineering and design, I specialize
+                in creating seamless digital experiences that are as beautiful
+                as they are functional. I believe that the future of software
+                lies at the intersection of human intuition and powerful
+                automation.
               </p>
               <p>
-                Currently, I'm exploring the latest advancements in <span className="text-primary">Large Language Models</span> and how they can be integrated into modern web architectures to create smarter, more responsive applications.
+                Currently, I'm exploring the latest advancements in{" "}
+                <span className="text-primary">Large Language Models</span> and
+                how they can be integrated into modern web architectures to
+                create smarter, more responsive applications.
               </p>
-            </div>
-            
-            <div className="relative">
-              <div className="aspect-[4/5] bg-[#1f2528] rounded-2xl border border-white/10 overflow-hidden group">
-                <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                   <User className="w-32 h-32 text-white/5" />
-                </div>
-                {/* Image placeholder for future update */}
-                <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
-                   <p className="font-mono text-xs text-primary/40 uppercase tracking-widest">Premium Portrait Placeholder</p>
-                </div>
-              </div>
-              <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-primary/20 rounded-2xl -z-10 group-hover:-bottom-4 group-hover:-right-4 transition-all duration-500" />
             </div>
           </div>
         </motion.div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-24 overflow-hidden">
+      <section id="skills" className="py-24 relative">
         <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold text-white flex items-center">
@@ -721,7 +854,9 @@ const Home = () => {
                 </span>
               </div>
               <p className="text-muted-foreground max-w-sm mb-8">
-                Crafting digital experiences that merge human creativity with artificial intelligence. Specialized in high-performance web solutions.
+                Crafting digital experiences that merge human creativity with
+                artificial intelligence. Specialized in high-performance web
+                solutions.
               </p>
               <div className="flex gap-4">
                 {[Linkedin, Instagram, Twitter, Github].map((Icon, i) => (
@@ -737,22 +872,73 @@ const Home = () => {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">Navigation</h4>
+              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
+                Navigation
+              </h4>
               <ul className="space-y-4 text-sm font-mono text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">01. Home</a></li>
-                <li><a href="#skills" className="hover:text-primary transition-colors">02. Skills</a></li>
-                <li><a href="#experience" className="hover:text-primary transition-colors">03. Experience</a></li>
-                <li><a href="#projects" className="hover:text-primary transition-colors">04. Work</a></li>
+                <li>
+                  <a href="#" className="hover:text-primary transition-colors">
+                    01. Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#skills"
+                    className="hover:text-primary transition-colors"
+                  >
+                    02. Skills
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#experience"
+                    className="hover:text-primary transition-colors"
+                  >
+                    03. Experience
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#projects"
+                    className="hover:text-primary transition-colors"
+                  >
+                    04. Work
+                  </a>
+                </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">Connect</h4>
+              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
+                Connect
+              </h4>
               <ul className="space-y-4 text-sm font-mono text-muted-foreground">
-                <li><a href="#contact" className="hover:text-primary transition-colors">Contact Me</a></li>
-                <li><a href="mailto:rahulpatel.code@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">LinkedIn</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Resume</a></li>
+                <li>
+                  <a
+                    href="#contact"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Contact Me
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:rahulpatel.code@gmail.com"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Email
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-primary transition-colors">
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-primary transition-colors">
+                    Resume
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -762,8 +948,12 @@ const Home = () => {
               © 2026 Designed & Built by Rahul Patel
             </p>
             <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              <a href="#" className="hover:text-primary">Privacy Policy</a>
-              <a href="#" className="hover:text-primary">Terms of Service</a>
+              <a href="#" className="hover:text-primary">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:text-primary">
+                Terms of Service
+              </a>
             </div>
           </div>
         </div>
