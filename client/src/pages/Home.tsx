@@ -118,12 +118,12 @@ const SkillCard = ({
 
       <AnimatePresence>
         {isHovered && (
-      <motion.div
-        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-        animate={{ opacity: 1, y: -20, scale: 1 }}
-        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-        className="absolute bottom-full left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none mb-4 backdrop-blur-xl"
-      >
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute bottom-[calc(100%+15px)] left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none backdrop-blur-xl"
+          >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#1f2528] border-r border-b border-primary/30 rotate-45" />
             <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider relative z-10">
               {name}
@@ -144,7 +144,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       role: "bot",
-      content: "Hey 👋 I'm Rahul's AI assistant. Ask me anything about him!",
+      content: "Hey 👋 I'm Paraj's AI assistant. Ask me anything about him!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -160,26 +160,26 @@ const Chatbot = () => {
     // Simple mock responses based on portfolio content
     setTimeout(() => {
       let botResponse =
-        "That's a great question! Rahul specializes in building modern web applications with Python, React, and AI tools. He has experience at Tech Corp and Dev Agency.";
+        "That's a great question! Paraj specializes in building modern web applications with Python, React, and AI tools. He has experience at Tech Corp and Dev Agency.";
 
       if (
         userMessage.toLowerCase().includes("skill") ||
         userMessage.toLowerCase().includes("stack")
       ) {
         botResponse =
-          "Rahul's tech stack includes Python, Django, FastAPI, Laravel, and React. He also uses AI tools like Rettel AI and n8n to boost productivity.";
+          "Paraj's tech stack includes Python, Django, FastAPI, Laravel, and React. He also uses AI tools like Rettel AI and n8n to boost productivity.";
       } else if (
         userMessage.toLowerCase().includes("contact") ||
         userMessage.toLowerCase().includes("email")
       ) {
         botResponse =
-          "You can reach Rahul at rahulpatel.code@gmail.com or through the contact form on this page!";
+          "You can reach Paraj at paraj.code@gmail.com or through the contact form on this page!";
       } else if (
         userMessage.toLowerCase().includes("project") ||
         userMessage.toLowerCase().includes("work")
       ) {
         botResponse =
-          "Rahul has worked on several featured projects like Digital Innovation Platforms using FastAPI and React. Check out the 'Work' section for more details!";
+          "Paraj has worked on several featured projects like Digital Innovation Platforms using FastAPI and React. Check out the 'Work' section for more details!";
       }
 
       setMessages((prev) => [...prev, { role: "bot", content: botResponse }]);
@@ -212,11 +212,11 @@ const Chatbot = () => {
             {/* Header */}
             <div className="p-4 border-b border-white/5 bg-primary/5 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-background font-bold">
-                RP
+                PB
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">
-                  Rahul's AI Assistant
+                  Paraj's AI Assistant
                 </p>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
@@ -288,7 +288,7 @@ const MarqueeRow = ({
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
 
   return (
-    <div className="relative flex overflow-visible py-12 mask-fade-edges -my-8">
+    <div className="relative flex overflow-visible py-20 mask-fade-edges -my-12">
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -431,11 +431,19 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-primary font-mono mb-4 text-sm md:text-base">
+            <p className="text-primary font-mono   text-sm md:text-base">
               Hi, my name is
             </p>
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-white mb-2">
-              Rahul Patel.
+            <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-2">
+              <span className="relative inline-block">
+                <span className="relative z-10 text-white px-2">Paraj Bhatassana</span>
+                <motion.span 
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                  className="absolute bottom-2 left-0 h-4 md:h-8 bg-primary/30 -rotate-1 z-0"
+                />
+              </span>
             </h1>
             <h6 className="text-lg md:text-2xl font-medium tracking-tight text-muted-foreground/80 mb-6 min-h-[1.2em]">
               <Typewriter sentences={typewriterSentences} />
@@ -480,7 +488,7 @@ const Home = () => {
               >
                 <img
                   src="/final.png"
-                  alt="Rahul Patel 3D Avatar"
+                  alt="Paraj Bhatassana 3D Avatar"
                   className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
                 />
 
@@ -500,7 +508,7 @@ const Home = () => {
                     <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
                       <img
                         src="/Photo_1771955679545 (1).jpg"
-                        alt="Paraj Bhatasana"
+                        alt="Paraj Bhatassana"
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.currentTarget.style.display = "none";
@@ -515,7 +523,7 @@ const Home = () => {
                   </div>
                   <div>
                     <p className="text-white font-bold text-lg leading-none mb-1.5">
-                      Paraj Bhatasana
+                      Paraj Bhatassana
                     </p>
                     <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold">
                       Available for Work
@@ -558,7 +566,7 @@ const Home = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="flex items-center gap-4 mb-12">
+            <div className="flex items-center gap-4 mb-12">
             <h2 className="text-3xl font-bold text-white flex items-center">
               <span className="text-primary font-mono text-xl mr-3 font-normal">
                 00.
@@ -571,28 +579,13 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                I am a passionate{" "}
-                <span className="text-white font-semibold">
-                  Full Stack Developer
-                </span>{" "}
-                and{" "}
-                <span className="text-white font-semibold">AI Specialist</span>{" "}
-                based in Ahmedabad. My journey in technology is driven by a
-                relentless curiosity for how things work and a desire to build
-                tools that make a difference.
+                I am <span className="text-white font-semibold">Paraj Bhatassana</span>, a Forward-Thinking <span className="text-white font-semibold">Full Stack Developer</span> and <span className="text-primary font-medium">AI Solutions Architect</span>. I don't just write code; I engineer digital ecosystems that are intuitive, scalable, and high-performing.
               </p>
               <p>
-                With a background in both engineering and design, I specialize
-                in creating seamless digital experiences that are as beautiful
-                as they are functional. I believe that the future of software
-                lies at the intersection of human intuition and powerful
-                automation.
+                With a deep mastery of <span className="text-white font-semibold">Python</span> and <span className="text-white font-semibold">React</span>, I bridge the gap between complex backend logic and pixel-perfect frontend experiences. My approach combines technical precision with a designer's eye, ensuring every product I build feels as good as it functions.
               </p>
               <p>
-                Currently, I'm exploring the latest advancements in{" "}
-                <span className="text-primary">Large Language Models</span> and
-                how they can be integrated into modern web architectures to
-                create smarter, more responsive applications.
+                Currently, I'm pushing the boundaries of <span className="text-primary">Agentic AI</span> and automated workflows, transforming how businesses interact with data through intelligent, self-evolving systems. I thrive at the intersection of innovation and execution.
               </p>
             </div>
           </div>
@@ -615,7 +608,7 @@ const Home = () => {
 
         <div className="space-y-8">
           <div>
-            <div className="px-6 md:px-12 max-w-7xl mx-auto mb-4">
+            <div className="px-6 md:px-12 max-w-7xl mx-auto  ">
               <h3 className="text-sm font-mono text-primary/60 uppercase tracking-widest">
                 Technology
               </h3>
@@ -624,7 +617,7 @@ const Home = () => {
           </div>
 
           <div>
-            <div className="px-6 md:px-12 max-w-7xl mx-auto mb-4">
+            <div className="px-6 md:px-12 max-w-7xl mx-auto  ">
               <h3 className="text-sm font-mono text-primary/60 uppercase tracking-widest">
                 AI & Productivity
               </h3>
@@ -746,7 +739,7 @@ const Home = () => {
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+            <h2 className="text-5xl md:text-6xl font-bold text-white  ">
               Let's Connect
             </h2>
             <p className="text-muted-foreground text-lg mb-12">
@@ -783,7 +776,7 @@ const Home = () => {
               </div>
 
               <div className="pt-8">
-                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-4">
+                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest  ">
                   Connect on Social
                 </p>
                 <div className="flex gap-4">
@@ -807,7 +800,7 @@ const Home = () => {
                   Your Name
                 </label>
                 <Input
-                  placeholder="Rahul Patel"
+                  placeholder="Paraj Bhatassana"
                   className="bg-transparent border-0 border-b border-white/10 rounded-none px-0 py-4 focus-visible:ring-0 focus-visible:border-primary transition-all text-white placeholder:text-muted-foreground/30"
                 />
               </div>
@@ -945,7 +938,7 @@ const Home = () => {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
             <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
-              © 2026 Designed & Built by Rahul Patel
+              © 2026 Designed & Built by Paraj Bhatassana
             </p>
             <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               <a href="#" className="hover:text-primary">
