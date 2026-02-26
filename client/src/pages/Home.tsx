@@ -159,27 +159,21 @@ const Chatbot = () => {
 
     // Simple mock responses based on portfolio content
     setTimeout(() => {
-      let botResponse =
-        "That's a great question! Paraj specializes in building modern web applications with Python, React, and AI tools. He has experience at Tech Corp and Dev Agency.";
+      const query = userMessage.toLowerCase();
+      let botResponse = "That's an interesting question! I'm Paraj's AI assistant. He's a Full Stack Developer specializing in Python, React, and AI architecture. Is there something specific about his work or skills you'd like to know?";
 
-      if (
-        userMessage.toLowerCase().includes("skill") ||
-        userMessage.toLowerCase().includes("stack")
-      ) {
-        botResponse =
-          "Paraj's tech stack includes Python, Django, FastAPI, Laravel, and React. He also uses AI tools like Rettel AI and n8n to boost productivity.";
-      } else if (
-        userMessage.toLowerCase().includes("contact") ||
-        userMessage.toLowerCase().includes("email")
-      ) {
-        botResponse =
-          "You can reach Paraj at paraj.code@gmail.com or through the contact form on this page!";
-      } else if (
-        userMessage.toLowerCase().includes("project") ||
-        userMessage.toLowerCase().includes("work")
-      ) {
-        botResponse =
-          "Paraj has worked on several featured projects like Digital Innovation Platforms using FastAPI and React. Check out the 'Work' section for more details!";
+      if (query.includes("skill") || query.includes("stack") || query.includes("tech")) {
+        botResponse = "Paraj has a robust tech stack! On the backend, he's an expert in Python (Django, FastAPI) and Laravel. For the frontend, he builds high-performance UIs with React and Tailwind CSS. He also integrates PostgreSQL and MongoDB for scalable data solutions.";
+      } else if (query.includes("ai") || query.includes("agent") || query.includes("automation")) {
+        botResponse = "AI is at the core of Paraj's recent work. He builds Agentic AI systems, custom LLM integrations, and complex automation workflows using tools like n8n and Rettel AI. He's currently focused on self-evolving intelligent systems.";
+      } else if (query.includes("experience") || query.includes("work") || query.includes("history")) {
+        botResponse = "Paraj has over 5 years of experience in the industry. He has delivered 50+ successful projects, ranging from enterprise-grade backends to sophisticated AI-driven platforms. He thrives in roles that require both technical precision and creative problem-solving.";
+      } else if (query.includes("contact") || query.includes("email") || query.includes("reach")) {
+        botResponse = "You can reach Paraj directly via email at paraj.code@gmail.com. You can also connect with him on LinkedIn or GitHub through the links in the footer!";
+      } else if (query.includes("hello") || query.includes("hi") || query.includes("hey")) {
+        botResponse = "Hello! 👋 I'm here to help you learn more about Paraj's work and expertise. What can I tell you about him today?";
+      } else if (query.includes("project") || query.includes("portfolio")) {
+        botResponse = "Paraj has a diverse portfolio including Digital Innovation Platforms and AI-powered tools. You can see some of his featured work in the 'Work' section of this page!";
       }
 
       setMessages((prev) => [...prev, { role: "bot", content: botResponse }]);
@@ -288,7 +282,7 @@ const MarqueeRow = ({
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
 
   return (
-    <div className="relative flex overflow-visible py-20 mask-fade-edges -my-12">
+    <div className="relative flex overflow-visible py-24 mask-fade-edges -my-16 z-20 hover:z-30 transition-all duration-300">
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -435,13 +429,19 @@ const Home = () => {
               Hi, my name is
             </p>
             <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-2">
-              <span className="relative inline-block">
-                <span className="relative z-10 text-white px-2">Paraj Bhatassana</span>
+              <span className="relative inline-block py-2">
+                <span className="relative z-10 text-white px-2 font-serif italic tracking-tighter drop-shadow-[0_0_15px_rgba(25,230,189,0.4)]">Paraj Bhatassana</span>
                 <motion.span 
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
-                  className="absolute bottom-2 left-0 h-4 md:h-8 bg-primary/30 -rotate-1 z-0"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.5, duration: 1, ease: "circOut" }}
+                  className="absolute bottom-4 left-0 h-[30%] w-full bg-primary/20 -rotate-1 z-0 origin-left rounded-sm"
+                />
+                <motion.span 
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.8, duration: 0.8, ease: "circOut" }}
+                  className="absolute bottom-2 left-4 h-1 w-[80%] bg-primary/40 -rotate-2 z-0 origin-left rounded-full"
                 />
               </span>
             </h1>
@@ -559,34 +559,72 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <section id="about" className="py-24 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
+          className="relative"
         >
-            <div className="flex items-center gap-4 mb-12">
-            <h2 className="text-3xl font-bold text-white flex items-center">
-              <span className="text-primary font-mono text-xl mr-3 font-normal">
+          <div className="flex items-center gap-4 mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white flex items-center">
+              <span className="text-primary font-mono text-2xl mr-4 font-normal">
                 00.
               </span>
-              About Me
+              The Architect Behind the Code
             </h2>
-            <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
+            <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-              <p>
-                I am <span className="text-white font-semibold">Paraj Bhatassana</span>, a Forward-Thinking <span className="text-white font-semibold">Full Stack Developer</span> and <span className="text-primary font-medium">AI Solutions Architect</span>. I don't just write code; I engineer digital ecosystems that are intuitive, scalable, and high-performing.
-              </p>
-              <p>
-                With a deep mastery of <span className="text-white font-semibold">Python</span> and <span className="text-white font-semibold">React</span>, I bridge the gap between complex backend logic and pixel-perfect frontend experiences. My approach combines technical precision with a designer's eye, ensuring every product I build feels as good as it functions.
-              </p>
-              <p>
-                Currently, I'm pushing the boundaries of <span className="text-primary">Agentic AI</span> and automated workflows, transforming how businesses interact with data through intelligent, self-evolving systems. I thrive at the intersection of innovation and execution.
-              </p>
+          <div className="relative z-10 bg-[#1f2528]/40 backdrop-blur-sm border border-white/5 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-primary/10 transition-colors duration-700"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -ml-32 -mb-32 group-hover:bg-primary/10 transition-colors duration-700"></div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              <div className="lg:col-span-8 space-y-8 text-xl text-muted-foreground leading-relaxed">
+                <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+                  I am <span className="text-white font-bold decoration-primary/30 decoration-4 underline-offset-4 underline">Paraj Bhatassana</span>, a Forward-Thinking <span className="text-white font-semibold">Full Stack Developer</span> and <span className="text-primary font-medium italic">AI Solutions Architect</span>. I don't just write code; I engineer digital ecosystems that are intuitive, scalable, and high-performing.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+                  <div className="flex gap-4 items-start">
+                    <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
+                      <Terminal size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold mb-1">Technical Precision</h4>
+                      <p className="text-base">Deep mastery of Python & React, bridging backend complexity with pixel-perfect frontend experiences.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4 items-start">
+                    <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
+                      <Sparkles size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold mb-1">AI Innovation</h4>
+                      <p className="text-base">Pushing boundaries of Agentic AI and automated workflows for intelligent, self-evolving systems.</p>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  My approach combines technical precision with a designer's eye, ensuring every product I build feels as good as it functions. I thrive at the intersection of innovation and execution, turning complex challenges into elegant, human-centric solutions.
+                </p>
+              </div>
+              
+              <div className="lg:col-span-4 flex flex-col gap-6">
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="text-primary font-mono text-4xl font-bold mb-2">5+</div>
+                  <div className="text-sm uppercase tracking-widest font-bold text-white/70">Years of Code</div>
+                </div>
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="text-primary font-mono text-4xl font-bold mb-2">50+</div>
+                  <div className="text-sm uppercase tracking-widest font-bold text-white/70">Projects Delivered</div>
+                </div>
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="text-primary font-mono text-4xl font-bold mb-2">12+</div>
+                  <div className="text-sm uppercase tracking-widest font-bold text-white/70">AI Agents Built</div>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -938,7 +976,7 @@ const Home = () => {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
             <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
-              © 2026 Designed & Built by Paraj Bhatassana
+              © 2026 Designed & Built by <span className="text-primary shadow-[0_0_10px_rgba(25,230,189,0.5)]">Paraj Bhatassana</span>
             </p>
             <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               <a href="#" className="hover:text-primary">
