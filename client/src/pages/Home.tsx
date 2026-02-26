@@ -95,10 +95,10 @@ const Home = () => {
               Rahul Patel.
             </h1>
             <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-muted-foreground mb-6">
-              I build things for the web.
+              Working seamlessly with AI.
             </h2>
             <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
-              I'm a software engineer specializing in building exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
+              I'm a software engineer crafting creative solutions in action. Specializing in building exceptional digital experiences with a human-centered approach.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button size="lg" className="bg-primary text-background hover:bg-primary/90 font-medium px-8 h-14 rounded-sm">
@@ -117,17 +117,52 @@ const Home = () => {
               {/* Decorative background glow */}
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
               
-              <img 
-                src="/avatar_v2.png" 
-                alt="Rahul Patel 3D Avatar" 
-                className="relative z-10 w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
-              />
+              <motion.div
+                animate={{
+                  y: [0, -10, 0],
+                  rotate: [0, 1, 0, -1, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="relative z-10 w-full h-full"
+              >
+                <img 
+                  src="/avatar_v2.png" 
+                  alt="Rahul Patel 3D Avatar" 
+                  className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
+                />
+              </motion.div>
+
+              {/* Float-in decorative elements to simulate activity */}
+              <motion.div
+                animate={{ 
+                  y: [0, -15, 0],
+                  opacity: [0.4, 0.8, 0.4] 
+                }}
+                transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                className="absolute top-10 right-0 z-20"
+              >
+                <Terminal className="text-primary/40 w-8 h-8" />
+              </motion.div>
+              <motion.div
+                animate={{ 
+                  y: [0, 15, 0],
+                  opacity: [0.3, 0.6, 0.3] 
+                }}
+                transition={{ duration: 5, repeat: Infinity, delay: 2 }}
+                className="absolute bottom-20 left-10 z-20"
+              >
+                <Code className="text-primary/30 w-10 h-10" />
+              </motion.div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Skills Section - Redesigned as Marquee */}
+      {/* Skills Section */}
       <section id="skills" className="py-24 overflow-hidden">
         <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
           <div className="flex items-center gap-4">
@@ -230,7 +265,6 @@ const Home = () => {
       {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left Column */}
           <div>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">Let's Connect</h2>
             <p className="text-muted-foreground text-lg mb-12">Open for projects, collaborations, and opportunities</p>
@@ -269,7 +303,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right Column - Form */}
           <div className="bg-[#1f2528]/50 p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-sm">
             <form className="space-y-8">
               <div className="space-y-2">
