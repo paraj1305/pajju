@@ -236,6 +236,23 @@ const MarqueeRow = ({
   );
 };
 
+const Home = () => {
+  const techSkills = [
+    { name: "Python", icon: Code, description: "Advanced scripting and automation with focus on clean, scalable code." },
+    { name: "Django", icon: Layers, description: "Building robust enterprise-grade backends with security and scalability." },
+    { name: "FastAPI", icon: Sparkles, description: "Creating high-performance modern APIs with asynchronous support." },
+    { name: "Laravel", icon: Code, description: "Elegant PHP development for complex web application architectures." },
+    { name: "PostgreSQL", icon: Code, description: "Relational database design and complex query optimization." },
+    { name: "MongoDB", icon: Code, description: "NoSQL data modeling for flexible and rapid application development." },
+  ];
+
+  const aiTools = [
+    { name: "Rettel AI", icon: Sparkles, description: "Leveraging generative AI for enhanced development workflows." },
+    { name: "n8n", icon: Layers, description: "Workflow automation and integration across diverse platforms." },
+    { name: "Replit", icon: Terminal, description: "Cloud-based collaborative development and rapid prototyping." },
+    { name: "Lovable", icon: Sparkles, description: "Building interactive UI components with AI-assisted design." },
+  ];
+
   const typewriterSentences = [
     "I craft premium digital experiences.",
     "I build scalable AI-driven solutions.",
