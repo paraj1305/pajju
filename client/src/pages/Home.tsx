@@ -130,7 +130,7 @@ const Home = () => {
                 className="relative z-10 w-full h-full"
               >
                 <img 
-                  src="/avatar_v2.png" 
+                  src="/final.png" 
                   alt="Rahul Patel 3D Avatar" 
                   className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
                 />
