@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Code,
@@ -14,22 +14,160 @@ import {
   Youtube,
   Sparkles,
   Layers,
+  MessageCircle,
+  X,
+  Send,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 // Skill Card Component
-const SkillCard = ({ name, icon: Icon }: { name: string; icon: any }) => (
-  <div className="flex-shrink-0 bg-[#1f2528] border border-white/5 px-6 py-4 rounded-xl flex items-center gap-4 hover:border-primary/50 transition-all group min-w-[180px]">
-    <div className="text-primary group-hover:scale-110 transition-transform">
-      <Icon size={24} />
+const SkillCard = ({ name, icon: Icon, description }: { name: string; icon: any; description: string }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className="relative flex-shrink-0 bg-[#1f2528] border border-white/5 px-6 py-4 rounded-xl flex items-center gap-4 hover:border-primary/50 transition-all group min-w-[180px] cursor-default"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setIsHovered(!isHovered)}
+    >
+      <div className="text-primary group-hover:scale-110 transition-transform">
+        <Icon size={24} />
+      </div>
+      <span className="font-mono text-white text-sm whitespace-nowrap">
+        {name}
+      </span>
+
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: -10, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute bottom-full left-0 w-64 p-4 bg-[#1f2528] border border-primary/20 rounded-xl shadow-2xl z-50 pointer-events-none mb-2 backdrop-blur-xl"
+          >
+            <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider">{name}</p>
+            <p className="text-sm text-white/80 leading-relaxed">
+              {description}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-    <span className="font-mono text-white text-sm whitespace-nowrap">
-      {name}
-    </span>
-  </div>
-);
+  );
+};
+
+// Chatbot Component
+const Chatbot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { role: 'bot', content: "Hey 👋 I'm Rahul's AI assistant. Ask me anything about him!" }
+  ]);
+  const [input, setInput] = useState('');
+
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMessage = input;
+    setInput('');
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+
+    // Simple mock responses based on portfolio content
+    setTimeout(() => {
+      let botResponse = "That's a great question! Rahul specializes in building modern web applications with Python, React, and AI tools. He has experience at Tech Corp and Dev Agency.";
+      
+      if (userMessage.toLowerCase().includes('skill') || userMessage.toLowerCase().includes('stack')) {
+        botResponse = "Rahul's tech stack includes Python, Django, FastAPI, Laravel, and React. He also uses AI tools like Rettel AI and n8n to boost productivity.";
+      } else if (userMessage.toLowerCase().includes('contact') || userMessage.toLowerCase().includes('email')) {
+        botResponse = "You can reach Rahul at rahulpatel.code@gmail.com or through the contact form on this page!";
+      } else if (userMessage.toLowerCase().includes('project') || userMessage.toLowerCase().includes('work')) {
+        botResponse = "Rahul has worked on several featured projects like Digital Innovation Platforms using FastAPI and React. Check out the 'Work' section for more details!";
+      }
+
+      setMessages(prev => [...prev, { role: 'bot', content: botResponse }]);
+    }, 1000);
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-[60] w-14 h-14 bg-primary text-background rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all group"
+      >
+        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-[#0d1012] rounded-full animate-pulse" />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9, transformOrigin: 'bottom right' }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="fixed bottom-24 right-6 z-[60] w-[calc(100vw-3rem)] sm:w-[400px] h-[500px] bg-[#1f2528]/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+          >
+            {/* Header */}
+            <div className="p-4 border-b border-white/5 bg-primary/5 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-background font-bold">
+                RP
+              </div>
+              <div>
+                <p className="text-white font-semibold text-sm">Rahul's AI Assistant</p>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                  <span className="text-[10px] text-primary uppercase font-mono tracking-widest">Online</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-hide">
+              {messages.map((msg, i) => (
+                <motion.div
+                  initial={{ opacity: 0, x: msg.role === 'user' ? 10 : -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  key={i}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                    msg.role === 'user' 
+                      ? 'bg-primary text-background rounded-tr-none' 
+                      : 'bg-white/5 text-white rounded-tl-none border border-white/5'
+                  }`}>
+                    {msg.content}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Input */}
+            <form onSubmit={handleSend} className="p-4 border-t border-white/5 bg-white/5">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask me anything..."
+                  className="w-full bg-[#0d1012] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors pr-12"
+                />
+                <button 
+                  type="submit"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary hover:text-primary/80 transition-colors"
+                >
+                  <Send size={18} />
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
 
 // Marquee Row Component
 const MarqueeRow = ({
@@ -42,7 +180,7 @@ const MarqueeRow = ({
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
 
   return (
-    <div className="relative flex overflow-x-hidden py-4 mask-fade-edges">
+    <div className="relative flex overflow-x-hidden py-12 mask-fade-edges -my-8">
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -64,23 +202,24 @@ const MarqueeRow = ({
 
 const Home = () => {
   const techSkills = [
-    { name: "Python", icon: Code },
-    { name: "Django", icon: Layers },
-    { name: "FastAPI", icon: Sparkles },
-    { name: "Laravel", icon: Code },
-    { name: "PostgreSQL", icon: Code },
-    { name: "MongoDB", icon: Code },
+    { name: "Python", icon: Code, description: "Advanced scripting and automation with focus on clean, scalable code." },
+    { name: "Django", icon: Layers, description: "Building robust enterprise-grade backends with security and scalability." },
+    { name: "FastAPI", icon: Sparkles, description: "Creating high-performance modern APIs with asynchronous support." },
+    { name: "Laravel", icon: Code, description: "Elegant PHP development for complex web application architectures." },
+    { name: "PostgreSQL", icon: Code, description: "Relational database design and complex query optimization." },
+    { name: "MongoDB", icon: Code, description: "NoSQL data modeling for flexible and rapid application development." },
   ];
 
   const aiTools = [
-    { name: "Rettel AI", icon: Sparkles },
-    { name: "n8n", icon: Layers },
-    { name: "Replit", icon: Terminal },
-    { name: "Lovable", icon: Sparkles },
+    { name: "Rettel AI", icon: Sparkles, description: "Leveraging generative AI for enhanced development workflows." },
+    { name: "n8n", icon: Layers, description: "Workflow automation and integration across diverse platforms." },
+    { name: "Replit", icon: Terminal, description: "Cloud-based collaborative development and rapid prototyping." },
+    { name: "Lovable", icon: Sparkles, description: "Building interactive UI components with AI-assisted design." },
   ];
 
   return (
     <div className="min-h-screen text-foreground selection:bg-primary/30 selection:text-primary">
+      <Chatbot />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 backdrop-blur-md bg-background/50 border-b border-white/5">
         <div className="flex items-center gap-2">
@@ -177,6 +316,32 @@ const Home = () => {
                   alt="Rahul Patel 3D Avatar"
                   className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
                 />
+
+                {/* Floating Available for Work Card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, rotate: -5, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 3, y: 0 }}
+                  transition={{ 
+                    delay: 1.2, 
+                    type: "spring", 
+                    stiffness: 100,
+                    duration: 0.8 
+                  }}
+                  className="absolute -bottom-4 -left-4 md:-left-12 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[200px]"
+                >
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+                      <User className="text-primary w-6 h-6" />
+                    </div>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-[#1f2528] animate-pulse" />
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-sm leading-none mb-1">Rahul Patel</p>
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-[10px] text-primary uppercase font-mono tracking-widest font-bold">Available for Work</p>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
 
               {/* Float-in decorative elements to simulate activity */}
@@ -447,10 +612,65 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/5 text-center">
-        <p className="text-muted-foreground font-mono text-sm">
-          © 2026 Designed & Built by Rahul Patel
-        </p>
+      <footer className="py-20 border-t border-white/5 bg-black/20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
+                  C
+                </div>
+                <span className="font-mono font-semibold tracking-wider">
+                  CODER<span className="text-primary">SCOTCH</span>
+                </span>
+              </div>
+              <p className="text-muted-foreground max-w-sm mb-8">
+                Crafting digital experiences that merge human creativity with artificial intelligence. Specialized in high-performance web solutions.
+              </p>
+              <div className="flex gap-4">
+                {[Linkedin, Instagram, Twitter, Github].map((Icon, i) => (
+                  <a
+                    key={i}
+                    href="#"
+                    className="w-10 h-10 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">Navigation</h4>
+              <ul className="space-y-4 text-sm font-mono text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">01. Home</a></li>
+                <li><a href="#skills" className="hover:text-primary transition-colors">02. Skills</a></li>
+                <li><a href="#experience" className="hover:text-primary transition-colors">03. Experience</a></li>
+                <li><a href="#projects" className="hover:text-primary transition-colors">04. Work</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">Connect</h4>
+              <ul className="space-y-4 text-sm font-mono text-muted-foreground">
+                <li><a href="#contact" className="hover:text-primary transition-colors">Contact Me</a></li>
+                <li><a href="mailto:rahulpatel.code@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">LinkedIn</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Resume</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
+            <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
+              © 2026 Designed & Built by Rahul Patel
+            </p>
+            <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+              <a href="#" className="hover:text-primary">Privacy Policy</a>
+              <a href="#" className="hover:text-primary">Terms of Service</a>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
