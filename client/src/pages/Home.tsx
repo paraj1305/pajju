@@ -11,13 +11,13 @@ import {
   Mail,
   MapPin,
   Instagram,
-  Youtube,
-  Sparkles,
-  Layers,
   MessageCircle,
   X,
   Send,
   User,
+  Sparkles,
+  Layers,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -412,6 +412,7 @@ const Home = () => {
         <Button
           variant="outline"
           className="border-primary text-primary hover:bg-primary/10 font-mono text-xs"
+          onClick={() => window.open('/dummy-resume.pdf', '_blank')}
         >
           Resume
         </Button>
@@ -459,14 +460,6 @@ const Home = () => {
               intelligence. My work focuses on building high-performance,
               accessible, and human-centric products.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button
-                size="lg"
-                className="bg-primary text-background hover:bg-primary/90 font-medium px-8 h-14 rounded-sm"
-              >
-                Check out my work <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </div>
           </motion.div>
 
           <motion.div
@@ -706,9 +699,9 @@ const Home = () => {
       </section>
 
       {/* Work Section */}
-      <section id="projects" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-white flex items-center">
+      <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="flex items-center gap-4 mb-24">
+          <h2 className="text-4xl md:text-6xl font-bold text-white flex items-center">
             <span className="text-primary font-mono text-2xl mr-4 font-normal">
               03.
             </span>
@@ -717,85 +710,82 @@ const Home = () => {
           <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="space-y-40">
           {[
             {
-              title: "Nexus Platform",
-              category: "AI • FULL STACK",
-              description: "A high-performance innovation hub for enterprise-scale data processing and AI orchestration.",
-              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-              tech: ["React", "FastAPI", "PostgreSQL"]
+              title: "Nexus Innovation Hub",
+              category: "Agentic AI • Enterprise",
+              description: "A state-of-the-art orchestration platform for autonomous AI agents. Features real-time telemetry, multi-model support, and self-healing workflow pipelines.",
+              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
+              tech: ["React", "FastAPI", "Redis", "PyTorch"],
+              link: "#"
             },
             {
-              title: "Agentic OS",
-              category: "AI • AUTOMATION",
-              description: "Autonomous agent operating system designed for complex multi-step workflow automation.",
-              image: "https://images.unsplash.com/photo-1551288049-bbda48668703?auto=format&fit=crop&q=80&w=800",
-              tech: ["Python", "n8n", "OpenAI"]
+              title: "Vortex Analytics OS",
+              category: "Full Stack • Data Engineering",
+              description: "High-throughput data visualization engine capable of processing millions of events per second with sub-millisecond latency. Built for enterprise risk assessment.",
+              image: "https://images.unsplash.com/photo-1551288049-bbda48668703?auto=format&fit=crop&q=80&w=1600",
+              tech: ["Next.js", "Python", "ClickHouse", "D3.js"],
+              link: "#"
             },
             {
-              title: "Vortex Analytics",
-              category: "DASHBOARD • DATA",
-              description: "Real-time visualization engine for multi-dimensional data streams and predictive analytics.",
-              image: "https://images.unsplash.com/photo-1551288049-bbda48668703?auto=format&fit=crop&q=80&w=800",
-              tech: ["React", "D3.js", "MongoDB"]
-            },
-            {
-              title: "Echo AI",
-              category: "LLM • NLP",
-              description: "Sophisticated conversational interface powered by custom-trained language models.",
-              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-              tech: ["PyTorch", "FastAPI", "Redis"]
+              title: "Echo AI Workspace",
+              category: "NLP • Product Design",
+              description: "Collaborative AI workspace that transforms natural language into actionable business strategies through custom-trained LLM fine-tuning.",
+              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
+              tech: ["TypeScript", "OpenAI", "MongoDB", "Node.js"],
+              link: "#"
             }
           ].map((project, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="group relative h-[450px] rounded-3xl overflow-hidden cursor-pointer"
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "circOut" }}
+              className={`flex flex-col ${idx % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} gap-12 lg:gap-20 items-center group`}
             >
-              <div className="absolute inset-0">
-                <img 
-                  src={project.image} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
+              {/* Image Column */}
+              <div className="w-full lg:w-3/5">
+                <div className="relative aspect-[16/9] rounded-3xl overflow-hidden bg-[#1f2528] border border-white/5 shadow-2xl group-hover:border-primary/20 transition-all duration-700">
+                  <img 
+                    src={project.image} 
+                    className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                    alt={project.title}
+                  />
+                  <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  {/* Subtle Laptop Frame Mockup Overlay */}
+                  <div className="absolute inset-0 border-[12px] border-white/5 rounded-3xl pointer-events-none" />
+                </div>
               </div>
 
-              <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                <p className="text-primary font-mono text-xs tracking-widest mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {project.category}
-                </p>
-                <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-white/60 text-sm max-w-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+              {/* Content Column */}
+              <div className="w-full lg:w-2/5 space-y-6">
+                <div>
+                  <p className="text-primary font-mono text-sm tracking-[0.3em] uppercase mb-3">{project.category}</p>
+                  <h3 className="text-4xl font-bold text-white group-hover:text-primary transition-colors duration-500">
+                    {project.title}
+                  </h3>
+                </div>
+                
+                <p className="text-xl text-muted-foreground leading-relaxed font-light">
                   {project.description}
                 </p>
-                
-                <div className="flex gap-2 flex-wrap mb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+
+                <div className="flex flex-wrap gap-3 pt-2">
                   {project.tech.map((t, i) => (
-                    <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/80 font-mono">
+                    <span key={i} className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-white/70 font-mono">
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300">
-                  <Button size="sm" variant="outline" className="rounded-full border-white/20 hover:border-primary hover:text-primary backdrop-blur-md">
-                    Case Study
-                  </Button>
-                  <Button size="sm" className="rounded-full bg-primary text-background font-bold shadow-[0_0_15px_rgba(25,230,189,0.3)]">
-                    Live View
-                  </Button>
+                <div className="flex gap-6 pt-8">
+                  <a href={project.link} className="flex items-center gap-2 text-white font-bold group/link hover:text-primary transition-colors">
+                    View Case Study <ArrowRight size={18} className="group-hover/link:translate-x-2 transition-transform" />
+                  </a>
                 </div>
-              </div>
-
-              {/* Decorative Corner */}
-              <div className="absolute top-0 right-0 p-8">
-                <div className="w-10 h-10 border-t-2 border-r-2 border-white/10 rounded-tr-xl group-hover:border-primary/40 transition-colors" />
               </div>
             </motion.div>
           ))}
@@ -847,14 +837,38 @@ const Home = () => {
                   Connect on Social
                 </p>
                 <div className="flex gap-4">
-                  {[Linkedin, Instagram, Twitter, Youtube].map((Icon, i) => (
-                    <div
-                      key={i}
-                      className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all cursor-pointer"
-                    >
-                      <Icon className="w-5 h-5" />
-                    </div>
-                  ))}
+                  <a
+                    href="https://github.com/paraj1305"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <Github className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://x.com/paraj1305"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <Twitter className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/paraj1305/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://wa.me/917202920152"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <Phone className="w-5 h-5" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -902,7 +916,7 @@ const Home = () => {
 
       {/* Footer */}
     {/* City Scene Footer Animation */}
-    <div className="relative w-full h-40 overflow-hidden border-t border-white/5 bg-gradient-to-b from-transparent to-black/40">
+    <div className="relative w-full h-48 overflow-hidden border-t border-white/5 bg-gradient-to-b from-transparent to-black/40">
       <div className="absolute bottom-0 w-full flex items-end justify-center gap-1 px-10">
         {[40, 60, 45, 80, 55, 90, 70, 100, 65, 85, 50, 75].map((h, i) => (
           <motion.div
@@ -913,7 +927,6 @@ const Home = () => {
             transition={{ delay: i * 0.05, duration: 1 }}
             className="w-12 bg-white/5 border-t border-x border-white/10 rounded-t-sm relative group overflow-hidden"
           >
-            {/* Windows */}
             <div className="grid grid-cols-2 gap-1 p-2">
               {Array.from({ length: Math.floor(h/10) }).map((_, j) => (
                 <motion.div
@@ -928,23 +941,50 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Walking People */}
+      {/* Realistic Human Silhouettes */}
       <motion.div
         animate={{ x: ["-10%", "110%"] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-2 z-10"
+        transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-0 z-10"
       >
-        <div className="flex gap-20">
-          <div className="w-1.5 h-4 bg-primary/60 rounded-full animate-bounce" />
-          <div className="w-1 h-3 bg-white/20 rounded-full animate-bounce delay-700" />
+        <div className="flex gap-32 items-end">
+          {/* Silhouette 1 */}
+          <div className="relative w-4 h-10 bg-white/20 rounded-full blur-[0.5px]">
+            <motion.div 
+              animate={{ rotate: [-15, 15, -15] }}
+              transition={{ duration: 0.6, repeat: Infinity }}
+              className="absolute -bottom-1 left-0 w-1.5 h-4 bg-white/20 rounded-full origin-top"
+            />
+            <motion.div 
+              animate={{ rotate: [15, -15, 15] }}
+              transition={{ duration: 0.6, repeat: Infinity }}
+              className="absolute -bottom-1 right-0 w-1.5 h-4 bg-white/20 rounded-full origin-top"
+            />
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/20 rounded-full" />
+          </div>
+          
+          {/* Silhouette 2 */}
+          <div className="relative w-3.5 h-9 bg-primary/30 rounded-full blur-[0.5px]">
+            <motion.div 
+              animate={{ rotate: [-20, 20, -20] }}
+              transition={{ duration: 0.5, repeat: Infinity }}
+              className="absolute -bottom-1 left-0 w-1.5 h-4 bg-primary/30 rounded-full origin-top"
+            />
+            <motion.div 
+              animate={{ rotate: [20, -20, 20] }}
+              transition={{ duration: 0.5, repeat: Infinity }}
+              className="absolute -bottom-1 right-0 w-1.5 h-4 bg-primary/30 rounded-full origin-top"
+            />
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-primary/30 rounded-full" />
+          </div>
         </div>
       </motion.div>
 
       {/* Moving Car Lights */}
       <motion.div
         animate={{ x: ["110%", "-10%"] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-1 w-2 h-1 bg-red-500/40 blur-[2px] rounded-full"
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-2 w-4 h-1 bg-red-500/30 blur-[3px] rounded-full shadow-[0_0_10px_red]"
       />
     </div>
 
@@ -1000,9 +1040,9 @@ const Home = () => {
             </h4>
             <ul className="space-y-4 text-sm font-mono text-muted-foreground">
               <li><a href="#contact" className="hover:text-primary transition-colors">Contact Me</a></li>
-              <li><a href="mailto:parajbhatassana@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">LinkedIn</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Resume</a></li>
+              <li><a href="mailto:paraj.code@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
+              <li><a href="https://www.linkedin.com/in/paraj1305/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
+              <li><button onClick={() => window.open('/dummy-resume.pdf', '_blank')} className="hover:text-primary transition-colors">Resume</button></li>
             </ul>
           </div>
         </div>
