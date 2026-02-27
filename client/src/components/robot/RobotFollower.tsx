@@ -1,44 +1,52 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 
 const RobotFollower: React.FC = () => {
   const [isIdle, setIsIdle] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
+  const [expression, setExpression] = useState<'happy' | 'blink' | 'neutral'>('neutral');
   
-  // Mouse position state
-  const mouseX = useMotionValue(window.innerWidth - 100);
-  const mouseY = useMotionValue(window.innerHeight / 2);
+  // Mouse position state - start at center
+  const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+  const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
 
-  // Smooth springs for easing
-  const springConfig = { damping: 25, stiffness: 150 };
+  // Smooth springs for easing - slightly snappier for "cute" movement
+  const springConfig = { damping: 20, stiffness: 120 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     const handleMouseMove = (e: MouseEvent) => {
-      // Constraints: Stay on the right side of the screen (right 40%)
-      const minX = window.innerWidth * 0.6;
-      const targetX = Math.max(minX, e.clientX);
-      
-      mouseX.set(targetX);
+      mouseX.set(e.clientX);
       mouseY.set(e.clientY);
       setIsIdle(false);
+      
+      clearTimeout(timeout);
+      timeout = setTimeout(() => setIsIdle(true), 1500);
     };
 
-    const idleTimer = setInterval(() => {
-      setIsIdle(true);
-    }, 2000);
+    // Random blinking
+    const blinkInterval = setInterval(() => {
+      setExpression('blink');
+      setTimeout(() => setExpression('neutral'), 150);
+    }, 4000);
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      clearInterval(idleTimer);
+      clearInterval(blinkInterval);
+      clearTimeout(timeout);
     };
   }, [mouseX, mouseY]);
 
   const handleClick = () => {
     setIsClicked(true);
-    setTimeout(() => setIsClicked(false), 600);
+    setExpression('happy');
+    setTimeout(() => {
+      setIsClicked(false);
+      setExpression('neutral');
+    }, 1000);
   };
 
   return (
@@ -51,70 +59,101 @@ const RobotFollower: React.FC = () => {
         y: smoothY,
         translateX: '-50%',
         translateY: '-50%',
-        zIndex: 50,
-        pointerEvents: 'none', // Don't block content
+        zIndex: 9999, // Ensure it's above everything
+        pointerEvents: 'none',
       }}
       className="flex items-center justify-center"
     >
       <motion.div
         animate={isIdle ? {
-          y: [0, -10, 0],
-          transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-        } : {}}
-        style={{ pointerEvents: 'auto' }} // Allow clicking the robot itself
+          y: [0, -15, 0],
+          rotate: [0, 2, -2, 0],
+          transition: { 
+            duration: 3, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }
+        } : {
+          rotate: (smoothX.get() - mouseX.get()) * 0.1 // Slight tilt based on velocity
+        }}
+        style={{ pointerEvents: 'auto' }}
         onClick={handleClick}
-        className="relative cursor-pointer group"
+        className="relative cursor-pointer"
       >
-        {/* Glow Effect */}
-        <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 animate-pulse" />
+        {/* Soft Glow */}
+        <div className="absolute inset-0 bg-cyan-400/20 blur-2xl rounded-full scale-150 animate-pulse" />
         
-        {/* Click Pulse */}
-        {isClicked && (
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0.5 }}
-            animate={{ scale: 2, opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 border-2 border-primary rounded-full"
-          />
-        )}
+        {/* Click Effect */}
+        <AnimatePresence>
+          {isClicked && (
+            <motion.div
+              initial={{ scale: 0.5, opacity: 1 }}
+              animate={{ scale: 2.5, opacity: 0 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-cyan-400/30 rounded-full"
+            />
+          )}
+        </AnimatePresence>
 
-        {/* Robot Body - Minimalist Tech Design */}
+        {/* Cute Cartoon Robot SVG */}
         <svg
-          width="60"
-          height="60"
+          width="80"
+          height="80"
           viewBox="0 0 100 100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-2xl"
         >
-          {/* Head/Body Unit */}
-          <rect x="25" y="25" width="50" height="50" rx="12" fill="#1a1a1a" stroke="#333" strokeWidth="2" />
+          {/* Main Body/Head - Rounded Square */}
+          <rect x="20" y="25" width="60" height="55" rx="20" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="2" />
+          <path d="M20 45C20 33.9543 28.9543 25 40 25H60C71.0457 25 80 33.9543 80 45V60C80 71.0457 71.0457 80 60 80H40C28.9543 80 20 71.0457 20 60V45Z" fill="white" />
           
-          {/* Eye Visor */}
-          <rect x="35" y="40" width="30" height="8" rx="4" fill="#000" />
+          {/* Face Display */}
+          <rect x="30" y="38" width="40" height="25" rx="8" fill="#1e293b" />
           
-          {/* Glowing Eyes */}
-          <motion.rect
-            x="40" y="43" width="20" height="2" rx="1"
-            fill="hsl(var(--primary))"
-            animate={{
-              opacity: [0.5, 1, 0.5],
-              boxShadow: ["0 0 5px var(--primary)", "0 0 15px var(--primary)", "0 0 5px var(--primary)"]
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
+          {/* Eyes */}
+          {expression === 'blink' ? (
+            <>
+              <rect x="38" y="48" width="8" height="2" rx="1" fill="#38bdf8" />
+              <rect x="54" y="48" width="8" height="2" rx="1" fill="#38bdf8" />
+            </>
+          ) : expression === 'happy' ? (
+            <>
+              <path d="M38 52C38 50 40 48 42 48C44 48 46 50 46 52" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" />
+              <path d="M54 52C54 50 56 48 58 48C60 48 62 50 62 52" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" />
+            </>
+          ) : (
+            <>
+              <circle cx="42" cy="50" r="3.5" fill="#38bdf8">
+                <animate attributeName="r" values="3.5;4;3.5" dur="3s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="58" cy="50" r="3.5" fill="#38bdf8">
+                <animate attributeName="r" values="3.5;4;3.5" dur="3s" repeatCount="indefinite" />
+              </circle>
+            </>
+          )}
 
-          {/* Side Details/Antennas */}
-          <path d="M25 40L20 35M75 40L80 35" stroke="#444" strokeWidth="2" strokeLinecap="round" />
+          {/* Antennas */}
+          <circle cx="50" cy="18" r="4" fill="#38bdf8" />
+          <line x1="50" y1="25" x2="50" y2="18" stroke="#cbd5e1" strokeWidth="3" />
           
-          {/* Floating Base Detail */}
-          <motion.path
-            d="M40 85C40 85 45 90 50 90C55 90 60 85 60 85"
-            stroke="hsl(var(--primary))"
-            strokeWidth="2"
-            strokeLinecap="round"
-            animate={{ opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 3, repeat: Infinity }}
+          {/* Cheeks (Appear when happy) */}
+          {expression === 'happy' && (
+            <>
+              <circle cx="35" cy="58" r="3" fill="#fb7185" fillOpacity="0.4" />
+              <circle cx="65" cy="58" r="3" fill="#fb7185" fillOpacity="0.4" />
+            </>
+          )}
+
+          {/* Floating Feet */}
+          <motion.rect 
+            x="35" y="82" width="10" height="4" rx="2" fill="#cbd5e1" 
+            animate={{ y: [0, 2, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+          <motion.rect 
+            x="55" y="82" width="10" height="4" rx="2" fill="#cbd5e1"
+            animate={{ y: [0, 2, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
           />
         </svg>
       </motion.div>
