@@ -384,10 +384,10 @@ const Home = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 backdrop-blur-md bg-background/50 border-b border-white/5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
-            C
+            P
           </div>
           <span className="font-mono font-semibold tracking-wider hidden sm:inline-block">
-            CODER<span className="text-primary">SCOTCH</span>
+            DEVBY<span className="text-primary">PAJJU</span>
           </span>
         </div>
 
@@ -431,18 +431,9 @@ const Home = () => {
             </p>
             <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-2">
               <span className="relative inline-block py-2">
-                <motion.span 
-                  className="relative z-10 text-white font-serif italic tracking-tighter drop-shadow-[0_0_20px_rgba(25,230,189,0.3)] block"
-                  whileHover={{ scale: 1.02 }}
-                >
+
                   Paraj Bhatassana
-                </motion.span>
-                <motion.div 
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.5, duration: 1.2, ease: "circOut" }}
-                  className="absolute bottom-4 left-0 h-[40%] w-full bg-primary/10 -rotate-1 z-0 origin-left blur-[2px]"
-                />
+
                 <motion.div 
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
@@ -567,10 +558,8 @@ const Home = () => {
         >
           {/* Header */}
           <div className="flex items-center gap-4 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white flex items-center">
-              <span className="text-primary font-mono text-2xl mr-4 font-normal">
-                00.
-              </span>
+              <h2 className="text-3xl font-bold text-white flex items-center">
+
               The Architect Behind the Code
             </h2>
             <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
@@ -622,9 +611,6 @@ const Home = () => {
         <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold text-white flex items-center">
-              <span className="text-primary font-mono text-xl mr-3 font-normal">
-                01.
-              </span>
               My Stack
             </h2>
           <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
@@ -657,56 +643,15 @@ const Home = () => {
       </section>
 
       {/* Experience Section */}
-      <section
-        id="experience"
-        className="py-24 px-6 md:px-12 max-w-3xl mx-auto"
-      >
-        <div className="flex items-center gap-4 mb-16">
-          <h2 className="text-3xl font-bold text-white flex items-center">
-            <span className="text-primary font-mono text-xl mr-3 font-normal">
-              02.
-            </span>
-            Experience
-          </h2>
-        <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
-        </div>
-        <div className="space-y-12">
-          {[
-            {
-              company: "Tech Corp",
-              role: "Senior Engineer",
-              date: "2022 - Present",
-            },
-            {
-              company: "Dev Agency",
-              role: "Full Stack Developer",
-              date: "2020 - 2022",
-            },
-          ].map((exp, i) => (
-            <div key={i} className="relative pl-8 border-l border-primary/30">
-              <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1.5 shadow-[0_0_10px_#19e6bd]" />
-              <span className="text-primary font-mono text-sm">{exp.date}</span>
-              <h3 className="text-xl font-bold text-white mt-1">
-                {exp.role} @ {exp.company}
-              </h3>
-              <p className="text-muted-foreground mt-2">
-                Leading development of modern web applications using React and
-                Node.js.
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+
 
       {/* Work Section */}
       <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="flex items-center gap-4 mb-24">
-          <h2 className="text-4xl md:text-6xl font-bold text-white flex items-center">
-            <span className="text-primary font-mono text-2xl mr-4 font-normal">
-              03.
-            </span>
-            Selected Work
+            <h2 className="text-3xl font-bold text-white flex items-center">
+            Work
           </h2>
+
           <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
         </div>
 
@@ -813,7 +758,7 @@ const Home = () => {
                     Email
                   </p>
                   <p className="text-white font-medium">
-                    rahulpatel.code@gmail.com
+                    bhatasanaparaj@gmail.com
                   </p>
                 </div>
               </div>
@@ -998,10 +943,10 @@ const Home = () => {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
-                C
+                P
               </div>
               <span className="font-mono font-semibold tracking-wider">
-                CODER<span className="text-primary">SCOTCH</span>
+                DEVBY<span className="text-primary">PAJJU</span>
               </span>
             </div>
             <p className="text-muted-foreground max-w-sm mb-8">
