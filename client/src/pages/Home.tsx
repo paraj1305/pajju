@@ -122,7 +122,7 @@ const SkillCard = ({
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute bottom-[calc(100%+15px)] left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none backdrop-blur-xl"
+            className="absolute bottom-[calc(100%+20px)] left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[99999] pointer-events-none backdrop-blur-xl"
           >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#1f2528] border-r border-b border-primary/30 rotate-45" />
             <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider relative z-10">
@@ -430,18 +430,23 @@ const Home = () => {
             </p>
             <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-2">
               <span className="relative inline-block py-2">
-                <span className="relative z-10 text-white px-2 font-serif italic tracking-tighter drop-shadow-[0_0_15px_rgba(25,230,189,0.4)]">Paraj Bhatassana</span>
                 <motion.span 
+                  className="relative z-10 text-white font-serif italic tracking-tighter drop-shadow-[0_0_20px_rgba(25,230,189,0.3)] block"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  Paraj Bhatassana
+                </motion.span>
+                <motion.div 
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.5, duration: 1, ease: "circOut" }}
-                  className="absolute bottom-4 left-0 h-[30%] w-full bg-primary/20 -rotate-1 z-0 origin-left rounded-sm"
+                  transition={{ delay: 0.5, duration: 1.2, ease: "circOut" }}
+                  className="absolute bottom-4 left-0 h-[40%] w-full bg-primary/10 -rotate-1 z-0 origin-left blur-[2px]"
                 />
-                <motion.span 
+                <motion.div 
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.8, duration: 0.8, ease: "circOut" }}
-                  className="absolute bottom-2 left-4 h-1 w-[80%] bg-primary/40 -rotate-2 z-0 origin-left rounded-full"
+                  transition={{ delay: 0.8, duration: 1, ease: "circOut" }}
+                  className="absolute bottom-2 left-4 h-[2px] w-[85%] bg-primary/40 -rotate-2 z-0 origin-left shadow-[0_0_10px_#19e6bd]"
                 />
               </span>
             </h1>
@@ -559,7 +564,7 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
+      <section id="about" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -567,6 +572,7 @@ const Home = () => {
           transition={{ duration: 0.8 }}
           className="relative"
         >
+          {/* Header */}
           <div className="flex items-center gap-4 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white flex items-center">
               <span className="text-primary font-mono text-2xl mr-4 font-normal">
@@ -577,12 +583,16 @@ const Home = () => {
             <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
           </div>
 
+          {/* Full-width content */}
           <div className="relative z-10 bg-[#1f2528]/40 backdrop-blur-sm border border-white/5 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden group">
+            {/* Optional decorative blobs (can remove if needed) */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-primary/10 transition-colors duration-700"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -ml-32 -mb-32 group-hover:bg-primary/10 transition-colors duration-700"></div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <div className="lg:col-span-8 space-y-8 text-xl text-muted-foreground leading-relaxed">
+
+            {/* Make grid 1-column full width */}
+            <div className="grid grid-cols-1 gap-12 items-start">
+              <div className="space-y-8 text-xl text-muted-foreground leading-relaxed">
+                {/* ✅ KEEP ALL YOUR EXISTING CONTENT HERE EXACTLY */}
                 <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
                   I am <span className="text-white font-bold decoration-primary/30 decoration-4 underline-offset-4 underline">Paraj Bhatassana</span>, a Forward-Thinking <span className="text-white font-semibold">Full Stack Developer</span> and <span className="text-primary font-medium italic">AI Solutions Architect</span>. I don't just write code; I engineer digital ecosystems that are intuitive, scalable, and high-performing.
                 </p>
@@ -610,28 +620,12 @@ const Home = () => {
                   My approach combines technical precision with a designer's eye, ensuring every product I build feels as good as it functions. I thrive at the intersection of innovation and execution, turning complex challenges into elegant, human-centric solutions.
                 </p>
               </div>
-              
-              <div className="lg:col-span-4 flex flex-col gap-6">
-                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="text-primary font-mono text-4xl font-bold mb-2">5+</div>
-                  <div className="text-sm uppercase tracking-widest font-bold text-white/70">Years of Code</div>
-                </div>
-                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="text-primary font-mono text-4xl font-bold mb-2">50+</div>
-                  <div className="text-sm uppercase tracking-widest font-bold text-white/70">Projects Delivered</div>
-                </div>
-                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="text-primary font-mono text-4xl font-bold mb-2">12+</div>
-                  <div className="text-sm uppercase tracking-widest font-bold text-white/70">AI Agents Built</div>
-                </div>
-              </div>
             </div>
           </div>
         </motion.div>
       </section>
-
       {/* Skills Section */}
-      <section id="skills" className="py-24 relative">
+      <section id="skills" className="py-24 relative overflow-visible">
         <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold text-white flex items-center">
@@ -640,27 +634,31 @@ const Home = () => {
               </span>
               My Stack
             </h2>
-            <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
+          <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
           </div>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-8 overflow-visible">
           <div>
-            <div className="px-6 md:px-12 max-w-7xl mx-auto  ">
+            <div className="px-6 md:px-12">
               <h3 className="text-sm font-mono text-primary/60 uppercase tracking-widest">
                 Technology
               </h3>
             </div>
-            <MarqueeRow skills={techSkills} direction="left" />
+            <div className="relative overflow-visible z-20">
+              <MarqueeRow skills={techSkills} direction="left" />
+            </div>
           </div>
 
           <div>
-            <div className="px-6 md:px-12 max-w-7xl mx-auto  ">
+            <div className="px-6 md:px-12">
               <h3 className="text-sm font-mono text-primary/60 uppercase tracking-widest">
                 AI & Productivity
               </h3>
             </div>
-            <MarqueeRow skills={aiTools} direction="right" />
+            <div className="relative overflow-visible z-20">
+              <MarqueeRow skills={aiTools} direction="right" />
+            </div>
           </div>
         </div>
       </section>
@@ -677,7 +675,7 @@ const Home = () => {
             </span>
             Experience
           </h2>
-          <div className="h-px bg-white/10 flex-grow"></div>
+        <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
         </div>
         <div className="space-y-12">
           {[
@@ -709,66 +707,97 @@ const Home = () => {
 
       {/* Work Section */}
       <section id="projects" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-16">
-          <h2 className="text-3xl font-bold text-white flex items-center">
-            <span className="text-primary font-mono text-xl mr-3 font-normal">
+        <div className="flex items-center gap-4 mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-white flex items-center">
+            <span className="text-primary font-mono text-2xl mr-4 font-normal">
               03.
             </span>
             Selected Work
           </h2>
-          <div className="h-px bg-white/10 flex-grow max-w-xs"></div>
+          <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
         </div>
 
-        <div className="space-y-32">
-          {[1, 2].map((item) => (
-            <div
-              key={item}
-              className={`flex flex-col ${item % 2 === 0 ? "lg:flex-row-reverse" : "lg:flex-row"} gap-12 items-center group`}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {[
+            {
+              title: "Nexus Platform",
+              category: "AI • FULL STACK",
+              description: "A high-performance innovation hub for enterprise-scale data processing and AI orchestration.",
+              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+              tech: ["React", "FastAPI", "PostgreSQL"]
+            },
+            {
+              title: "Agentic OS",
+              category: "AI • AUTOMATION",
+              description: "Autonomous agent operating system designed for complex multi-step workflow automation.",
+              image: "https://images.unsplash.com/photo-1551288049-bbda48668703?auto=format&fit=crop&q=80&w=800",
+              tech: ["Python", "n8n", "OpenAI"]
+            },
+            {
+              title: "Vortex Analytics",
+              category: "DASHBOARD • DATA",
+              description: "Real-time visualization engine for multi-dimensional data streams and predictive analytics.",
+              image: "https://images.unsplash.com/photo-1551288049-bbda48668703?auto=format&fit=crop&q=80&w=800",
+              tech: ["React", "D3.js", "MongoDB"]
+            },
+            {
+              title: "Echo AI",
+              category: "LLM • NLP",
+              description: "Sophisticated conversational interface powered by custom-trained language models.",
+              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+              tech: ["PyTorch", "FastAPI", "Redis"]
+            }
+          ].map((project, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="group relative h-[450px] rounded-3xl overflow-hidden cursor-pointer"
             >
-              <div className="w-full lg:w-3/5 aspect-video bg-[#1f2528] rounded-xl overflow-hidden border border-white/5 relative group-hover:border-primary/20 transition-all shadow-2xl">
-                <div className="absolute inset-0 bg-primary/10 mix-blend-multiply opacity-50 group-hover:opacity-0 transition-opacity" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Layers className="w-20 h-20 text-primary/10 group-hover:text-primary/20 transition-colors" />
-                </div>
+              <div className="absolute inset-0">
+                <img 
+                  src={project.image} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
               </div>
 
-              <div
-                className={`w-full lg:w-2/5 ${item % 2 === 0 ? "text-left" : "lg:text-right"}`}
-              >
-                <p className="text-primary font-mono text-sm mb-2">
-                  Featured Project
+              <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                <p className="text-primary font-mono text-xs tracking-widest mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {project.category}
                 </p>
-                <h3 className="text-3xl font-bold text-white mb-6 group-hover:text-primary transition-colors">
-                  Digital Innovation Platform {item}
+                <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-primary transition-colors">
+                  {project.title}
                 </h3>
-
-                <div
-                  className={`bg-[#1f2528] p-6 rounded-lg border border-white/5 shadow-xl mb-6 relative z-10 ${item % 2 === 0 ? "lg:-mr-20" : "lg:-ml-20"} backdrop-blur-sm`}
-                >
-                  <p className="text-muted-foreground leading-relaxed">
-                    A comprehensive full-stack solution built with Python and
-                    React, enabling seamless data visualization and real-time
-                    processing for enterprise clients.
-                  </p>
+                <p className="text-white/60 text-sm max-w-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                  {project.description}
+                </p>
+                
+                <div className="flex gap-2 flex-wrap mb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                  {project.tech.map((t, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/80 font-mono">
+                      {t}
+                    </span>
+                  ))}
                 </div>
 
-                <ul
-                  className={`flex flex-wrap gap-4 font-mono text-xs text-muted-foreground mb-8 ${item % 2 === 0 ? "" : "lg:justify-end"}`}
-                >
-                  <li>React</li>
-                  <li>FastAPI</li>
-                  <li>PostgreSQL</li>
-                  <li>Docker</li>
-                </ul>
-
-                <div
-                  className={`flex gap-6 text-white ${item % 2 === 0 ? "" : "lg:justify-end"}`}
-                >
-                  <Github className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
-                  <ExternalLink className="w-6 h-6 hover:text-primary cursor-pointer transition-colors" />
+                <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300">
+                  <Button size="sm" variant="outline" className="rounded-full border-white/20 hover:border-primary hover:text-primary backdrop-blur-md">
+                    Case Study
+                  </Button>
+                  <Button size="sm" className="rounded-full bg-primary text-background font-bold shadow-[0_0_15px_rgba(25,230,189,0.3)]">
+                    Live View
+                  </Button>
                 </div>
               </div>
-            </div>
+
+              {/* Decorative Corner */}
+              <div className="absolute top-0 right-0 p-8">
+                <div className="w-10 h-10 border-t-2 border-r-2 border-white/10 rounded-tr-xl group-hover:border-primary/40 transition-colors" />
+              </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -872,124 +901,124 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-20 border-t border-white/5 bg-black/20">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
-                  C
-                </div>
-                <span className="font-mono font-semibold tracking-wider">
-                  CODER<span className="text-primary">SCOTCH</span>
-                </span>
-              </div>
-              <p className="text-muted-foreground max-w-sm mb-8">
-                Crafting digital experiences that merge human creativity with
-                artificial intelligence. Specialized in high-performance web
-                solutions.
-              </p>
-              <div className="flex gap-4">
-                {[Linkedin, Instagram, Twitter, Github].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
+    {/* City Scene Footer Animation */}
+    <div className="relative w-full h-40 overflow-hidden border-t border-white/5 bg-gradient-to-b from-transparent to-black/40">
+      <div className="absolute bottom-0 w-full flex items-end justify-center gap-1 px-10">
+        {[40, 60, 45, 80, 55, 90, 70, 100, 65, 85, 50, 75].map((h, i) => (
+          <motion.div
+            key={i}
+            initial={{ height: 0 }}
+            whileInView={{ height: h }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.05, duration: 1 }}
+            className="w-12 bg-white/5 border-t border-x border-white/10 rounded-t-sm relative group overflow-hidden"
+          >
+            {/* Windows */}
+            <div className="grid grid-cols-2 gap-1 p-2">
+              {Array.from({ length: Math.floor(h/10) }).map((_, j) => (
+                <motion.div
+                  key={j}
+                  animate={{ opacity: [0.1, 0.3, 0.1] }}
+                  transition={{ duration: Math.random() * 3 + 2, repeat: Infinity }}
+                  className="w-full aspect-square bg-primary/20 rounded-[1px]"
+                />
+              ))}
             </div>
+          </motion.div>
+        ))}
+      </div>
 
-            <div>
-              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
-                Navigation
-              </h4>
-              <ul className="space-y-4 text-sm font-mono text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    01. Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#skills"
-                    className="hover:text-primary transition-colors"
-                  >
-                    02. Skills
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#experience"
-                    className="hover:text-primary transition-colors"
-                  >
-                    03. Experience
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#projects"
-                    className="hover:text-primary transition-colors"
-                  >
-                    04. Work
-                  </a>
-                </li>
-              </ul>
+      {/* Walking People */}
+      <motion.div
+        animate={{ x: ["-10%", "110%"] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-2 z-10"
+      >
+        <div className="flex gap-20">
+          <div className="w-1.5 h-4 bg-primary/60 rounded-full animate-bounce" />
+          <div className="w-1 h-3 bg-white/20 rounded-full animate-bounce delay-700" />
+        </div>
+      </motion.div>
+
+      {/* Moving Car Lights */}
+      <motion.div
+        animate={{ x: ["110%", "-10%"] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-1 w-2 h-1 bg-red-500/40 blur-[2px] rounded-full"
+      />
+    </div>
+
+    <footer className="py-20 bg-black/20 relative">
+      {/* Soft gradient glow at top */}
+      <div className="absolute top-0 left-0 w-full h-6 bg-gradient-to-b from-teal-400/20 via-blue-400/10 to-transparent pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          {/* Logo & Description */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
+                C
+              </div>
+              <span className="font-mono font-semibold tracking-wider">
+                CODER<span className="text-primary">SCOTCH</span>
+              </span>
             </div>
-
-            <div>
-              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
-                Connect
-              </h4>
-              <ul className="space-y-4 text-sm font-mono text-muted-foreground">
-                <li>
-                  <a
-                    href="#contact"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Contact Me
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="mailto:rahulpatel.code@gmail.com"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Email
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Resume
-                  </a>
-                </li>
-              </ul>
+            <p className="text-muted-foreground max-w-sm mb-8">
+              Crafting digital experiences that merge human creativity with artificial intelligence. Specialized in high-performance web solutions.
+            </p>
+            <div className="flex gap-4">
+              {[Linkedin, Instagram, Twitter, Github].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="w-10 h-10 rounded-full bg-[#1f2528] flex items-center justify-center text-muted-foreground hover:text-primary transition-all"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
-            <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
-              © 2026 Designed & Built by <span className="text-primary shadow-[0_0_10px_rgba(25,230,189,0.5)]">Paraj Bhatassana</span>
-            </p>
-            <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              <a href="#" className="hover:text-primary">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-primary">
-                Terms of Service
-              </a>
-            </div>
+          {/* Navigation */}
+          <div>
+            <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
+              Navigation
+            </h4>
+            <ul className="space-y-4 text-sm font-mono text-muted-foreground">
+              <li><a href="#" className="hover:text-primary transition-colors">01. Home</a></li>
+              <li><a href="#skills" className="hover:text-primary transition-colors">02. Skills</a></li>
+              <li><a href="#experience" className="hover:text-primary transition-colors">03. Experience</a></li>
+              <li><a href="#projects" className="hover:text-primary transition-colors">04. Work</a></li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
+              Connect
+            </h4>
+            <ul className="space-y-4 text-sm font-mono text-muted-foreground">
+              <li><a href="#contact" className="hover:text-primary transition-colors">Contact Me</a></li>
+              <li><a href="mailto:parajbhatassana@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">LinkedIn</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Resume</a></li>
+            </ul>
           </div>
         </div>
-      </footer>
-    </div>
+
+        {/* Footer Bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8">
+          <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
+            © 2026 Designed & Built by <span className="text-primary">Paraj Bhatassana</span>
+          </p>
+          <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+            <a href="#" className="hover:text-primary">Privacy Policy</a>
+            <a href="#" className="hover:text-primary">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>    </div>
   );
 };
 
