@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import BackgroundAnimation from "@/components/BackgroundAnimation";
+import RobotFollower from "@/components/robot/RobotFollower";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <BackgroundAnimation />
+        <RobotFollower />
         <Toaster />
         <Router />
       </TooltipProvider>
