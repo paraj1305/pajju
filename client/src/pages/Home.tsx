@@ -530,23 +530,37 @@ const Home = () => {
       <footer className="py-20 bg-white/5 backdrop-blur-md border-t border-white/10 relative z-10 shadow-[0_-8px_32px_0_rgba(0,0,0,0.2)]">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-20">
-            <div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-8">Let's build something <span className="text-primary italic">extraordinary</span>.</h2>
-              <a href="mailto:paraj.code@gmail.com" className="text-xl md:text-2xl font-mono hover:text-primary transition-colors border-b border-primary/30 pb-2">paraj.code@gmail.com</a>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-8">Let's build something <span className="text-primary italic animate-pulse">extraordinary</span>.</h2>
+              <a href="mailto:paraj.code@gmail.com" className="text-xl md:text-2xl font-mono hover:text-primary transition-colors border-b border-primary/30 pb-2 relative group overflow-hidden inline-block">
+                paraj.code@gmail.com
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </a>
+            </motion.div>
             <div className="grid grid-cols-2 gap-8">
               <div className="space-y-4">
                 <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">Connect</p>
                 <div className="flex flex-col gap-2">
-                  <a href="#" className="text-sm hover:text-primary transition-colors">LinkedIn</a>
-                  <a href="#" className="text-sm hover:text-primary transition-colors">GitHub</a>
+                  <motion.a whileHover={{ x: 5 }} href="#" className="text-sm hover:text-primary transition-colors flex items-center gap-2 group">
+                    LinkedIn <ArrowRight size={12} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  </motion.a>
+                  <motion.a whileHover={{ x: 5 }} href="#" className="text-sm hover:text-primary transition-colors flex items-center gap-2 group">
+                    GitHub <ArrowRight size={12} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  </motion.a>
                 </div>
               </div>
             </div>
           </div>
           <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-muted-foreground/40">
             <p>© 2026 PARAJ BHATASSANA. ALL RIGHTS RESERVED.</p>
-            <p>BUILT WITH PRECISION & AI</p>
+            <p className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-primary rounded-full animate-ping" />
+              BUILT WITH PRECISION & AI
+            </p>
           </div>
         </div>
       </footer>
