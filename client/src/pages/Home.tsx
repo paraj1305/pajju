@@ -575,7 +575,7 @@ const Home = () => {
       {/* About Section */}
       <section id="about" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -583,80 +583,76 @@ const Home = () => {
         >
           {/* Header */}
           <div className="flex items-center gap-4 mb-16">
-            <h2 className="text-3xl font-bold text-white flex items-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
               The Architect Behind the Code
             </h2>
-            <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
+            <div className="h-px bg-gradient-to-r from-primary/60 to-transparent flex-grow"></div>
           </div>
 
-          {/* Full-width content */}
-          <div className="relative z-10 liquid-glass rounded-3xl p-8 md:p-12 overflow-hidden group">
-            {/* Optional decorative blobs (can remove if needed) */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-primary/10 transition-colors duration-700"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -ml-32 -mb-32 group-hover:bg-primary/10 transition-colors duration-700"></div>
+          {/* 🔥 REAL LIQUID MIRROR CARD */}
+          <div className="relative liquid-mirror rounded-[40px] p-10 md:p-14 overflow-hidden">
 
-            {/* Make grid 1-column full width */}
-            <div className="grid grid-cols-1 gap-12 items-start">
-              <div className="space-y-8 text-xl text-muted-foreground leading-relaxed">
-                {/* ✅ KEEP ALL YOUR EXISTING CONTENT HERE EXACTLY */}
-                <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-                  I am{" "}
-                  <span className="text-white font-bold decoration-primary/30 decoration-4 underline-offset-4 underline">
-                    Paraj Bhatassana
-                  </span>
-                  , a Forward-Thinking{" "}
-                  <span className="text-white font-semibold">
-                    Full Stack Developer
-                  </span>{" "}
-                  and{" "}
-                  <span className="text-primary font-medium italic">
-                    AI Solutions Architect
-                  </span>
-                  . I don't just write code; I engineer digital ecosystems that
-                  are intuitive, scalable, and high-performing.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
-                  <div className="flex gap-4 items-start">
-                    <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
-                      <Terminal size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold mb-1">
-                        Technical Precision
-                      </h4>
-                      <p className="text-base">
-                        Deep mastery of Python & React, bridging backend
-                        complexity with pixel-perfect frontend experiences.
-                      </p>
-                    </div>
+            {/* Content */}
+            <div className="relative z-10 space-y-10 text-lg md:text-xl text-muted-foreground leading-relaxed">
+
+              <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+                I am{" "}
+                <span className="text-white font-bold underline decoration-primary/40 underline-offset-4">
+                  Paraj Bhatassana
+                </span>, a{" "}
+                <span className="text-white font-semibold">
+                  Full Stack Developer
+                </span>{" "}
+                and{" "}
+                <span className="text-primary font-medium italic">
+                  AI Solutions Architect
+                </span>.
+                I engineer scalable, intelligent digital ecosystems.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6">
+
+                <div className="flex gap-4 items-start">
+                  <div className="p-4 rounded-2xl liquid-mini text-primary">
+                    <Terminal size={24} />
                   </div>
-                  <div className="flex gap-4 items-start">
-                    <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
-                      <Sparkles size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold mb-1">
-                        AI Innovation
-                      </h4>
-                      <p className="text-base">
-                        Pushing boundaries of Agentic AI and automated workflows
-                        for intelligent, self-evolving systems.
-                      </p>
-                    </div>
+                  <div>
+                    <h4 className="text-white font-bold mb-2">
+                      Technical Precision
+                    </h4>
+                    <p className="text-base">
+                      Deep mastery of backend systems and pixel-perfect frontend architecture.
+                    </p>
                   </div>
                 </div>
-                <p>
-                  My approach combines technical precision with a designer's
-                  eye, ensuring every product I build feels as good as it
-                  functions. I thrive at the intersection of innovation and
-                  execution, turning complex challenges into elegant,
-                  human-centric solutions.
-                </p>
+
+                <div className="flex gap-4 items-start">
+                  <div className="p-4 rounded-2xl liquid-mini text-primary">
+                    <Sparkles size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold mb-2">
+                      AI Innovation
+                    </h4>
+                    <p className="text-base">
+                      Building agentic AI systems and self-evolving automation workflows.
+                    </p>
+                  </div>
+                </div>
+
               </div>
+
+              <p>
+                My approach blends engineering excellence with product thinking,
+                ensuring everything I build feels as powerful as it performs.
+                I transform complex challenges into elegant, human-centric solutions.
+              </p>
+
             </div>
           </div>
         </motion.div>
-      </section>
+      </section>      
+      
       {/* Skills Section */}
       <section id="skills" className="py-24 relative overflow-visible">
         <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
