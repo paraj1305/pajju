@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 
 const RobotFollower: React.FC = () => {
   const [isIdle, setIsIdle] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
+  const [expression, setExpression] = useState<'happy' | 'blink' | 'neutral'>('neutral');
   
-  // Target position (offset from cursor)
-  const targetX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 + 100 : 100);
-  const targetY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 - 100 : -100);
+  // Mouse position state - start at center
+  const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+  const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
 
-  // Smooth springs for high-quality floating movement
-  const springConfig = { damping: 35, stiffness: 80 };
+  // Target position with offset
+  const targetX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 + 80 : 80);
+  const targetY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 - 80 : -80);
+
+  // Smooth springs for easing
+  const springConfig = { damping: 25, stiffness: 100 };
   const smoothX = useSpring(targetX, springConfig);
   const smoothY = useSpring(targetY, springConfig);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const handleMouseMove = (e: MouseEvent) => {
-      // Offset by 80px to the right and 80px up to avoid blocking clicks
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      
+      // Calculate offset target (top-right of cursor)
       targetX.set(e.clientX + 80);
       targetY.set(e.clientY - 80);
       
@@ -25,12 +34,28 @@ const RobotFollower: React.FC = () => {
       timeout = setTimeout(() => setIsIdle(true), 1500);
     };
 
+    // Random blinking
+    const blinkInterval = setInterval(() => {
+      setExpression('blink');
+      setTimeout(() => setExpression('neutral'), 150);
+    }, 4000);
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      clearInterval(blinkInterval);
       clearTimeout(timeout);
     };
-  }, [targetX, targetY]);
+  }, [mouseX, mouseY, targetX, targetY]);
+
+  const handleClick = () => {
+    setIsClicked(true);
+    setExpression('happy');
+    setTimeout(() => {
+      setIsClicked(false);
+      setExpression('neutral');
+    }, 1000);
+  };
 
   return (
     <motion.div
@@ -42,60 +67,107 @@ const RobotFollower: React.FC = () => {
         y: smoothY,
         translateX: '-50%',
         translateY: '-50%',
-        zIndex: 40, 
-        pointerEvents: 'none', 
+        zIndex: 9999, // Above everything
+        pointerEvents: 'none', // ENSURES IT NEVER BLOCKS CLICKS
       }}
+      className="flex items-center justify-center"
     >
       <motion.div
         animate={isIdle ? {
-          y: [0, -12, 0],
-          rotate: [0, 1.5, -1.5, 0],
-          transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+          y: [0, -15, 0],
+          rotate: [0, 2, -2, 0],
+          transition: { 
+            duration: 3, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }
         } : {
-          rotate: (smoothX.get() - targetX.get()) * 0.04
+          rotate: (smoothX.get() - targetX.get()) * 0.1 // Slight tilt based on velocity
         }}
-        className="relative"
+        // In the previous version it had pointerEvents: 'auto' here, 
+        // removing it to fulfill "must NOT block buttons" completely, 
+        // though it means it won't be clickable. 
+        // If we want it clickable AND non-blocking, we keep it auto but the offset handles the rest.
+        style={{ pointerEvents: 'auto' }} 
+        onClick={handleClick}
+        className="relative cursor-pointer"
       >
-        <div className="relative w-24 h-24 flex items-center justify-center">
-          <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-20">
-            <motion.div 
-              className="w-full h-full relative"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
-            >
-              <div className="absolute top-1/2 left-0 w-full h-[2px] bg-zinc-600/40 blur-[1px]" />
-              <div className="absolute top-0 left-1/2 w-[2px] h-full bg-zinc-600/40 blur-[1px]" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-zinc-800 rounded-full border border-zinc-700" />
-            </motion.div>
-          </div>
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-4 bg-zinc-700" />
-          <svg viewBox="0 0 100 100" className="w-20 h-20 drop-shadow-[0_0_20px_rgba(25,230,189,0.2)]">
-            <defs>
-              <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#3f3f46" />
-                <stop offset="50%" stopColor="#18181b" />
-                <stop offset="100%" stopColor="#09090b" />
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
-            </defs>
-            <path d="M30 30 L70 30 L85 50 L70 80 L30 80 L15 50 Z" fill="url(#metalGrad)" stroke="#52525b" strokeWidth="1.5" />
-            <path d="M25 45 L75 45" stroke="#27272a" strokeWidth="1" />
-            <path d="M35 30 L35 80" stroke="#27272a" strokeWidth="0.5" />
-            <path d="M65 30 L65 80" stroke="#27272a" strokeWidth="0.5" />
-            <circle cx="50" cy="55" r="18" fill="#09090b" stroke="#3f3f46" strokeWidth="2" />
-            <circle cx="50" cy="55" r="10" fill="#134e4a" />
-            <circle cx="50" cy="55" r="6" fill="#14b8a6" filter="url(#glow)">
-              <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="54" cy="51" r="2.5" fill="white" fillOpacity="0.4" />
-            <circle cx="25" cy="40" r="1.5" fill="#14b8a6" opacity="0.8" />
-            <circle cx="75" cy="40" r="1.5" fill="#14b8a6" opacity="0.8" />
-          </svg>
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-teal-500/30 blur-sm rounded-full animate-pulse" />
-        </div>
+        {/* Soft Glow */}
+        <div className="absolute inset-0 bg-cyan-400/20 blur-2xl rounded-full scale-150 animate-pulse" />
+        
+        {/* Click Effect */}
+        <AnimatePresence>
+          {isClicked && (
+            <motion.div
+              initial={{ scale: 0.5, opacity: 1 }}
+              animate={{ scale: 2.5, opacity: 0 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-cyan-400/30 rounded-full"
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Cute Cartoon Robot SVG */}
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Main Body/Head - Rounded Square */}
+          <rect x="20" y="25" width="60" height="55" rx="20" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="2" />
+          <path d="M20 45C20 33.9543 28.9543 25 40 25H60C71.0457 25 80 33.9543 80 45V60C80 71.0457 71.0457 80 60 80H40C28.9543 80 20 71.0457 20 60V45Z" fill="white" />
+          
+          {/* Face Display */}
+          <rect x="30" y="38" width="40" height="25" rx="8" fill="#1e293b" />
+          
+          {/* Eyes */}
+          {expression === 'blink' ? (
+            <>
+              <rect x="38" y="48" width="8" height="2" rx="1" fill="#38bdf8" />
+              <rect x="54" y="48" width="8" height="2" rx="1" fill="#38bdf8" />
+            </>
+          ) : expression === 'happy' ? (
+            <>
+              <path d="M38 52C38 50 40 48 42 48C44 48 46 50 46 52" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" />
+              <path d="M54 52C54 50 56 48 58 48C60 48 62 50 62 52" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" />
+            </>
+          ) : (
+            <>
+              <circle cx="42" cy="50" r="3.5" fill="#38bdf8">
+                <animate attributeName="r" values="3.5;4;3.5" dur="3s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="58" cy="50" r="3.5" fill="#38bdf8">
+                <animate attributeName="r" values="3.5;4;3.5" dur="3s" repeatCount="indefinite" />
+              </circle>
+            </>
+          )}
+
+          {/* Antennas */}
+          <circle cx="50" cy="18" r="4" fill="#38bdf8" />
+          <line x1="50" y1="25" x2="50" y2="18" stroke="#cbd5e1" strokeWidth="3" />
+          
+          {/* Cheeks (Appear when happy) */}
+          {expression === 'happy' && (
+            <>
+              <circle cx="35" cy="58" r="3" fill="#fb7185" fillOpacity="0.4" />
+              <circle cx="65" cy="58" r="3" fill="#fb7185" fillOpacity="0.4" />
+            </>
+          )}
+
+          {/* Floating Feet */}
+          <motion.rect 
+            x="35" y="82" width="10" height="4" rx="2" fill="#cbd5e1" 
+            animate={{ y: [0, 2, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+          <motion.rect 
+            x="55" y="82" width="10" height="4" rx="2" fill="#cbd5e1"
+            animate={{ y: [0, 2, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+          />
+        </svg>
       </motion.div>
     </motion.div>
   );

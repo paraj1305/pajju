@@ -36,6 +36,7 @@
 }
 
 :root {
+  /* LIGHT MODE (Not strictly used since forced dark, but good to have) */
   --background: 0 0% 100%;
   --foreground: 204 16% 6%;
   --card: 0 0% 100%;
@@ -59,14 +60,20 @@
 }
 
 .dark {
+  /* DARK MODE (Matching the requested palette) */
+  /* #0d1012 */
   --background: 204 16% 6%;
+  /* #c7d1d1 */
   --foreground: 180 8% 80%;
+  /* #1f2528 */
   --card: 200 13% 14%;
   --card-foreground: 180 8% 80%;
   --popover: 200 13% 14%;
   --popover-foreground: 180 8% 80%;
+  /* #19e6bd */
   --primary: 168 80% 50%;
   --primary-foreground: 204 16% 6%;
+  /* Muted variant of card */
   --secondary: 204 12% 18%;
   --secondary-foreground: 180 8% 80%;
   --muted: 204 12% 18%;
@@ -89,15 +96,11 @@
   }
 }
 
+/* Custom utility for text gradient */
 @layer utilities {
   .liquid-glass {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+    @apply backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
   }
-  
-  .liquid-button {
-    @apply backdrop-blur-md bg-primary/10 border border-primary/20 text-primary px-6 py-2 rounded-full font-mono text-sm tracking-wide transition-all duration-300 hover:bg-primary/20 hover:border-primary/40 hover:shadow-[0_0_20px_rgba(25,230,189,0.3)] active:scale-95;
-  }
-
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-primary;
   }
