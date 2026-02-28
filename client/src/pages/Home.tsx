@@ -309,7 +309,7 @@ const MarqueeRow = ({
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
 
   return (
-    <div className="relative flex overflow-visible py-24 mask-fade-edges -my-16 z-20 hover:z-30 transition-all duration-300">
+    <div className="relative flex overflow-visible py-32 mask-fade-edges -my-24 z-20 hover:z-30 transition-all duration-300">
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -322,9 +322,9 @@ const MarqueeRow = ({
         className="flex gap-6 pr-6"
       >
         {duplicatedSkills.map((skill, idx) => (
-          <div key={idx} className="relative">
+          <div key={idx} className="relative py-8">
             {" "}
-            {/* ✅ added wrapper */}
+            {/* ✅ added padding to prevent clipping */}
             <SkillCard {...skill} />
           </div>
         ))}
