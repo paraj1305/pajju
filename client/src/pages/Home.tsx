@@ -124,7 +124,7 @@ const SkillCard = ({
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             className="absolute bottom-[calc(100%+20px)] left-1/2 -translate-x-1/2 w-64 p-4 bg-[#1f2528] border border-primary/30 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[99999] pointer-events-none backdrop-blur-xl"
           >
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#1f2528] border-r border-b border-primary/30 rotate-45" />
+            <div className=" absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#1f2528] border-r border-b border-primary/30 rotate-45" />
             <p className="text-xs font-mono text-primary mb-1 uppercase tracking-wider relative z-10">
               {name}
             </p>
@@ -322,7 +322,7 @@ const MarqueeRow = ({
         className="flex gap-6 pr-6"
       >
         {duplicatedSkills.map((skill, idx) => (
-          <div key={idx} className="relative py-8">
+          <div key={idx} className="relative py-8 ">
             {" "}
             {/* ✅ added padding to prevent clipping */}
             <SkillCard {...skill} />
@@ -421,20 +421,26 @@ const Home = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-mono tracking-wide">
+          <a href="#" className="hover:text-primary transition-colors">
+            Home
+          </a>
+          <a href="#about" className="hover:text-primary transition-colors">
+            About
+          </a>
           <a href="#skills" className="hover:text-primary transition-colors">
-            01. Skills
+            Skills
           </a>
           <a
             href="#experience"
             className="hover:text-primary transition-colors"
           >
-            02. Experience
+            Experience
           </a>
           <a href="#projects" className="hover:text-primary transition-colors">
-            03. Work
+            Work
           </a>
           <a href="#contact" className="hover:text-primary transition-colors">
-            04. Contact
+            Contact
           </a>
         </div>
 
@@ -457,9 +463,9 @@ const Home = () => {
             <p className="text-primary font-mono   text-sm md:text-base">
               Hi, my name is
             </p>
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-2">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-2">
               <span className="relative inline-block py-2">
-                Paraj Bhatassana
+                Paraj Bhatasana
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
@@ -503,7 +509,7 @@ const Home = () => {
               >
                 <img
                   src="/final.png"
-                  alt="Paraj Bhatassana 3D Avatar"
+                  alt="Paraj Bhatasana 3D Avatar"
                   className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(25,230,189,0.3)]"
                 />
 
@@ -517,13 +523,13 @@ const Home = () => {
                     stiffness: 100,
                     duration: 0.8,
                   }}
-                  className="absolute bottom-2 -right-0 md:-right-4 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[260px] hover:border-primary/50 transition-colors group"
+                  className="liquid-mini absolute bottom-2 -right-0 md:-right-4 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[260px] hover:border-primary/50 transition-colors group"
                 >
                   <div className="relative">
                     <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
                       <img
                         src="/Photo_1771955679545 (1).jpg"
-                        alt="Paraj Bhatassana"
+                        alt="Paraj Bhatasana"
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.currentTarget.style.display = "none";
@@ -538,9 +544,9 @@ const Home = () => {
                   </div>
                   <div>
                     <p className="text-white font-bold text-lg leading-none mb-1.5">
-                      Paraj Bhatassana
+                      Paraj Bhatasana
                     </p>
-                    <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold">
+                    <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold ">
                       Available for Work
                     </p>
                   </div>
@@ -598,7 +604,7 @@ const Home = () => {
               <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
                 I am{" "}
                 <span className="text-white font-bold underline decoration-primary/40 underline-offset-4">
-                  Paraj Bhatassana
+                  Paraj Bhatasana
                 </span>, a{" "}
                 <span className="text-white font-semibold">
                   Full Stack Developer
@@ -688,7 +694,91 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
       {/* Experience Section */}
+      <section
+        id="experience"
+        className="py-28 px-6 md:px-12 max-w-7xl mx-auto"
+      >
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-white flex items-center">
+            <span className="text-primary font-mono text-xl mr-3 font-normal">
+              
+            </span>
+            Experience
+          </h2>
+          <div className="h-px bg-gradient-to-r from-primary/60 to-transparent flex-grow"></div>
+        </div>
+
+        {/* Timeline */}
+        <div className="relative">
+
+          {/* Center Line */}
+          <div className="absolute left-1/2 top-0 -translate-x-1/2 w-px h-full bg-primary/30"></div>
+
+          <div className="space-y-1">
+
+            {[
+              {
+                company: "Tech Corp",
+                role: "Senior Engineer",
+                date: "2022 - Present",
+              },
+              {
+                company: "Dev Agency",
+                role: "Full Stack Developer",
+                date: "2020 - 2022",
+              },
+            ].map((exp, i) => (
+              <div
+                key={i}
+                className={`relative flex flex-col md:flex-row items-center ${
+                  i % 2 === 0 ? "md:justify-start" : "md:justify-end"
+                }`}
+              >
+                {/* Content Card */}
+                <div
+                  className={`w-full md:w-1/2 ${
+                    i % 2 === 0 ? "md:pr-12 text-left" : "md:pl-12 text-left"
+                  }`}
+                >
+                  <div className="bg-[#0f1f1a] border border-primary/20 rounded-2xl p-8 shadow-xl hover:shadow-primary/10 transition duration-300 liquid-mini">
+
+                    <div className="flex items-center justify-between text-sm tracking-wide">
+                      {/* Left Side */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-white font-semibold">
+                          {exp.role}
+                        </span>
+                        <span className="text-muted-foreground">
+                          @ {exp.company}
+                        </span>
+                      </div>
+
+                      {/* Right Side */}
+                      <span className="text-primary font-mono text-xs uppercase tracking-wider">
+                        {exp.date}
+                      </span>
+                    </div>
+
+                    <p className="text-muted-foreground mt-4">
+                      Leading development of scalable web applications using modern
+                      technologies like React, Node.js and cloud systems.
+                    </p>
+
+                  </div>
+                </div>
+
+                {/* Dot */}
+                <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full shadow-[0_0_15px_#19e6bd] border-4 border-[#07110d]"></div>
+              </div>
+            ))}
+
+          </div>
+        </div>
+      </section>
+      
       {/* Work Section */}
       <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="flex items-center gap-4 mb-24">
@@ -810,11 +900,11 @@ const Home = () => {
             </p>
 
             <div className="space-y-6">
-              <div className="bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5">
+              <div className="bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5 liquid-mini">
                 <div className="w-12 h-12 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400">
                   <Mail className="w-6 h-6" />
                 </div>
-                <div>
+                <div >
                   <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
                     Email
                   </p>
@@ -824,7 +914,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5">
+              <div className="bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5 liquid-mini">
                 <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
                   <MapPin className="w-6 h-6" />
                 </div>
@@ -839,7 +929,7 @@ const Home = () => {
               </div>
 
               <div className="pt-8">
-                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest  ">
+                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest my-4 ">
                   Connect on Social
                 </p>
                 <div className="flex gap-4">
@@ -847,7 +937,7 @@ const Home = () => {
                     href="https://github.com/paraj1305"
                     target="_blank"
                     rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
                   >
                     <Github className="w-5 h-5" />
                   </a>
@@ -855,7 +945,7 @@ const Home = () => {
                     href="https://x.com/paraj1305"
                     target="_blank"
                     rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
                   >
                     <Twitter className="w-5 h-5" />
                   </a>
@@ -863,7 +953,7 @@ const Home = () => {
                     href="https://www.linkedin.com/in/paraj1305/"
                     target="_blank"
                     rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
@@ -871,7 +961,7 @@ const Home = () => {
                     href="https://wa.me/917202920152"
                     target="_blank"
                     rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all"
+                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
                   >
                     <Phone className="w-5 h-5" />
                   </a>
@@ -887,7 +977,7 @@ const Home = () => {
                   Your Name
                 </label>
                 <Input
-                  placeholder="Paraj Bhatassana"
+                  placeholder="Paraj Bhatasana"
                   className="bg-transparent border-0 border-b border-white/10 rounded-none px-0 py-4 focus-visible:ring-0 focus-visible:border-primary transition-all text-white placeholder:text-muted-foreground/30"
                 />
               </div>
@@ -1037,7 +1127,7 @@ const Home = () => {
               <ul className="space-y-4 text-sm font-mono text-muted-foreground">
                 <li>
                   <a href="#" className="hover:text-primary transition-colors">
-                    01. Home
+                    Home
                   </a>
                 </li>
                 <li>
@@ -1045,7 +1135,7 @@ const Home = () => {
                     href="#skills"
                     className="hover:text-primary transition-colors"
                   >
-                    02. Skills
+                    Skills
                   </a>
                 </li>
                 <li>
@@ -1053,7 +1143,7 @@ const Home = () => {
                     href="#experience"
                     className="hover:text-primary transition-colors"
                   >
-                    03. Experience
+                    Experience
                   </a>
                 </li>
                 <li>
@@ -1061,7 +1151,7 @@ const Home = () => {
                     href="#projects"
                     className="hover:text-primary transition-colors"
                   >
-                    04. Work
+                    Work
                   </a>
                 </li>
               </ul>
@@ -1115,7 +1205,7 @@ const Home = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8">
             <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
               © 2026 Designed & Built by{" "}
-              <span className="text-primary">Paraj Bhatassana</span>
+              <span className="text-primary">Paraj Bhatasana</span>
             </p>
             <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               <a href="#" className="hover:text-primary">

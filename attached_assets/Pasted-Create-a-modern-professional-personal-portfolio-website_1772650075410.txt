@@ -1,0 +1,65 @@
+Create a modern, professional personal portfolio website content for a Backend Developer.
+
+Here are my details:
+
+Name: Paraj Bhatasana
+Location: Ahmedabad, Gujarat, India
+Degree: Bachelor’s degree from GLS University
+Current Company: Coderscotch Technologies
+Total Experience: 1 year 10 months
+
+Experience Details:
+
+1) Python Developer (Apr 2025 – Present)
+- Designed and developed backend systems using Python.
+- Built REST APIs and integrated external services.
+- Developed AI-based chatbots and WhatsApp automation solutions.
+- Used AI tools to implement smart automation features.
+- Improved application performance, scalability, and code maintainability.
+
+2) Laravel Developer (Aug 2024 – Mar 2025)
+- Developed and maintained backend systems using Laravel and PHP.
+- Designed and built REST APIs for web applications and third-party integrations.
+- Implemented request validation for secure data handling.
+- Followed Repository Pattern for clean and maintainable code structure.
+- Designed and managed MySQL databases.
+- Implemented authentication, role-based access control, and admin panels.
+- Optimized queries and improved system performance.
+
+3) PHP Developer Intern (Jun 2024 – Jul 2024)
+- Built basic REST APIs and supported backend development.
+- Assisted in improving features and fixing issues.
+
+4) Python Trainee (May 2024 – May 2024)
+- Gained foundational knowledge of Python.
+- Practiced basic programming and problem-solving.
+
+Skills:
+- Python
+- PHP
+- Laravel
+- REST API Development
+- MySQL
+- Database Design
+- Authentication & Authorization
+- Repository Pattern
+- API Integration
+- Chatbot Development
+- WhatsApp Automation
+- AI Tool Integration
+- Git
+
+Positioning:
+I am a Backend Developer specializing in Python and Laravel. I focus on building scalable backend systems, REST APIs, AI-powered automation solutions, and integrating modern AI tools into real-world applications.
+
+Generate:
+- Hero section content
+- About section
+- Experience section (short professional summaries)
+- Skills section
+- Projects section (AI chatbot, WhatsApp bot, backend system)
+- Contact section content
+
+Tone:
+Modern, confident, professional, and clean.
+Do not exaggerate. Keep it realistic and aligned with 1–2 years experience.
