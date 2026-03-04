@@ -339,71 +339,72 @@ const Home = () => {
       name: "Python",
       icon: Code,
       description:
-        "Advanced scripting and automation with focus on clean, scalable code.",
-    },
-    {
-      name: "Django",
-      icon: Layers,
-      description:
-        "Building robust enterprise-grade backends with security and scalability.",
-    },
-    {
-      name: "FastAPI",
-      icon: Sparkles,
-      description:
-        "Creating high-performance modern APIs with asynchronous support.",
+        "Building scalable backends and intelligent automation systems.",
     },
     {
       name: "Laravel",
-      icon: Code,
+      icon: Layers,
       description:
-        "Elegant PHP development for complex web application architectures.",
+        "Developing robust web applications with clean, maintainable PHP code.",
     },
     {
-      name: "PostgreSQL",
-      icon: Code,
-      description: "Relational database design and complex query optimization.",
+      name: "REST APIs",
+      icon: Terminal,
+      description:
+        "Designing and integrating secure, high-performance API architectures.",
     },
     {
-      name: "MongoDB",
-      icon: Code,
+      name: "MySQL",
+      icon: Database,
       description:
-        "NoSQL data modeling for flexible and rapid application development.",
+        "Relational database design and query optimization for data integrity.",
+    },
+    {
+      name: "AI Integration",
+      icon: Sparkles,
+      description:
+        "Implementing modern AI tools and LLMs into real-world applications.",
+    },
+    {
+      name: "Automation",
+      icon: MessageCircle,
+      description:
+        "Creating smart WhatsApp bots and workflow automation solutions.",
     },
   ];
 
   const aiTools = [
     {
-      name: "Rettel AI",
-      icon: Sparkles,
+      name: "Chatbots",
+      icon: MessageCircle,
       description:
-        "Leveraging generative AI for enhanced development workflows.",
+        "Building conversational AI interfaces for enhanced user engagement.",
     },
     {
-      name: "n8n",
-      icon: Layers,
+      name: "WhatsApp API",
+      icon: Send,
       description:
-        "Workflow automation and integration across diverse platforms.",
+        "Automating business communications via WhatsApp integration.",
     },
     {
-      name: "Replit",
-      icon: Terminal,
+      name: "Git",
+      icon: Github,
       description:
-        "Cloud-based collaborative development and rapid prototyping.",
+        "Version control and collaborative development workflows.",
     },
     {
-      name: "Lovable",
-      icon: Sparkles,
+      name: "Authentication",
+      icon: Shield,
       description:
-        "Building interactive UI components with AI-assisted design.",
+        "Implementing secure RBAC and JWT-based authorization systems.",
     },
   ];
 
   const typewriterSentences = [
-    "I craft premium digital experiences.",
-    "I build scalable AI-driven solutions.",
-    "I design modern architectural systems.",
-    "I turn complex problems into elegant code.",
+    "I build scalable backend systems.",
+    "I develop AI-powered automation.",
+    "I design robust REST APIs.",
+    "I engineer intelligent digital solutions.",
   ];
 
   return (
@@ -478,10 +479,7 @@ const Home = () => {
               <Typewriter sentences={typewriterSentences} />
             </h6>
             <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
-              I am a Design Engineer dedicated to crafting sophisticated digital
-              ecosystems that bridge the gap between human intuition and machine
-              intelligence. My work focuses on building high-performance,
-              accessible, and human-centric products.
+              I am a Backend Developer specializing in Python and Laravel. I focus on building scalable backend systems, REST APIs, AI-powered automation solutions, and integrating modern AI tools into real-world applications.
             </p>
           </motion.div>
 
@@ -590,7 +588,7 @@ const Home = () => {
           {/* Header */}
           <div className="flex items-center gap-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white">
-              The Architect Behind the Code
+              The Developer Behind the Code
             </h2>
             <div className="h-px bg-gradient-to-r from-primary/60 to-transparent flex-grow"></div>
           </div>
@@ -607,13 +605,13 @@ const Home = () => {
                   Paraj Bhatasana
                 </span>, a{" "}
                 <span className="text-white font-semibold">
-                  Full Stack Developer
+                  Backend Developer
                 </span>{" "}
                 and{" "}
                 <span className="text-primary font-medium italic">
-                  AI Solutions Architect
+                  AI Solutions Engineer
                 </span>.
-                I engineer scalable, intelligent digital ecosystems.
+                Based in Ahmedabad, Gujarat, I focus on building high-performance, secure, and intelligent backend infrastructures.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6">
@@ -623,12 +621,8 @@ const Home = () => {
                     <Terminal size={24} />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold mb-2">
-                      Technical Precision
-                    </h4>
-                    <p className="text-base">
-                      Deep mastery of backend systems and pixel-perfect frontend architecture.
-                    </p>
+                    <h4 className="text-white font-bold mb-1">Architecture First</h4>
+                    <p className="text-sm">Designing scalable systems with clean code and the Repository Pattern.</p>
                   </div>
                 </div>
 
@@ -637,23 +631,16 @@ const Home = () => {
                     <Sparkles size={24} />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold mb-2">
-                      AI Innovation
-                    </h4>
-                    <p className="text-base">
-                      Building agentic AI systems and self-evolving automation workflows.
-                    </p>
+                    <h4 className="text-white font-bold mb-1">AI-Powered</h4>
+                    <p className="text-sm">Integrating modern AI tools and building smart automation workflows.</p>
                   </div>
                 </div>
 
               </div>
 
               <p>
-                My approach blends engineering excellence with product thinking,
-                ensuring everything I build feels as powerful as it performs.
-                I transform complex challenges into elegant, human-centric solutions.
+                Currently at <span className="text-white font-medium">Coderscotch Technologies</span>, I specialize in bridging the gap between complex requirements and scalable software solutions. With a degree from GLS University and nearly 2 years of experience, I bring technical precision to every project.
               </p>
-
             </div>
           </div>
         </motion.div>
@@ -721,14 +708,22 @@ const Home = () => {
 
             {[
               {
-                company: "Tech Corp",
-                role: "Senior Engineer",
-                date: "2022 - Present",
+                company: "Coderscotch Technologies",
+                role: "Python Developer",
+                date: "Apr 2025 - Present",
+                desc: "Designing backend systems, building REST APIs, and developing AI-based chatbots and WhatsApp automation solutions.",
               },
               {
-                company: "Dev Agency",
-                role: "Full Stack Developer",
-                date: "2020 - 2022",
+                company: "Coderscotch Technologies",
+                role: "Laravel Developer",
+                date: "Aug 2024 - Mar 2025",
+                desc: "Developed backend systems using Laravel/PHP, designed MySQL databases, and implemented Repository Pattern for clean code.",
+              },
+              {
+                company: "Freelance / Intern",
+                role: "PHP Developer Intern",
+                date: "Jun 2024 - Jul 2024",
+                desc: "Built basic REST APIs and supported backend development efforts.",
               },
             ].map((exp, i) => (
               <div
@@ -763,8 +758,7 @@ const Home = () => {
                     </div>
 
                     <p className="text-muted-foreground mt-4">
-                      Leading development of scalable web applications using modern
-                      technologies like React, Node.js and cloud systems.
+                      {exp.desc}
                     </p>
 
                   </div>
@@ -792,33 +786,33 @@ const Home = () => {
         <div className="space-y-40">
           {[
             {
-              title: "Nexus Innovation Hub",
-              category: "Agentic AI • Enterprise",
+              title: "AI Chatbot Systems",
+              category: "AI • Backend",
               description:
-                "A state-of-the-art orchestration platform for autonomous AI agents. Features real-time telemetry, multi-model support, and self-healing workflow pipelines.",
+                "Developing intelligent conversational agents with custom knowledge integration and seamless backend processing.",
               image:
                 "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
-              tech: ["React", "FastAPI", "Redis", "PyTorch"],
+              tech: ["Python", "OpenAI", "FastAPI", "Redis"],
               link: "#",
             },
             {
-              title: "Vortex Analytics OS",
-              category: "Full Stack • Data Engineering",
+              title: "WhatsApp Automation Bot",
+              category: "Automation • Integration",
               description:
-                "High-throughput data visualization engine capable of processing millions of events per second with sub-millisecond latency. Built for enterprise risk assessment.",
+                "Business-focused automation solution for WhatsApp, handling queries, bookings, and customer interactions autonomously.",
               image:
-                "https://images.unsplash.com/photo-1551288049-bbda48668703?auto=format&fit=crop&q=80&w=1600",
-              tech: ["Next.js", "Python", "ClickHouse", "D3.js"],
+                "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&q=80&w=1600",
+              tech: ["Python", "WhatsApp API", "MySQL", "Webhooks"],
               link: "#",
             },
             {
-              title: "Echo AI Workspace",
-              category: "NLP • Product Design",
+              title: "Scalable Backend Systems",
+              category: "Backend • Architecture",
               description:
-                "Collaborative AI workspace that transforms natural language into actionable business strategies through custom-trained LLM fine-tuning.",
+                "Robust API-first infrastructures built with Laravel and the Repository Pattern for maximum maintainability and performance.",
               image:
-                "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
-              tech: ["TypeScript", "OpenAI", "MongoDB", "Node.js"],
+                "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=1600",
+              tech: ["Laravel", "PHP", "MySQL", "Git"],
               link: "#",
             },
           ].map((project, idx) => (
@@ -971,12 +965,24 @@ const Home = () => {
           </div>
 
           <div className="bg-[#1f2528]/50 p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-sm">
-            <form className="space-y-8">
+            <form 
+              className="space-y-8"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const name = formData.get('name');
+                const email = formData.get('email');
+                const message = formData.get('message');
+                window.location.href = `mailto:bhatasanaparaj@gmail.com?subject=Portfolio Contact from ${name}&body=From: ${name} (${email})%0D%0A%0D%0AMessage:%0D%0A${message}`;
+              }}
+            >
               <div className="space-y-2">
                 <label className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
                   Your Name
                 </label>
                 <Input
+                  name="name"
+                  required
                   placeholder="Paraj Bhatasana"
                   className="bg-transparent border-0 border-b border-white/10 rounded-none px-0 py-4 focus-visible:ring-0 focus-visible:border-primary transition-all text-white placeholder:text-muted-foreground/30"
                 />
@@ -986,6 +992,9 @@ const Home = () => {
                   Email Address
                 </label>
                 <Input
+                  name="email"
+                  type="email"
+                  required
                   placeholder="your@email.com"
                   className="bg-transparent border-0 border-b border-white/10 rounded-none px-0 py-4 focus-visible:ring-0 focus-visible:border-primary transition-all text-white placeholder:text-muted-foreground/30"
                 />
@@ -995,14 +1004,13 @@ const Home = () => {
                   Message
                 </label>
                 <Textarea
+                  name="message"
+                  required
                   placeholder="Tell me about your project..."
                   className="bg-transparent border-0 border-b border-white/10 rounded-none px-0 py-4 focus-visible:ring-0 focus-visible:border-primary transition-all min-h-[120px] resize-none text-white placeholder:text-muted-foreground/30"
                 />
-                <p className="text-[10px] text-right text-muted-foreground/50 mt-1">
-                  0/600 characters
-                </p>
               </div>
-              <Button className="w-full h-16 bg-primary text-background font-bold text-lg hover:bg-primary/90 rounded-2xl transition-transform active:scale-[0.98]">
+              <Button type="submit" className="w-full h-16 bg-primary text-background font-bold text-lg hover:bg-primary/90 rounded-2xl transition-transform active:scale-[0.98]">
                 Send Message
               </Button>
             </form>
@@ -1092,32 +1100,45 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             {/* Logo & Description */}
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
-                  P
-                </div>
-                <span className="font-mono font-semibold tracking-wider">
-                  DEVBY<span className="text-primary">PAJJU</span>
-                </span>
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
+                P
               </div>
-              <p className="text-muted-foreground max-w-sm mb-8">
-                Crafting digital experiences that merge human creativity with
-                artificial intelligence. Specialized in high-performance web
-                solutions.
-              </p>
-              <div className="flex gap-4">
-                {[Linkedin, Instagram, Twitter, Github].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-[#1f2528] flex items-center justify-center text-muted-foreground hover:text-primary transition-all"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
+              <span className="font-mono font-semibold tracking-wider">
+                DEVBY<span className="text-primary">PAJJU</span>
+              </span>
             </div>
+            <p className="text-muted-foreground max-w-sm mb-8">
+              Backend Developer specializing in Python and Laravel. Building scalable systems and AI-powered automation solutions.
+            </p>
+            <div className="flex gap-4">
+              <a
+                href="https://www.linkedin.com/in/paraj1305/"
+                target="_blank"
+                rel="noreferrer"
+                className="w-10 h-10 rounded-full bg-[#1f2528] flex items-center justify-center text-muted-foreground hover:text-primary transition-all"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="https://x.com/paraj1305"
+                target="_blank"
+                rel="noreferrer"
+                className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href="https://github.com/paraj1305"
+                target="_blank"
+                rel="noreferrer"
+                className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
 
             {/* Navigation */}
             <div>
@@ -1173,7 +1194,7 @@ const Home = () => {
                 </li>
                 <li>
                   <a
-                    href="mailto:paraj.code@gmail.com"
+                    href="mailto:bhatasanaparaj@gmail.com"
                     className="hover:text-primary transition-colors"
                   >
                     Email
