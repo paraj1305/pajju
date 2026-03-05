@@ -833,26 +833,108 @@ const Home = () => {
       {/* Experience Section */}
       <section
         id="experience"
-        className="py-28 px-6 md:px-12 max-w-7xl mx-auto"
+        className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto -mt-12 md:-mt-20 relative z-30"
       >
         {/* Header */}
-        <div className="flex items-center gap-4 mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-white flex items-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-4 mb-16 md:mb-20"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold text-white flex items-center">
             <span className="text-primary font-mono text-xl mr-3 font-normal">
-              
+              02.
             </span>
             Experience
           </h2>
           <div className="h-px bg-gradient-to-r from-primary/60 to-transparent flex-grow"></div>
-        </div>
+        </motion.div>
 
         {/* Timeline */}
         <div className="relative">
-
           {/* Center Line */}
-          <div className="absolute left-1/2 top-0 -translate-x-1/2 w-px h-full bg-primary/30"></div>
+          <motion.div 
+            initial={{ height: 0 }}
+            whileInView={{ height: "100%" }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="absolute left-1/2 top-0 -translate-x-1/2 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent"
+          />
 
-          <div className="space-y-1">
+          <div className="space-y-12">
+            {[
+              {
+                company: "Freelance",
+                role: "Full Stack Developer",
+                period: "2021 - Present",
+                description: "Delivered 50+ successful projects including enterprise-grade backends and AI-powered automation tools.",
+                tech: ["Python", "Laravel", "React", "AI Integration"]
+              },
+              {
+                company: "Tech Solutions",
+                role: "Backend Engineer",
+                period: "2019 - 2021",
+                description: "Architected scalable REST APIs and optimized database performance for high-traffic applications.",
+                tech: ["Django", "PostgreSQL", "Redis", "Docker"]
+              }
+            ].map((exp, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: idx * 0.2 }}
+                className={`relative flex items-center justify-between gap-8 md:gap-20 ${
+                  idx % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                }`}
+              >
+                {/* Content Card */}
+                <motion.div 
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  className={`w-[45%] p-6 md:p-8 rounded-2xl bg-[#1f2528]/80 backdrop-blur-sm border border-white/5 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(25,230,189,0.1)] transition-all duration-300 group`}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                        {exp.role}
+                      </h3>
+                      <p className="text-primary/80 font-mono text-sm">{exp.company}</p>
+                    </div>
+                    <span className="text-xs font-mono text-muted-foreground bg-white/5 px-3 py-1 rounded-full whitespace-nowrap">
+                      {exp.period}
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                    {exp.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {exp.tech.map((t, i) => (
+                      <span key={i} className="text-[10px] font-mono text-white/50 border border-white/10 px-2 py-0.5 rounded">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Center Dot */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ delay: idx * 0.2 + 0.3 }}
+                    className="w-4 h-4 rounded-full bg-primary shadow-[0_0_15px_#19e6bd]"
+                  />
+                </div>
+
+                {/* Empty Space for the other side */}
+                <div className="w-[45%]" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
             {[
               {
