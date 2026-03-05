@@ -854,26 +854,16 @@ const Home = () => {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Animated Background Path */}
-          <svg className="absolute left-0 top-0 w-full h-full pointer-events-none opacity-20" preserveAspectRatio="none">
-            <motion.path
-              d="M 50% 0 Q 60% 25% 50% 50% T 50% 100%"
-              fill="none"
-              stroke="url(#line-gradient)"
-              strokeWidth="2"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, ease: "easeInOut" }}
-            />
-            <defs>
-              <linearGradient id="line-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0" />
-                <stop offset="50%" stopColor="var(--primary)" stopOpacity="1" />
-                <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
+          {/* Refined Vertical Line */}
+          <div className="absolute left-1/2 top-0 -translate-x-1/2 w-[2px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+          
+          <motion.div 
+            initial={{ height: 0 }}
+            whileInView={{ height: "100%" }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute left-1/2 top-0 -translate-x-1/2 w-[2px] bg-gradient-to-b from-primary via-primary/50 to-transparent shadow-[0_0_15px_rgba(25,230,189,0.5)] z-0"
+          />
 
           <div className="space-y-12 relative z-10">
             {[
