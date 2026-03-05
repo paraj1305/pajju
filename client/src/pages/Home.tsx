@@ -866,18 +866,25 @@ const Home = () => {
           <div className="space-y-12">
             {[
               {
-                company: "Freelance",
-                role: "Full Stack Developer",
-                period: "2021 - Present",
-                description: "Delivered 50+ successful projects including enterprise-grade backends and AI-powered automation tools.",
-                tech: ["Python", "Laravel", "React", "AI Integration"]
+                company: "Coderscotch Technologies",
+                role: "Python Developer",
+                period: "Apr 2025 - Present",
+                description: "Designing backend systems, building REST APIs, and developing AI-based chatbots and WhatsApp automation solutions.",
+                tech: ["Python", "OpenAI", "FastAPI", "WhatsApp API"]
               },
               {
-                company: "Tech Solutions",
-                role: "Backend Engineer",
-                period: "2019 - 2021",
-                description: "Architected scalable REST APIs and optimized database performance for high-traffic applications.",
-                tech: ["Django", "PostgreSQL", "Redis", "Docker"]
+                company: "Coderscotch Technologies",
+                role: "Laravel Developer",
+                period: "Aug 2024 - Mar 2025",
+                description: "Developed backend systems using Laravel/PHP, designed MySQL databases, and implemented Repository Pattern for clean code.",
+                tech: ["Laravel", "PHP", "MySQL", "Architecture"]
+              },
+              {
+                company: "Freelance / Intern",
+                role: "Backend Intern",
+                period: "Jun 2024 - Jul 2024",
+                description: "Built basic REST APIs and supported backend development efforts for various web applications.",
+                tech: ["Python", "REST APIs", "Git", "Database"]
               }
             ].map((exp, idx) => (
               <motion.div
@@ -932,73 +939,6 @@ const Home = () => {
                 <div className="w-[45%]" />
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-            {[
-              {
-                company: "Coderscotch Technologies",
-                role: "Python Developer",
-                date: "Apr 2025 - Present",
-                desc: "Designing backend systems, building REST APIs, and developing AI-based chatbots and WhatsApp automation solutions.",
-              },
-              {
-                company: "Coderscotch Technologies",
-                role: "Laravel Developer",
-                date: "Aug 2024 - Mar 2025",
-                desc: "Developed backend systems using Laravel/PHP, designed MySQL databases, and implemented Repository Pattern for clean code.",
-              },
-              {
-                company: "Freelance / Intern",
-                role: "Intern",
-                date: "Jun 2024 - Jul 2024",
-                desc: "Built basic REST APIs and supported backend development efforts.",
-              },
-            ].map((exp, i) => (
-              <div
-                key={i}
-                className={`relative flex flex-col md:flex-row items-center ${
-                  i % 2 === 0 ? "md:justify-start" : "md:justify-end"
-                }`}
-              >
-                {/* Content Card */}
-                <div
-                  className={`w-full md:w-1/2 ${
-                    i % 2 === 0 ? "md:pr-12 text-left" : "md:pl-12 text-left"
-                  }`}
-                >
-                  <div className="bg-[#0f1f1a] border border-primary/20 rounded-2xl p-8 shadow-xl hover:shadow-primary/10 transition duration-300 liquid-mini">
-
-                    <div className="flex items-center justify-between text-sm tracking-wide">
-                      {/* Left Side */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-white font-semibold">
-                          {exp.role}
-                        </span>
-                        <span className="text-muted-foreground">
-                          @ {exp.company}
-                        </span>
-                      </div>
-
-                      {/* Right Side */}
-                      <span className="text-primary font-mono text-xs uppercase tracking-wider">
-                        {exp.date}
-                      </span>
-                    </div>
-
-                    <p className="text-muted-foreground mt-4">
-                      {exp.desc}
-                    </p>
-
-                  </div>
-                </div>
-
-                {/* Dot */}
-                <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full shadow-[0_0_15px_#19e6bd] border-4 border-[#07110d]"></div>
-              </div>
-            ))}
-
           </div>
         </div>
       </section>
