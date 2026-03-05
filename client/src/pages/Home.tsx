@@ -854,16 +854,28 @@ const Home = () => {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Center Line */}
-          <motion.div 
-            initial={{ height: 0 }}
-            whileInView={{ height: "100%" }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            className="absolute left-1/2 top-0 -translate-x-1/2 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent"
-          />
+          {/* Animated Background Path */}
+          <svg className="absolute left-0 top-0 w-full h-full pointer-events-none opacity-20" preserveAspectRatio="none">
+            <motion.path
+              d="M 50% 0 Q 60% 25% 50% 50% T 50% 100%"
+              fill="none"
+              stroke="url(#line-gradient)"
+              strokeWidth="2"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+            />
+            <defs>
+              <linearGradient id="line-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0" />
+                <stop offset="50%" stopColor="var(--primary)" stopOpacity="1" />
+                <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
 
-          <div className="space-y-12">
+          <div className="space-y-12 relative z-10">
             {[
               {
                 company: "Coderscotch Technologies",
@@ -925,14 +937,30 @@ const Home = () => {
                   </div>
                 </motion.div>
 
-                {/* Center Dot */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: idx * 0.2 + 0.3 }}
-                    className="w-4 h-4 rounded-full bg-primary shadow-[0_0_15px_#19e6bd]"
-                  />
+                {/* Center Indicator */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                  <div className="relative">
+                    <motion.div 
+                      initial={{ scale: 0, rotate: 0 }}
+                      whileInView={{ scale: 1, rotate: 45 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 20, delay: idx * 0.2 + 0.3 }}
+                      className="w-10 h-10 border border-primary/30 bg-[#0d1012] backdrop-blur-sm flex items-center justify-center rotate-45 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(25,230,189,0.3)] transition-all duration-500"
+                    >
+                      <div className="-rotate-45 text-primary font-mono text-[10px] font-bold">
+                        0{idx + 1}
+                      </div>
+                    </motion.div>
+                    
+                    {/* Connection Line to Card */}
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "30px" }}
+                      transition={{ delay: idx * 0.2 + 0.5 }}
+                      className={`absolute top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-primary/50 to-transparent ${
+                        idx % 2 === 0 ? "left-10" : "right-10 rotate-180"
+                      }`}
+                    />
+                  </div>
                 </div>
 
                 {/* Empty Space for the other side */}
