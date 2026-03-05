@@ -335,6 +335,48 @@ const MarqueeRow = ({
   );
 };
 
+// Project Image Slider Component
+const ProjectImageSlider = ({ images, title }: { images: string[]; title: string }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="relative w-full h-full">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={currentIndex}
+          src={images[currentIndex]}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+          alt={`${title} - image ${currentIndex + 1}`}
+        />
+      </AnimatePresence>
+      {images.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          {images.map((_, i) => (
+            <div
+              key={i}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                i === currentIndex ? "bg-primary w-4" : "bg-white/30"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Home = () => {
   const techSkills = [
     {
@@ -723,7 +765,7 @@ const Home = () => {
               },
               {
                 company: "Freelance / Intern",
-                role: "PHP Developer Intern",
+                role: "Intern",
                 date: "Jun 2024 - Jul 2024",
                 desc: "Built basic REST APIs and supported backend development efforts.",
               },
@@ -792,8 +834,11 @@ const Home = () => {
               category: "AI • Backend",
               description:
                 "Developing intelligent conversational agents with custom knowledge integration and seamless backend processing.",
-              image:
+              images: [
                 "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
+                "https://images.unsplash.com/photo-1531746790731-6c087fecd05a?auto=format&fit=crop&q=80&w=1600",
+                "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1600"
+              ],
               tech: ["Python", "OpenAI", "FastAPI", "Redis"],
               link: "#",
             },
@@ -802,8 +847,11 @@ const Home = () => {
               category: "Automation • Integration",
               description:
                 "Business-focused automation solution for WhatsApp, handling queries, bookings, and customer interactions autonomously.",
-              image:
+              images: [
                 "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&q=80&w=1600",
+                "https://images.unsplash.com/photo-1520923642038-b4259ace9439?auto=format&fit=crop&q=80&w=1600",
+                "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&q=80&w=1600"
+              ],
               tech: ["Python", "WhatsApp API", "MySQL", "Webhooks"],
               link: "#",
             },
@@ -812,8 +860,11 @@ const Home = () => {
               category: "Backend • Architecture",
               description:
                 "Robust API-first infrastructures built with Laravel and the Repository Pattern for maximum maintainability and performance.",
-              image:
+              images: [
                 "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=1600",
+                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600",
+                "https://images.unsplash.com/photo-1518433278981-11271f4a53ed?auto=format&fit=crop&q=80&w=1600"
+              ],
               tech: ["Laravel", "PHP", "MySQL", "Git"],
               link: "#",
             },
@@ -829,11 +880,7 @@ const Home = () => {
               {/* Image Column */}
               <div className="w-full lg:w-3/5">
                 <div className="relative aspect-[16/9] rounded-3xl overflow-hidden bg-[#1f2528] border border-white/5 shadow-2xl group-hover:border-primary/20 transition-all duration-700">
-                  <img
-                    src={project.image}
-                    className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-                    alt={project.title}
-                  />
+                  <ProjectImageSlider images={project.images} title={project.title} />
                   <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                   {/* Subtle Laptop Frame Mockup Overlay */}
@@ -900,12 +947,12 @@ const Home = () => {
                 <div className="w-12 h-12 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400">
                   <Mail className="w-6 h-6" />
                 </div>
-                <div >
+                <div>
                   <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
                     Email
                   </p>
                   <p className="text-white font-medium">
-                    bhatasanaparaj@gmail.com
+                    parajbhatasanaparaj@gmail.com
                   </p>
                 </div>
               </div>
@@ -975,7 +1022,7 @@ const Home = () => {
                 const name = formData.get('name');
                 const email = formData.get('email');
                 const message = formData.get('message');
-                window.location.href = `mailto:bhatasanaparaj@gmail.com?subject=Portfolio Contact from ${name}&body=From: ${name} (${email})%0D%0A%0D%0AMessage:%0D%0A${message}`;
+                window.location.href = `mailto:parajbhatasanaparaj@gmail.com?subject=New Inquiry from Portfolio: ${name}&body=From: ${name} (${email})%0D%0A%0D%0AMessage:%0D%0A${message}`;
               }}
             >
               <div className="space-y-2">
@@ -1196,7 +1243,7 @@ const Home = () => {
                 </li>
                 <li>
                   <a
-                    href="mailto:bhatasanaparaj@gmail.com"
+                    href="mailto:parajbhatasanaparaj@gmail.com"
                     className="hover:text-primary transition-colors"
                   >
                     Email
@@ -1227,16 +1274,11 @@ const Home = () => {
           {/* Footer Bottom */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8">
             <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
-              © 2026 Designed & Built by{" "}
+              © {new Date().getFullYear()} Designed & Built by{" "}
               <span className="text-primary">Paraj Bhatasana</span>
             </p>
             <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              <a href="#" className="hover:text-primary">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-primary">
-                Terms of Service
-              </a>
+              {/* Removed Privacy Policy and Terms of Service */}
             </div>
           </div>
         </div>
