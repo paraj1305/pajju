@@ -552,16 +552,13 @@ const Home = () => {
       <Chatbot />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 liquid-glass">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center">
           <img 
-            src="/logo.png" 
+            src="/text-logo.png" 
             alt="BuildWithPajju Logo" 
-            className="w-10 h-10 object-contain"
+            className="h-8 md:h-10 object-contain"
             data-testid="img-logo"
           />
-          <span className="font-mono font-bold tracking-tighter text-xl hidden sm:inline-block">
-            BUILDWITH<span className="text-primary">PAJJU</span>
-          </span>
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-mono tracking-wide">
