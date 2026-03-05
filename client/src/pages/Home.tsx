@@ -377,6 +377,102 @@ const ProjectImageSlider = ({ images, title }: { images: string[]; title: string
   );
 };
 
+// Blog Section Component
+const BlogSection = () => {
+  const blogs = [
+    {
+      title: "Building Scalable Backends with Python",
+      description: "Explore the best practices for creating robust and high-performance backend systems.",
+      image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=800",
+      link: "/blog"
+    },
+    {
+      title: "Mastering Laravel Architecture",
+      description: "Deep dive into the Repository Pattern and Service Layer for maintainable apps.",
+      image: "https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?auto=format&fit=crop&q=80&w=800",
+      link: "/blog"
+    },
+    {
+      title: "AI Integration in Modern Apps",
+      description: "How to seamlessly integrate LLMs and AI automation into your tech stack.",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+      link: "/blog"
+    },
+    {
+      title: "The Future of WhatsApp Automation",
+      description: "Leveraging the WhatsApp Business API for intelligent customer engagement.",
+      image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&q=80&w=800",
+      link: "/blog"
+    }
+  ];
+
+  const duplicatedBlogs = [...blogs, ...blogs];
+
+  return (
+    <section id="blog" className="py-24 bg-black/20">
+      <div className="px-6 md:px-12 max-w-7xl mx-auto mb-12 flex items-center justify-between">
+        <div className="flex items-center gap-4 flex-grow">
+          <h2 className="text-3xl font-bold text-white whitespace-nowrap">Recent Blogs</h2>
+          <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
+        </div>
+        <Button 
+          variant="outline" 
+          className="ml-8 border-primary/30 text-primary hover:bg-primary/10 hidden sm:flex items-center gap-2"
+          onClick={() => window.location.href = "/blog"}
+        >
+          View All Blogs <ExternalLink size={14} />
+        </Button>
+      </div>
+
+      <div className="relative overflow-hidden w-full mask-fade-edges">
+        <motion.div
+          animate={{ x: [0, -1600] }}
+          transition={{
+            duration: 40,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="flex gap-6 px-6"
+        >
+          {duplicatedBlogs.map((blog, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 w-[300px] md:w-[350px] bg-[#1f2528] rounded-2xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all group cursor-pointer"
+              onClick={() => window.location.href = blog.link}
+            >
+              <div className="aspect-[16/10] overflow-hidden">
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                  {blog.title}
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {blog.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      <div className="mt-12 text-center sm:hidden px-6">
+        <Button 
+          variant="outline" 
+          className="w-full border-primary/30 text-primary hover:bg-primary/10 flex items-center justify-center gap-2"
+          onClick={() => window.location.href = "/blog"}
+        >
+          View All Blogs <ExternalLink size={14} />
+        </Button>
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   const techSkills = [
     {
@@ -483,6 +579,9 @@ const Home = () => {
           </a>
           <a href="#projects" className="hover:text-primary transition-colors">
             Work
+          </a>
+          <a href="#blog" className="hover:text-primary transition-colors">
+            Blog
           </a>
           <a href="#contact" className="hover:text-primary transition-colors">
             Contact
@@ -931,6 +1030,9 @@ const Home = () => {
           ))}
         </div>
       </section>
+
+      <BlogSection />
+
       {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
