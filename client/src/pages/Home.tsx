@@ -553,12 +553,17 @@ const Home = () => {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 liquid-glass">
         <div className="flex items-center">
-          <img 
-            src="/text-logo.png" 
-            alt="BuildWithPajju Logo" 
-            className="h-8 md:h-10 object-contain"
-            data-testid="img-logo"
-          />
+          <span className="text-lg md:text-xl">
+
+            <span className="italic font-[cursive] text-muted-foreground">
+              build.with
+            </span>
+
+            <span className="ml-2 font-serif font-bold tracking-widest text-primary">
+              PAJJU
+            </span>
+
+          </span>
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-mono tracking-wide">
