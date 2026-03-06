@@ -343,35 +343,68 @@ const ProjectImageSlider = ({ images, title }: { images: string[]; title: string
     if (images.length <= 1) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 2000);
+    }, 4000); // Slower automatic transition
     return () => clearInterval(interval);
   }, [images.length]);
 
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full group/slider">
       <AnimatePresence mode="wait">
         <motion.img
           key={currentIndex}
           src={images[currentIndex]}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000"
           alt={`${title} - image ${currentIndex + 1}`}
         />
       </AnimatePresence>
+
+      {/* Manual Controls */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {images.map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                i === currentIndex ? "bg-primary w-4" : "bg-white/30"
-              }`}
-            />
-          ))}
-        </div>
+        <>
+          <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover/slider:opacity-100 transition-opacity z-30">
+            <button
+              onClick={prevImage}
+              className="p-2 rounded-full bg-black/50 text-white hover:bg-primary hover:text-black transition-all"
+            >
+              <ArrowRight size={20} className="rotate-180" />
+            </button>
+            <button
+              onClick={nextImage}
+              className="p-2 rounded-full bg-black/50 text-white hover:bg-primary hover:text-black transition-all"
+            >
+              <ArrowRight size={20} />
+            </button>
+          </div>
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentIndex(i);
+                }}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  i === currentIndex ? "bg-primary w-4" : "bg-white/30 hover:bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
@@ -934,11 +967,20 @@ const Home = () => {
                       initial={{ scale: 0, rotate: 0 }}
                       whileInView={{ scale: 1, rotate: 45 }}
                       transition={{ type: "spring", stiffness: 260, damping: 20, delay: idx * 0.2 + 0.3 }}
-                      className="w-10 h-10 border border-primary/30 bg-[#0d1012] backdrop-blur-sm flex items-center justify-center rotate-45 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(25,230,189,0.3)] transition-all duration-500"
+                      className="w-8 h-8 border border-primary/30 bg-[#0d1012] backdrop-blur-sm flex items-center justify-center rotate-45 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(25,230,189,0.5)] group-hover:bg-primary/10 transition-all duration-500"
                     >
-                      <div className="-rotate-45 text-primary font-mono text-[10px] font-bold">
-                        0{idx + 1}
-                      </div>
+                      <motion.div 
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                          opacity: [0.5, 1, 0.5] 
+                        }}
+                        transition={{ 
+                          duration: 2, 
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#19e6bd]"
+                      />
                     </motion.div>
                     
                     {/* Connection Line to Card */}
