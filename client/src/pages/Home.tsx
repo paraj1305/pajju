@@ -146,67 +146,43 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       role: "bot",
-      content: "Hey 👋 I'm Paraj's AI assistant. Ask me anything about him!",
+      content: "Hey 👋 I'm build.withPAJJU AI assistant. Ask me anything about Paraj!",
     },
   ]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
     const userMessage = input;
     setInput("");
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setIsLoading(true);
 
-    // Simple mock responses based on portfolio content
-    setTimeout(() => {
-      const query = userMessage.toLowerCase();
-      let botResponse =
-        "That's an interesting question! I'm Paraj's AI assistant. He's a Full Stack Developer specializing in Python, React, and AI architecture. Is there something specific about his work or skills you'd like to know?";
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          message: userMessage,
+          history: messages.map(m => ({ 
+            role: m.role === "user" ? "user" : "model", 
+            parts: [{ text: m.content }] 
+          }))
+        }),
+      });
 
-      if (
-        query.includes("skill") ||
-        query.includes("stack") ||
-        query.includes("tech")
-      ) {
-        botResponse =
-          "Paraj has a robust tech stack! On the backend, he's an expert in Python (Django, FastAPI) and Laravel. For the frontend, he builds high-performance UIs with React and Tailwind CSS. He also integrates PostgreSQL and MongoDB for scalable data solutions.";
-      } else if (
-        query.includes("ai") ||
-        query.includes("agent") ||
-        query.includes("automation")
-      ) {
-        botResponse =
-          "AI is at the core of Paraj's recent work. He builds Agentic AI systems, custom LLM integrations, and complex automation workflows using tools like n8n and Rettel AI. He's currently focused on self-evolving intelligent systems.";
-      } else if (
-        query.includes("experience") ||
-        query.includes("work") ||
-        query.includes("history")
-      ) {
-        botResponse =
-          "Paraj has over 5 years of experience in the industry. He has delivered 50+ successful projects, ranging from enterprise-grade backends to sophisticated AI-driven platforms. He thrives in roles that require both technical precision and creative problem-solving.";
-      } else if (
-        query.includes("contact") ||
-        query.includes("email") ||
-        query.includes("reach")
-      ) {
-        botResponse =
-          "You can reach Paraj directly via email at paraj.code@gmail.com. You can also connect with him on LinkedIn or GitHub through the links in the footer!";
-      } else if (
-        query.includes("hello") ||
-        query.includes("hi") ||
-        query.includes("hey")
-      ) {
-        botResponse =
-          "Hello! 👋 I'm here to help you learn more about Paraj's work and expertise. What can I tell you about him today?";
-      } else if (query.includes("project") || query.includes("portfolio")) {
-        botResponse =
-          "Paraj has a diverse portfolio including Digital Innovation Platforms and AI-powered tools. You can see some of his featured work in the 'Work' section of this page!";
-      }
-
-      setMessages((prev) => [...prev, { role: "bot", content: botResponse }]);
-    }, 1000);
+      if (!response.ok) throw new Error("Failed to get response");
+      
+      const data = await response.json();
+      setMessages((prev) => [...prev, { role: "bot", content: data.message }]);
+    } catch (error) {
+      setMessages((prev) => [...prev, { role: "bot", content: "Sorry, I'm having trouble connecting to my brain! Please try again later." }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -235,16 +211,16 @@ const Chatbot = () => {
             {/* Header */}
             <div className="p-4 border-b border-white/5 bg-primary/5 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-background font-bold">
-                PB
+                BJ
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">
-                  Paraj's AI Assistant
+                  build.withPAJJU Assistant
                 </p>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
                   <span className="text-[10px] text-primary uppercase font-mono tracking-widest">
-                    Online
+                    AI Online
                   </span>
                 </div>
               </div>
@@ -270,6 +246,17 @@ const Chatbot = () => {
                   </div>
                 </motion.div>
               ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white/5 text-white p-3 rounded-2xl rounded-tl-none border border-white/5">
+                    <span className="flex gap-1">
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:0.2s]" />
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:0.4s]" />
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input */}
@@ -287,7 +274,8 @@ const Chatbot = () => {
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary hover:text-primary/80 transition-colors"
+                  disabled={isLoading}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary hover:text-primary/80 transition-colors disabled:opacity-50"
                 >
                   <Send size={18} />
                 </button>
@@ -584,18 +572,15 @@ const Home = () => {
     <div className="min-h-screen text-foreground selection:bg-primary/30 selection:text-primary">
       <Chatbot />
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 liquid-glass">
-        <div className="flex items-center">
-          <span className="text-lg md:text-xl">
-
-            <span className="italic font-[cursive] text-muted-foreground">
-              build.with
+      <nav className="fixed top-4 left-4 right-4 z-50 flex items-center justify-between px-6 py-4 md:px-12 liquid-glass rounded-[2rem] shadow-xl border border-white/10 mx-auto max-w-7xl">
+        <div className="flex items-center group cursor-pointer">
+          <span className="text-xl md:text-2xl flex items-center">
+            <span className="font-mono font-bold tracking-tighter text-white group-hover:text-primary transition-colors">
+              build.
             </span>
-
-            <span className="ml-2 font-serif font-bold tracking-widest text-primary">
-              PAJJU
+            <span className="font-mono font-black tracking-tighter text-primary group-hover:text-white transition-colors bg-white/5 px-2 py-0.5 rounded-lg border border-primary/20">
+              withPAJJU
             </span>
-
           </span>
         </div>
 
@@ -662,6 +647,21 @@ const Home = () => {
             <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
               I am a Backend Developer specializing in Python and Laravel. I focus on building scalable backend systems, REST APIs, AI-powered automation solutions, and integrating modern AI tools into real-world applications.
             </p>
+            <div className="flex gap-4">
+              <Button 
+                className="bg-primary text-background font-bold px-8 h-14 rounded-xl hover:scale-105 transition-transform"
+                onClick={() => window.open("/dummy-resume.pdf", "_blank")}
+              >
+                Download Resume
+              </Button>
+              <Button 
+                variant="outline"
+                className="border-white/10 text-white px-8 h-14 rounded-xl hover:bg-white/5 transition-all"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Let's Talk
+              </Button>
+            </div>
           </motion.div>
 
           <motion.div
@@ -1205,13 +1205,32 @@ const Home = () => {
           <div className="bg-[#1f2528]/50 p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-sm">
             <form 
               className="space-y-8"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const name = formData.get('name');
-                const email = formData.get('email');
-                const message = formData.get('message');
-                window.location.href = `mailto:parajbhatasanaparaj@gmail.com?subject=New Inquiry from Portfolio: ${name}&body=From: ${name} (${email})%0D%0A%0D%0AMessage:%0D%0A${message}`;
+                const form = e.currentTarget;
+                const formData = new FormData(form);
+                const data = {
+                  name: formData.get('name'),
+                  email: formData.get('email'),
+                  message: formData.get('message'),
+                };
+                
+                try {
+                  const response = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                  });
+                  
+                  if (response.ok) {
+                    alert("Message sent successfully!");
+                    form.reset();
+                  } else {
+                    throw new Error("Failed to send");
+                  }
+                } catch (error) {
+                  alert("Failed to send message. Please try again later.");
+                }
               }}
             >
               <div className="space-y-2">
@@ -1340,11 +1359,11 @@ const Home = () => {
             {/* Logo & Description */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-background font-bold font-mono text-xl">
-                P
-              </div>
-              <span className="font-mono font-semibold tracking-wider">
-                DEVBY<span className="text-primary">PAJJU</span>
+              <span className="font-mono font-bold tracking-tighter text-white">
+                build.
+              </span>
+              <span className="font-mono font-black tracking-tighter text-primary px-1.5 py-0.5 bg-white/5 border border-primary/20 rounded">
+                withPAJJU
               </span>
             </div>
             <p className="text-muted-foreground max-w-sm mb-8">
@@ -1360,12 +1379,10 @@ const Home = () => {
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
-                href="https://x.com/paraj1305"
-                target="_blank"
-                rel="noreferrer"
+                href="mailto:bhatasanaparaj@gmail.com"
                 className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
               >
-                <Twitter className="w-5 h-5" />
+                <Mail className="w-5 h-5" />
               </a>
               <a
                 href="https://github.com/paraj1305"
