@@ -200,4 +200,7 @@
   .mask-fade-edges {
     mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   }
+  .mask-fade-edges-vertical {
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  }
 }

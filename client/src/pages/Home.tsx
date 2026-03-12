@@ -20,6 +20,14 @@ import {
   Phone,
   Database,
   Shield,
+  Bot,
+  Cpu,
+  FileSearch,
+  PhoneCall,
+  Workflow,
+  Code2,
+  Rocket,
+  Brain,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -139,154 +147,7 @@ const SkillCard = ({
     </div>
   );
 };
-
-// Chatbot Component
-const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      role: "bot",
-      content: "Hey 👋 I'm build.withPAJJU AI assistant. Ask me anything about Paraj!",
-    },
-  ]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
-
-    const userMessage = input;
-    setInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          message: userMessage,
-          history: messages.map(m => ({ 
-            role: m.role === "user" ? "user" : "model", 
-            parts: [{ text: m.content }] 
-          }))
-        }),
-      });
-
-      if (!response.ok) throw new Error("Failed to get response");
-      
-      const data = await response.json();
-      setMessages((prev) => [...prev, { role: "bot", content: data.message }]);
-    } catch (error) {
-      setMessages((prev) => [...prev, { role: "bot", content: "Sorry, I'm having trouble connecting to my brain! Please try again later." }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[60] w-14 h-14 bg-primary text-background rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all group"
-      >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-[#0d1012] rounded-full animate-pulse" />
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-              scale: 0.9,
-              transformOrigin: "bottom right",
-            }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-24 right-6 z-[60] w-[calc(100vw-3rem)] sm:w-[400px] h-[500px] bg-[#1f2528]/95 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
-          >
-            {/* Header */}
-            <div className="p-4 border-b border-white/5 bg-primary/5 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-background font-bold">
-                BJ
-              </div>
-              <div>
-                <p className="text-white font-semibold text-sm">
-                  build.withPAJJU Assistant
-                </p>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-                  <span className="text-[10px] text-primary uppercase font-mono tracking-widest">
-                    AI Online
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-hide">
-              {messages.map((msg, i) => (
-                <motion.div
-                  initial={{ opacity: 0, x: msg.role === "user" ? 10 : -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  key={i}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[80%] p-3 rounded-2xl text-sm ${
-                      msg.role === "user"
-                        ? "bg-primary text-background rounded-tr-none"
-                        : "bg-white/5 text-white rounded-tl-none border border-white/5"
-                    }`}
-                  >
-                    {msg.content}
-                  </div>
-                </motion.div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-white/5 text-white p-3 rounded-2xl rounded-tl-none border border-white/5">
-                    <span className="flex gap-1">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:0.2s]" />
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:0.4s]" />
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Input */}
-            <form
-              onSubmit={handleSend}
-              className="p-4 border-t border-white/5 bg-white/5"
-            >
-              <div className="relative">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask me anything..."
-                  className="w-full bg-[#0d1012] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors pr-12"
-                />
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary hover:text-primary/80 transition-colors disabled:opacity-50"
-                >
-                  <Send size={18} />
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
+export { Typewriter, SkillCard, MarqueeRow, ProjectImageSlider, BlogSection, VerticalProjectMarquee };
 
 // Marquee Row Component
 const MarqueeRow = ({
@@ -494,72 +355,268 @@ const BlogSection = () => {
   );
 };
 
-const Home = () => {
-  const techSkills = [
-    {
-      name: "Python",
-      icon: Code,
-      description:
-        "Building scalable backends and intelligent automation systems.",
-    },
-    {
-      name: "Laravel",
-      icon: Layers,
-      description:
-        "Developing robust web applications with clean, maintainable PHP code.",
-    },
-    {
-      name: "REST APIs",
-      icon: Terminal,
-      description:
-        "Designing and integrating secure, high-performance API architectures.",
-    },
-    {
-      name: "MySQL",
-      icon: Database,
-      description:
-        "Relational database design and query optimization for data integrity.",
-    },
-    {
-      name: "AI Integration",
-      icon: Sparkles,
-      description:
-        "Implementing modern AI tools and LLMs into real-world applications.",
-    },
-    {
-      name: "Automation",
-      icon: MessageCircle,
-      description:
-        "Creating smart WhatsApp bots and workflow automation solutions.",
-    },
-  ];
+// Vertical Project Marquee Component
+const VerticalProjectMarquee = () => {
+const projects = [
+  {
+    title: "Tour Booking Manager",
+    category: "Travel • CRM",
+    description: "Complete tour booking management system with customer records, manual bookings, itinerary tracking, and company-wise booking management.",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Python", "FastAPI", "MySQL"],
+  },
+  {
+    title: "Potion Order Management",
+    category: "Business Automation",
+    description: "Order management system for handling product orders, tracking inventory, managing customers, and generating order reports.",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Laravel", "PHP", "MySQL"],
+  },
+  {
+    title: "Hotel Management System",
+    category: "Hospitality",
+    description: "Hotel operations system for managing rooms, guests, staff activities, and daily hotel operations efficiently.",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Laravel", "PHP", "MySQL"],
+  },
+  {
+    title: "Hotel Booking Platform",
+    category: "Travel Tech",
+    description: "Online hotel booking platform with room availability tracking, booking management, and customer reservation system.",
+    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Python", "FastAPI", "MySQL"],
+  },
+  {
+    title: "ModRemit Remittance System",
+    category: "FinTech",
+    description: "Money transfer platform with agent wallets, KYC verification, compliance approval flow, and international remittance tracking.",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Laravel", "FinTech APIs", "MySQL"],
+  },
+  {
+    title: "CoderScotch CRM",
+    category: "CRM System",
+    description: "Customer relationship management system for managing leads, client communications, project tracking, and support workflows.",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Laravel", "PHP", "MySQL"],
+  },
+  {
+    title: "OCR Invoice Scanner",
+    category: "AI • Automation",
+    description: "AI-powered invoice scanner that extracts invoice data using OCR and converts it into structured digital records automatically.",
+    image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80&w=1600",
+    tech: ["Python", "OCR", "AI"],
+  }
+];
 
-  const aiTools = [
-    {
-      name: "Chatbots",
-      icon: MessageCircle,
-      description:
-        "Building conversational AI interfaces for enhanced user engagement.",
-    },
-    {
-      name: "WhatsApp API",
-      icon: Send,
-      description:
-        "Automating business communications via WhatsApp integration.",
-    },
-    {
-      name: "Git",
-      icon: Github,
-      description:
-        "Version control and collaborative development workflows.",
-    },
-    {
-      name: "Authentication",
-      icon: Shield,
-      description:
-        "Implementing secure RBAC and JWT-based authorization systems.",
-    },
-  ];
+  const duplicatedProjects = [...projects, ...projects, ...projects];
+
+  return (
+    <div className="relative h-[650px] overflow-hidden mask-fade-edges-vertical rounded-[3rem] border border-white/5 bg-[#1f2528]/50">
+      <motion.div
+        animate={{ y: [0, -4000] }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="flex flex-col gap-6 p-6"
+      >
+        {duplicatedProjects.map((project, idx) => (
+          <div
+            key={idx}
+            className="flex flex-col md:flex-row gap-8 bg-[#0d1012] p-8 rounded-[2rem] border border-white/5 group hover:border-primary/30 hover:bg-[#151a1d] transition-all duration-500"
+          >
+            <div className="w-full md:w-2/5 aspect-video md:aspect-square lg:aspect-video rounded-2xl overflow-hidden">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+              />
+            </div>
+            <div className="w-full md:w-3/5 flex flex-col justify-center gap-4">
+              <div>
+                <p className="text-primary font-mono text-[10px] tracking-widest uppercase mb-1">
+                  {project.category}
+                </p>
+                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+              </div>
+              <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">
+                {project.description}
+              </p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {project.tech.map((t, i) => (
+                  <span key={i} className="text-[10px] font-mono text-white/40 border border-white/10 px-2 py-0.5 rounded">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+const Home = () => {
+const techSkills = [
+  {
+    name: "Python",
+    icon: Code,
+    description:
+      "Building scalable backend systems, automation tools, and AI-powered applications.",
+  },
+  {
+    name: "Django",
+    icon: Layers,
+    description:
+      "Developing secure and maintainable web applications using Django framework.",
+  },
+  {
+    name: "FastAPI",
+    icon: Terminal,
+    description:
+      "Creating high-performance REST APIs with modern Python async architecture.",
+  },
+  {
+    name: "PHP",
+    icon: Code,
+    description:
+      "Building dynamic web applications and backend services using PHP.",
+  },
+  {
+    name: "Laravel",
+    icon: Layers,
+    description:
+      "Developing robust web applications and admin panels with Laravel framework.",
+  },
+  {
+    name: "REST API Development",
+    icon: Terminal,
+    description:
+      "Designing secure and scalable APIs for web, mobile, and third-party integrations.",
+  },
+  {
+    name: "Database Design",
+    icon: Database,
+    description:
+      "Designing optimized database schemas for performance, scalability, and data integrity.",
+  },
+  {
+    name: "MySQL",
+    icon: Database,
+    description:
+      "Managing relational databases with optimized queries and indexing strategies.",
+  },
+  {
+    name: "PostgreSQL",
+    icon: Database,
+    description:
+      "Advanced relational database management with powerful querying capabilities.",
+  },
+  {
+    name: "MongoDB",
+    icon: Database,
+    description:
+      "Handling NoSQL databases for flexible and scalable data storage.",
+  },
+  {
+    name: "Automation Systems",
+    icon: MessageCircle,
+    description:
+      "Building workflow automation, bots, and business process automation tools.",
+  },
+  {
+    name: "AI Integration",
+    icon: Sparkles,
+    description:
+      "Integrating LLMs, AI tools, and intelligent automation into modern applications.",
+  },
+  {
+    name: "Third-Party Integrations",
+    icon: Send,
+    description:
+      "Integrating external APIs like payment gateways, WhatsApp APIs, and other services.",
+  },
+];
+
+const aiTools = [
+  {
+    name: "AI Chatbots",
+    icon: MessageCircle,
+    description:
+      "Building intelligent conversational chatbots for customer support and automation.",
+  },
+  {
+    name: "WhatsApp Cloud API",
+    icon: Send,
+    description:
+      "Integrating WhatsApp messaging automation for business communication and notifications.",
+  },
+  {
+    name: "LangChain",
+    icon: Sparkles,
+    description:
+      "Developing AI-powered applications using LangChain for LLM workflows and agents.",
+  },
+  {
+    name: "Vector Databases",
+    icon: Database,
+    description:
+      "Using vector databases like pgvector or Pinecone for semantic search and AI memory.",
+  },
+  {
+    name: "AI Agents",
+    icon: Bot,
+    description:
+      "Building autonomous AI agents capable of performing tasks and automating workflows.",
+  },
+  {
+    name: "LLM Integration",
+    icon: Cpu,
+    description:
+      "Integrating large language models into real-world applications and services.",
+  },
+  {
+    name: "RAG",
+    icon: FileSearch,
+    description:
+      "Implementing Retrieval Augmented Generation systems using vector search and LLMs.",
+  },
+  {
+    name: "Retell AI",
+    icon: PhoneCall,
+    description:
+      "Building AI voice agents and conversational voice automation using Retell AI.",
+  },
+  {
+    name: "n8n Automation",
+    icon: Workflow,
+    description:
+      "Creating powerful workflow automation and integrations using n8n.",
+  },
+  {
+    name: "Replit",
+    icon: Code2,
+    description:
+      "Rapid prototyping and development of AI applications using Replit.",
+  },
+  {
+    name: "Antigravity",
+    icon: Rocket,
+    description:
+      "Using Antigravity for AI-powered development workflows and automation.",
+  },
+  {
+    name: "OpenAI API",
+    icon: Brain,
+    description:
+      "Building AI applications using OpenAI models for chatbots, automation, and AI assistants.",
+  },
+];
 
   const typewriterSentences = [
     "I build scalable backend systems.",
@@ -569,56 +626,9 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen text-foreground selection:bg-primary/30 selection:text-primary">
-      <Chatbot />
-      {/* Navigation */}
-      <nav className="fixed top-4 left-4 right-4 z-50 flex items-center justify-between px-6 py-4 md:px-12 liquid-glass rounded-[2rem] shadow-xl border border-white/10 mx-auto max-w-7xl">
-        <div className="flex items-center group cursor-pointer">
-          <span className="text-xl md:text-2xl flex items-center">
-            <span className="font-mono font-bold tracking-tighter text-white group-hover:text-primary transition-colors">
-              build.
-            </span>
-            <span className="font-mono font-black tracking-tighter text-primary group-hover:text-white transition-colors bg-white/5 px-2 py-0.5 rounded-lg border border-primary/20">
-              withPAJJU
-            </span>
-          </span>
-        </div>
+    <div className="text-foreground selection:bg-primary/30 selection:text-primary">
+      {/* Hero Section */}
 
-        <div className="hidden md:flex items-center gap-8 text-sm font-mono tracking-wide">
-          <a href="#" className="hover:text-primary transition-colors">
-            Home
-          </a>
-          <a href="#about" className="hover:text-primary transition-colors">
-            About
-          </a>
-          <a href="#skills" className="hover:text-primary transition-colors">
-            Skills
-          </a>
-          <a
-            href="#experience"
-            className="hover:text-primary transition-colors"
-          >
-            Experience
-          </a>
-          <a href="#projects" className="hover:text-primary transition-colors">
-            Work
-          </a>
-          <a href="#blog" className="hover:text-primary transition-colors">
-            Blog
-          </a>
-          <a href="#contact" className="hover:text-primary transition-colors">
-            Contact
-          </a>
-        </div>
-
-        <Button
-          variant="outline"
-          className="border-primary text-primary hover:bg-primary/10 font-mono text-xs"
-          onClick={() => window.open("/dummy-resume.pdf", "_blank")}
-        >
-          Resume
-        </Button>
-      </nav>
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto flex flex-col justify-center min-h-[90vh]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -915,7 +925,7 @@ const Home = () => {
                 tech: ["Laravel", "PHP", "MySQL", "Architecture"]
               },
               {
-                company: "Freelance / Intern",
+                company: "Intern",
                 role: "Backend Intern",
                 period: "Jun 2024 - Jul 2024",
                 description: "Built basic REST APIs and supported backend development efforts for various web applications.",
@@ -1005,116 +1015,33 @@ const Home = () => {
       
       {/* Work Section */}
       <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-24">
-          <h2 className="text-3xl font-bold text-white flex items-center">
-            Work
-          </h2>
-
-          <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
+        <div className="flex items-center justify-between gap-4 mb-16">
+          <div className="flex items-center gap-4 flex-grow">
+            <h2 className="text-3xl font-bold text-white">Work</h2>
+            <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
+          </div>
+          
+          <Button 
+            variant="outline"
+            className="border-primary/30 text-primary hover:bg-primary/10 hidden sm:flex items-center gap-2 group"
+            onClick={() => window.location.href = "/projects"}
+          >
+            See All Projects
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
 
-        <div className="space-y-40">
-          {[
-            {
-              title: "AI Chatbot Systems",
-              category: "AI • Backend",
-              description:
-                "Developing intelligent conversational agents with custom knowledge integration and seamless backend processing.",
-              images: [
-                "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
-                "https://images.unsplash.com/photo-1531746790731-6c087fecd05a?auto=format&fit=crop&q=80&w=1600",
-                "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1600"
-              ],
-              tech: ["Python", "OpenAI", "FastAPI", "Redis"],
-              link: "#",
-            },
-            {
-              title: "WhatsApp Automation Bot",
-              category: "Automation • Integration",
-              description:
-                "Business-focused automation solution for WhatsApp, handling queries, bookings, and customer interactions autonomously.",
-              images: [
-                "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&q=80&w=1600",
-                "https://images.unsplash.com/photo-1520923642038-b4259ace9439?auto=format&fit=crop&q=80&w=1600",
-                "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&q=80&w=1600"
-              ],
-              tech: ["Python", "WhatsApp API", "MySQL", "Webhooks"],
-              link: "#",
-            },
-            {
-              title: "Scalable Backend Systems",
-              category: "Backend • Architecture",
-              description:
-                "Robust API-first infrastructures built with Laravel and the Repository Pattern for maximum maintainability and performance.",
-              images: [
-                "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=1600",
-                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600",
-                "https://images.unsplash.com/photo-1518433278981-11271f4a53ed?auto=format&fit=crop&q=80&w=1600"
-              ],
-              tech: ["Laravel", "PHP", "MySQL", "Git"],
-              link: "#",
-            },
-          ].map((project, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "circOut" }}
-              className={`flex flex-col ${idx % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} gap-12 lg:gap-20 items-center group`}
-            >
-              {/* Image Column */}
-              <div className="w-full lg:w-3/5">
-                <div className="relative aspect-[16/9] rounded-3xl overflow-hidden bg-[#1f2528] border border-white/5 shadow-2xl group-hover:border-primary/20 transition-all duration-700">
-                  <ProjectImageSlider images={project.images} title={project.title} />
-                  <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        <VerticalProjectMarquee />
 
-                  {/* Subtle Laptop Frame Mockup Overlay */}
-                  <div className="absolute inset-0 border-[12px] border-white/5 rounded-3xl pointer-events-none" />
-                </div>
-              </div>
-
-              {/* Content Column */}
-              <div className="w-full lg:w-2/5 space-y-6">
-                <div>
-                  <p className="text-primary font-mono text-sm tracking-[0.3em] uppercase mb-3">
-                    {project.category}
-                  </p>
-                  <h3 className="text-4xl font-bold text-white group-hover:text-primary transition-colors duration-500">
-                    {project.title}
-                  </h3>
-                </div>
-
-                <p className="text-xl text-muted-foreground leading-relaxed font-light">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-3 pt-2">
-                  {project.tech.map((t, i) => (
-                    <span
-                      key={i}
-                      className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-white/70 font-mono"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex gap-6 pt-8">
-                  <a
-                    href={project.link}
-                    className="flex items-center gap-2 text-white font-bold group/link hover:text-primary transition-colors"
-                  >
-                    View Case Study{" "}
-                    <ArrowRight
-                      size={18}
-                      className="group-hover/link:translate-x-2 transition-transform"
-                    />
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="mt-12 text-center sm:hidden">
+          <Button 
+            variant="outline"
+            className="w-full border-primary/30 text-primary hover:bg-primary/10 flex items-center justify-center gap-2 group"
+            onClick={() => window.location.href = "/projects"}
+          >
+            See All Projects
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
       </section>
 
@@ -1275,220 +1202,7 @@ const Home = () => {
         </div>
       </section>
       {/* Footer */}
-      {/* City Scene Footer Animation */}
-      <div className="relative w-full h-48 overflow-hidden border-t border-white/5 bg-gradient-to-b from-transparent to-black/40">
-        <div className="absolute bottom-0 w-full flex items-end justify-center gap-1 px-10">
-          {[40, 60, 45, 80, 55, 90, 70, 100, 65, 85, 50, 75].map((h, i) => (
-            <motion.div
-              key={i}
-              initial={{ height: 0 }}
-              whileInView={{ height: h }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05, duration: 1 }}
-              className="w-12 bg-white/5 border-t border-x border-white/10 rounded-t-sm relative group overflow-hidden"
-            >
-              <div className="grid grid-cols-2 gap-1 p-2">
-                {Array.from({ length: Math.floor(h / 10) }).map((_, j) => (
-                  <motion.div
-                    key={j}
-                    animate={{ opacity: [0.1, 0.3, 0.1] }}
-                    transition={{
-                      duration: Math.random() * 3 + 2,
-                      repeat: Infinity,
-                    }}
-                    className="w-full aspect-square bg-primary/20 rounded-[1px]"
-                  />
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Realistic Human Silhouettes */}
-        <motion.div
-          animate={{ x: ["-10%", "110%"] }}
-          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-0 z-10"
-        >
-          <div className="flex gap-32 items-end">
-            {/* Silhouette 1 */}
-            <div className="relative w-4 h-10 bg-white/20 rounded-full blur-[0.5px]">
-              <motion.div
-                animate={{ rotate: [-15, 15, -15] }}
-                transition={{ duration: 0.6, repeat: Infinity }}
-                className="absolute -bottom-1 left-0 w-1.5 h-4 bg-white/20 rounded-full origin-top"
-              />
-              <motion.div
-                animate={{ rotate: [15, -15, 15] }}
-                transition={{ duration: 0.6, repeat: Infinity }}
-                className="absolute -bottom-1 right-0 w-1.5 h-4 bg-white/20 rounded-full origin-top"
-              />
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/20 rounded-full" />
-            </div>
-
-            {/* Silhouette 2 */}
-            <div className="relative w-3.5 h-9 bg-primary/30 rounded-full blur-[0.5px]">
-              <motion.div
-                animate={{ rotate: [-20, 20, -20] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-                className="absolute -bottom-1 left-0 w-1.5 h-4 bg-primary/30 rounded-full origin-top"
-              />
-              <motion.div
-                animate={{ rotate: [20, -20, 20] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-                className="absolute -bottom-1 right-0 w-1.5 h-4 bg-primary/30 rounded-full origin-top"
-              />
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-primary/30 rounded-full" />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Moving Car Lights */}
-        <motion.div
-          animate={{ x: ["110%", "-10%"] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-2 w-4 h-1 bg-red-500/30 blur-[3px] rounded-full shadow-[0_0_10px_red]"
-        />
-      </div>
-      <footer className="py-20 bg-black/20 relative">
-        {/* Soft gradient glow at top */}
-        <div className="absolute top-0 left-0 w-full h-6 bg-gradient-to-b from-teal-400/20 via-blue-400/10 to-transparent pointer-events-none"></div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            {/* Logo & Description */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <span className="font-mono font-bold tracking-tighter text-white">
-                build.
-              </span>
-              <span className="font-mono font-black tracking-tighter text-primary px-1.5 py-0.5 bg-white/5 border border-primary/20 rounded">
-                withPAJJU
-              </span>
-            </div>
-            <p className="text-muted-foreground max-w-sm mb-8">
-              Backend Developer specializing in Python and Laravel. Building scalable systems and AI-powered automation solutions.
-            </p>
-            <div className="flex gap-4">
-              <a
-                href="https://www.linkedin.com/in/paraj1305/"
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 rounded-full bg-[#1f2528] flex items-center justify-center text-muted-foreground hover:text-primary transition-all"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href="mailto:bhatasanaparaj@gmail.com"
-                className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
-              >
-                <Mail className="w-5 h-5" />
-              </a>
-              <a
-                href="https://github.com/paraj1305"
-                target="_blank"
-                rel="noreferrer"
-                className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-
-            {/* Navigation */}
-            <div>
-              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
-                Navigation
-              </h4>
-              <ul className="space-y-4 text-sm font-mono text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#skills"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Skills
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#experience"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Experience
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#projects"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Work
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Connect */}
-            <div>
-              <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase tracking-widest">
-                Connect
-              </h4>
-              <ul className="space-y-4 text-sm font-mono text-muted-foreground">
-                <li>
-                  <a
-                    href="#contact"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Contact Me
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="mailto:parajbhatasanaparaj@gmail.com"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Email
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.linkedin.com/in/paraj1305/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <button
-                    onClick={() => window.open("/dummy-resume.pdf", "_blank")}
-                    className="hover:text-primary transition-colors"
-                  >
-                    Resume
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Footer Bottom */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8">
-            <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-widest">
-              © {new Date().getFullYear()} Designed & Built by{" "}
-              <span className="text-primary">Paraj Bhatasana</span>
-            </p>
-            <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              {/* Removed Privacy Policy and Terms of Service */}
-            </div>
-          </div>
-        </div>
-      </footer>{" "}
+{" "}
     </div>
   );
 };

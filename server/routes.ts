@@ -19,9 +19,7 @@ export async function registerRoutes(
 
     try {
       const transporter = nodemailer.createTransport({
-        host: process.env.VITE_SMTP_HOST || "smtp.gmail.com",
-        port: parseInt(process.env.VITE_SMTP_PORT || "587"),
-        secure: false, // true for 465, false for other ports
+        service: 'gmail',
         auth: {
           user: process.env.VITE_SMTP_USER,
           pass: process.env.VITE_SMTP_PASS,
@@ -38,9 +36,9 @@ export async function registerRoutes(
 
       await transporter.sendMail(mailOptions);
       res.status(200).json({ message: "Email sent successfully" });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Email Error:", error);
-      res.status(500).json({ message: "Failed to send email" });
+      res.status(500).json({ message: "Failed to send email", error: error.message });
     }
   });
 
@@ -54,9 +52,8 @@ export async function registerRoutes(
 
     const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
     if (!apiKey || apiKey === "your_gemini_api_key_here") {
-      // Fallback to static logic if no API key
       return res.json({ 
-        message: "I'm currently in offline mode (API key not set). Paraj is a Backend Developer specializing in Python and AI. How can I help?" 
+        message: "I'm currently in offline mode (Gemini API key not set in .env). I can still tell you that Paraj is an expert Backend Developer specializing in Python, AI, and Laravel. Please add your API key to enable full AI responses!" 
       });
     }
 
@@ -64,16 +61,16 @@ export async function registerRoutes(
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ 
         model: "gemini-1.5-flash",
-        systemInstruction: `You are Paraj's AI Assistant. You should only answer based on the following website content about Paraj:
-        - Name: Paraj Bhatasana
+        systemInstruction: `You are build.withPAJJU AI Assistant. You should only answer based on the following website content about Paraj Bhatasana:
         - Role: Backend Developer & AI Solutions Engineer
         - Location: Ahmedabad, Gujarat
         - Expertise: Python (Django, FastAPI), Laravel, REST APIs, AI-powered automation, WhatsApp Business API.
         - Experience: 5+ years, 50+ successful projects.
         - Skills: PostgreSQL, MongoDB, React, Tailwind CSS, n8n, Rettel AI.
         - Contact: bhatasanaparaj@gmail.com
-        - Focus: Building scalable systems and self-evolving intelligent systems.
-        Be professional, friendly, and concise. If someone asks something not related to Paraj or his work, politely redirect them to his portfolio content.`
+        - Mission: Building scalable systems and self-evolving intelligent systems.
+        - Logo: build.withPAJJU
+        Be professional, friendly, and concise. Only talk about Paraj's work and skills. If asked something else, politely stay on topic about Paraj.`
       });
 
       const chat = model.startChat({
@@ -83,9 +80,9 @@ export async function registerRoutes(
       const result = await chat.sendMessage(message);
       const response = await result.response;
       res.json({ message: response.text() });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Chat Error:", error);
-      res.status(500).json({ message: "Something went wrong with the AI" });
+      res.status(500).json({ message: "The AI is feeling a bit tired. Please try again in a moment." });
     }
   });
 
