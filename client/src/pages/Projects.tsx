@@ -89,12 +89,19 @@ const Projects = () => {
       category: "AI • Backend",
       description: "Developing intelligent conversational agents with custom knowledge integration and seamless backend processing.",
       images: [
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
-        "https://images.unsplash.com/photo-1531746790731-6c087fecd05a?auto=format&fit=crop&q=80&w=1600",
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1600"
+        "modremit/m1.png",
+        "modremit/m2.png",
+        "modremit/m3.png",
+        "modremit/m4.png",
+        "modremit/m5.png",
+        "modremit/m6.png",
+        "modremit/m9.png",
+        "modremit/m10.png",
+        "modremit/m11.png",
+        "modremit/m12.png",
       ],
       tech: ["Python", "OpenAI", "FastAPI", "Redis"],
-      link: "#",
+      link: "https://modremit.coderscotch.com/",
     },
     {
       title: "WhatsApp Automation Bot",
@@ -139,7 +146,7 @@ const Projects = () => {
   ];
 
   return (
-    <div className="pt-40 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+    <div className="pt-32 md:pt-40 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
       {/* Hero Section */}
       <div className="mb-20">
         <motion.div
@@ -147,7 +154,7 @@ const Projects = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
         >
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+            <h1 className="text-4xl md:text-7xl font-bold tracking-tight mb-6">
                 All <span className="text-primary italic">Projects</span>
             </h1>
             <p className="max-w-xl text-lg text-muted-foreground leading-relaxed">
@@ -158,7 +165,7 @@ const Projects = () => {
 
       {/* Projects List */}
       <section className="py-20">
-        <div className="space-y-40">
+        <div className="space-y-24 md:space-y-40">
           {projects.map((project, idx) => (
             <motion.div
               key={idx}

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -8,63 +9,18 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { blogPosts } from "@/data/blogData";
 
 const Blog = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const blogs = [
-    {
-      title: "Building Scalable Backends with Python",
-      description:
-        "Explore the best practices for creating robust and high-performance backend systems using modern Python frameworks.",
-      image:
-        "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=800",
-      date: "Oct 12, 2023",
-      author: "Paraj Bhatasana",
-      readTime: "5 min read",
-      tags: ["Python", "Backend", "Scalability"],
-    },
-    {
-      title: "Mastering Laravel: Clean Code Architecture",
-      description:
-        "Deep dive into the Repository Pattern and Service Layer for maintainable PHP applications.",
-      image:
-        "https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?auto=format&fit=crop&q=80&w=800",
-      date: "Sep 28, 2023",
-      author: "Paraj Bhatasana",
-      readTime: "8 min read",
-      tags: ["Laravel", "PHP", "Architecture"],
-    },
-    {
-      title: "AI Integration in Modern Web Apps",
-      description:
-        "How to seamlessly integrate LLMs and AI automation into your existing tech stack.",
-      image:
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-      date: "Sep 15, 2023",
-      author: "Paraj Bhatasana",
-      readTime: "6 min read",
-      tags: ["AI", "LLM", "Automation"],
-    },
-    {
-      title: "The Future of WhatsApp Automation",
-      description:
-        "Leveraging the WhatsApp Business API for intelligent customer engagement and growth.",
-      image:
-        "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&q=80&w=800",
-      date: "Aug 30, 2023",
-      author: "Paraj Bhatasana",
-      readTime: "4 min read",
-      tags: ["WhatsApp", "API", "Automation"],
-    },
-  ];
-
   const filteredBlogs = useMemo(() => {
-    return blogs.filter(
+    return blogPosts.filter(
       (blog) =>
         blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         blog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -73,14 +29,14 @@ const Blog = () => {
   }, [searchQuery]);
 
   return (
-    <div className="min-h-[80vh] py-40 px-6 md:px-12 max-w-7xl mx-auto">
+    <div className="min-h-[80vh] py-32 md:py-40 px-6 md:px-12 max-w-7xl mx-auto">
       <div className="mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+          <h1 className="text-4xl md:text-7xl font-bold tracking-tight mb-6">
               Our <span className="text-primary italic">Blog</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mb-12">
@@ -111,7 +67,8 @@ const Blog = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-[#1f2528] rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all group"
+              className="bg-[#1f2528] rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all group cursor-pointer"
+              onClick={() => setLocation(`/blog/${blog.id}`)}
             >
               <div className="aspect-video overflow-hidden">
                 <img

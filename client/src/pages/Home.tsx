@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -29,6 +30,7 @@ import {
   Rocket,
   Brain,
 } from "lucide-react";
+import { blogPosts } from "@/data/blogData";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -160,7 +162,7 @@ const MarqueeRow = ({
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
 
   return (
-    <div className="relative flex overflow-visible py-32 mask-fade-edges -my-24 z-20 hover:z-30 transition-all duration-300">
+    <div className="relative flex overflow-hidden py-16 md:py-32 mask-fade-edges -my-12 md:-my-24 z-20 hover:z-30 transition-all duration-300">
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -170,7 +172,7 @@ const MarqueeRow = ({
           repeat: Infinity,
           ease: "linear",
         }}
-        className="flex gap-6 pr-6"
+        className="flex gap-4 md:gap-6 pr-6"
       >
         {duplicatedSkills.map((skill, idx) => (
           <div key={idx} className="relative py-8 ">
@@ -261,34 +263,8 @@ const ProjectImageSlider = ({ images, title }: { images: string[]; title: string
 
 // Blog Section Component
 const BlogSection = () => {
-  const blogs = [
-    {
-      title: "Building Scalable Backends with Python",
-      description: "Explore the best practices for creating robust and high-performance backend systems.",
-      image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=800",
-      link: "/blog"
-    },
-    {
-      title: "Mastering Laravel Architecture",
-      description: "Deep dive into the Repository Pattern and Service Layer for maintainable apps.",
-      image: "https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?auto=format&fit=crop&q=80&w=800",
-      link: "/blog"
-    },
-    {
-      title: "AI Integration in Modern Apps",
-      description: "How to seamlessly integrate LLMs and AI automation into your tech stack.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-      link: "/blog"
-    },
-    {
-      title: "The Future of WhatsApp Automation",
-      description: "Leveraging the WhatsApp Business API for intelligent customer engagement.",
-      image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&q=80&w=800",
-      link: "/blog"
-    }
-  ];
-
-  const duplicatedBlogs = [...blogs, ...blogs];
+  const [, setLocation] = useLocation();
+  const duplicatedBlogs = [...blogPosts, ...blogPosts];
 
   return (
     <section id="blog" className="py-24 bg-black/20">
@@ -300,7 +276,7 @@ const BlogSection = () => {
         <Button 
           variant="outline" 
           className="ml-8 border-primary/30 text-primary hover:bg-primary/10 hidden sm:flex items-center gap-2"
-          onClick={() => window.location.href = "/blog"}
+          onClick={() => setLocation("/blog")}
         >
           View All Blogs <ExternalLink size={14} />
         </Button>
@@ -320,7 +296,7 @@ const BlogSection = () => {
             <div
               key={idx}
               className="flex-shrink-0 w-[300px] md:w-[350px] bg-[#1f2528] rounded-2xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all group cursor-pointer"
-              onClick={() => window.location.href = blog.link}
+              onClick={() => setLocation(`/blog/${blog.id}`)}
             >
               <div className="aspect-[16/10] overflow-hidden">
                 <img
@@ -359,89 +335,84 @@ const BlogSection = () => {
 const VerticalProjectMarquee = () => {
 const projects = [
   {
-    title: "Tour Booking Manager",
-    category: "Travel • CRM",
-    description: "Complete tour booking management system with customer records, manual bookings, itinerary tracking, and company-wise booking management.",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Python", "FastAPI", "MySQL"],
+    title: "MODREMIT Remittance System",
+    category: "FinTech | Global Money Transfer | Fast, Secure & Reliable",
+    description: "ModRemit is a remote financial system featuring an Admin Panel to manage agents who facilitate international transfers. It supports both direct customer transfers and agent-assisted transactions across any country. The platform is secured by Sumsub KYC integration, automating identity verification for all users to ensure global regulatory compliance.",
+    image: "modremit/m1.png",
+    tech: ["Laravel", "PHP", "MySQL", "Stripe"],
+    link: "https://modremit.coderscotch.com/",
   },
   {
-    title: "Potion Order Management",
+    title: "Travixa Smart Travel Solution",
     category: "Business Automation",
-    description: "Order management system for handling product orders, tracking inventory, managing customers, and generating order reports.",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Laravel", "PHP", "MySQL"],
-  },
-  {
-    title: "Hotel Management System",
-    category: "Hospitality",
-    description: "Hotel operations system for managing rooms, guests, staff activities, and daily hotel operations efficiently.",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Laravel", "PHP", "MySQL"],
-  },
-  {
-    title: "Hotel Booking Platform",
-    category: "Travel Tech",
-    description: "Online hotel booking platform with room availability tracking, booking management, and customer reservation system.",
-    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Python", "FastAPI", "MySQL"],
-  },
-  {
-    title: "ModRemit Remittance System",
-    category: "FinTech",
-    description: "Money transfer platform with agent wallets, KYC verification, compliance approval flow, and international remittance tracking.",
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Laravel", "FinTech APIs", "MySQL"],
-  },
+    description: "Travixa is a specialized tour booking software designed to centralize and automate travel operations. It features a robust Admin Panel for managing tour catalogs and processing manual bookings, alongside an integrated WhatsApp Chatbot that allows customers to book tours instantly through chat. Beyond booking, the system streamlines logistics by allowing administrators to assign drivers to specific tours, ensuring seamless coordination between company management and field operations.",
+    image: "travixa/t11.png",
+    tech: ["FastAPI", "Python", "PostgreSQL","whatsapp chat","VectorDB"],
+    link: "http://tourbookingaiagent.coderscotch.com/",
+  }, 
   {
     title: "CoderScotch CRM",
     category: "CRM System",
-    description: "Customer relationship management system for managing leads, client communications, project tracking, and support workflows.",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Laravel", "PHP", "MySQL"],
+    description: "This CRM platform features admin and employee portals to streamline project management, task tracking, and leave requests within a single system.",
+    image: "pycrm/p1.png",
+    tech: ["python", "Django", "MySQL"],
+    link: "https://pycrm.coderscotch.com/superadmin/login/",
   },
   {
-    title: "OCR Invoice Scanner",
-    category: "AI • Automation",
-    description: "AI-powered invoice scanner that extracts invoice data using OCR and converts it into structured digital records automatically.",
-    image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80&w=1600",
-    tech: ["Python", "OCR", "AI"],
+    title: "Pooten Order Management System",
+    category: "E-commerce | Order Management | Inventory Tracking | Invoicing",
+    description: "An Order Management System designed to streamline and automate the complete order lifecycle, from order creation to delivery. The system enables efficient tracking of orders, manages customer details, handles payments, and provides real-time status updates. It improves operational efficiency, reduces manual errors, and ensures a smooth and organized workflow for businesses. ",
+    image: "pooten/p1.png",
+    tech: ["laravel", "php", "mysql"],
+    link: "https://oms.pooten.co.uk/",
   }
 ];
 
-  const duplicatedProjects = [...projects, ...projects, ...projects];
+  const duplicatedProjects = [...projects, ...projects];
 
   return (
-    <div className="relative h-[650px] overflow-hidden mask-fade-edges-vertical rounded-[3rem] border border-white/5 bg-[#1f2528]/50">
-      <motion.div
-        animate={{ y: [0, -4000] }}
-        transition={{
-          duration: 35,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="flex flex-col gap-6 p-6"
-      >
+    <div className="relative h-[700px] md:h-[850px] overflow-hidden mask-fade-edges-vertical rounded-[2rem] md:rounded-[3rem] border border-white/5 bg-[#1f2528]/50 pause-on-hover">
+      <div className="flex flex-col gap-6 p-6 animate-vertical-marquee">
         {duplicatedProjects.map((project, idx) => (
           <div
             key={idx}
-            className="flex flex-col md:flex-row gap-8 bg-[#0d1012] p-8 rounded-[2rem] border border-white/5 group hover:border-primary/30 hover:bg-[#151a1d] transition-all duration-500"
+            className="flex flex-col md:flex-row gap-6 md:gap-8 bg-[#0d1012] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-white/5 group hover:border-primary/30 hover:bg-[#151a1d] transition-all duration-500"
           >
-            <div className="w-full md:w-2/5 aspect-video md:aspect-square lg:aspect-video rounded-2xl overflow-hidden">
+            <div className="w-full md:w-2/5 aspect-video md:aspect-square lg:aspect-video rounded-2xl overflow-hidden relative">
               <img
                 src={project.image}
                 alt={project.title}
                 className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
               />
+              <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                 <a 
+                   href={project.link} 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="p-3 bg-primary text-black rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-xl"
+                 >
+                   <ExternalLink size={20} />
+                 </a>
+              </div>
             </div>
             <div className="w-full md:w-3/5 flex flex-col justify-center gap-4">
               <div>
                 <p className="text-primary font-mono text-[10px] tracking-widest uppercase mb-1">
                   {project.category}
                 </p>
-                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-primary opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110"
+                  >
+                    <ExternalLink size={18} />
+                  </a>
+                </div>
               </div>
               <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">
                 {project.description}
@@ -456,7 +427,7 @@ const projects = [
             </div>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -626,7 +597,7 @@ const aiTools = [
   ];
 
   return (
-    <div className="text-foreground selection:bg-primary/30 selection:text-primary">
+    <div className="text-foreground selection:bg-primary/30 selection:text-primary overflow-x-hidden w-full">
       {/* Hero Section */}
 
       {/* Hero Section */}
@@ -640,18 +611,18 @@ const aiTools = [
             <p className="text-primary font-mono   text-sm md:text-base">
               Hi, my name is
             </p>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-2">
+            <h1 className="text-4xl md:text-7xl font-bold tracking-tight mb-2">
               <span className="relative inline-block py-2">
                 Paraj Bhatasana
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.8, duration: 1, ease: "circOut" }}
-                  className="absolute bottom-2 left-4 h-[2px] w-[85%] bg-primary/40 -rotate-2 z-0 origin-left shadow-[0_0_10px_#19e6bd]"
+                  className="absolute bottom-2 left-4 h-[1.5px] md:h-[2px] w-[85%] bg-primary/40 -rotate-2 z-0 origin-left shadow-[0_0_10px_#19e6bd]"
                 />
               </span>
             </h1>
-            <h6 className="text-lg md:text-2xl font-medium tracking-tight text-muted-foreground/80 mb-6 min-h-[1.2em]">
+            <h6 className="text-base md:text-2xl font-medium tracking-tight text-muted-foreground/80 mb-6 min-h-[1.2em]">
               <Typewriter sentences={typewriterSentences} />
             </h6>
             <p className="max-w-xl text-lg text-muted-foreground mb-10 leading-relaxed">
@@ -659,14 +630,14 @@ const aiTools = [
             </p>
             <div className="flex gap-4">
               <Button 
-                className="bg-primary text-background font-bold px-8 h-14 rounded-xl hover:scale-105 transition-transform"
-                onClick={() => window.open("/dummy-resume.pdf", "_blank")}
+                className="bg-primary text-background font-bold px-6 md:px-8 h-12 md:h-14 rounded-xl hover:scale-105 transition-transform text-sm md:text-base flex-1 sm:flex-none"
+                onClick={() => window.open("/resume.pdf", "_blank")}
               >
                 Download Resume
               </Button>
               <Button 
                 variant="outline"
-                className="border-white/10 text-white px-8 h-14 rounded-xl hover:bg-white/5 transition-all"
+                className="border-white/10 text-white px-6 md:px-8 h-12 md:h-14 rounded-xl hover:bg-white/5 transition-all text-sm md:text-base flex-1 sm:flex-none"
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Let's Talk
@@ -712,33 +683,33 @@ const aiTools = [
                     stiffness: 100,
                     duration: 0.8,
                   }}
-                  className="liquid-mini absolute bottom-2 -right-0 md:-right-4 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[260px] hover:border-primary/50 transition-colors group"
-                >
-                  <div className="relative">
-                    <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
-                      <img
-                        src="/Photo_1771955679545 (1).jpg"
-                        alt="Paraj Bhatasana"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                          e.currentTarget.parentElement
-                            ?.querySelector(".fallback-user")
-                            ?.classList.remove("hidden");
-                        }}
-                      />
-                      <User className="fallback-user hidden text-primary w-8 h-8" />
-                    </div>
-                    <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-[#22c55e] rounded-full border-2 border-[#1f2528] animate-pulse shadow-[0_0_10px_#22c55e]" />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-lg leading-none mb-1.5">
-                      Paraj Bhatasana
-                    </p>
-                    <p className="text-xs text-primary uppercase font-mono tracking-widest font-bold ">
-                      Available for Work
-                    </p>
-                  </div>
+                   className="liquid-mini absolute -bottom-4 -right-2 md:-right-4 z-30 bg-[#1f2528]/80 backdrop-blur-xl border border-white/10 p-3 md:p-4 rounded-xl md:rounded-2xl shadow-2xl flex items-center gap-3 md:gap-4 min-w-[220px] md:min-w-[260px] hover:border-primary/50 transition-colors group"
+                 >
+                   <div className="relative">
+                     <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
+                       <img
+                         src="/Photo_1771955679545 (1).jpg"
+                         alt="Paraj Bhatasana"
+                         className="w-full h-full object-cover"
+                         onError={(e) => {
+                           e.currentTarget.style.display = "none";
+                           e.currentTarget.parentElement
+                             ?.querySelector(".fallback-user")
+                             ?.classList.remove("hidden");
+                         }}
+                       />
+                       <User className="fallback-user hidden text-primary w-6 h-6 md:w-8 md:h-8" />
+                     </div>
+                     <div className="absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 bg-[#22c55e] rounded-full border-2 border-[#1f2528] animate-pulse shadow-[0_0_10px_#22c55e]" />
+                   </div>
+                   <div>
+                     <p className="text-white font-bold text-base md:text-lg leading-none mb-1 md:mb-1.5">
+                       Paraj Bhatasana
+                     </p>
+                     <p className="text-[10px] md:text-xs text-primary uppercase font-mono tracking-widest font-bold ">
+                       Available for Work
+                     </p>
+                   </div>
                 </motion.div>
               </motion.div>
 
@@ -785,12 +756,12 @@ const aiTools = [
           </div>
 
           {/* 🔥 REAL LIQUID MIRROR CARD */}
-          <div className="relative liquid-mirror rounded-[40px] p-10 md:p-14 overflow-hidden">
+           <div className="relative liquid-mirror rounded-[2rem] md:rounded-[40px] p-8 md:p-14 overflow-hidden">
 
             {/* Content */}
             <div className="relative z-10 space-y-10 text-lg md:text-xl text-muted-foreground leading-relaxed">
 
-              <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+              <p className="first-letter:text-4xl md:first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
                 I am{" "}
                 <span className="text-white font-bold underline decoration-primary/40 underline-offset-4">
                   Paraj Bhatasana
@@ -802,28 +773,28 @@ const aiTools = [
                 <span className="text-primary font-medium italic">
                   AI Solutions Engineer
                 </span>.
-                Based in Ahmedabad, Gujarat, I focus on building high-performance, secure, and intelligent backend infrastructures.
+                Based in Ahmedabad, Gujarat, I build secure, scalable, and high-performance backend systems designed for real-world impact.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 py-6">
 
                 <div className="flex gap-4 items-start">
-                  <div className="p-4 rounded-2xl liquid-mini text-primary">
-                    <Terminal size={24} />
+                  <div className="p-3 md:p-4 rounded-xl md:rounded-2xl liquid-mini text-primary">
+                    <Terminal className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold mb-1">Architecture First</h4>
-                    <p className="text-sm">Designing scalable systems with clean code and the Repository Pattern.</p>
+                    <h4 className="text-white font-bold mb-1 text-base md:text-lg">Architecture First</h4>
+                    <p className="text-xs md:text-sm">Designing scalable systems with clean code and the Repository Pattern.</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4 items-start">
-                  <div className="p-4 rounded-2xl liquid-mini text-primary">
-                    <Sparkles size={24} />
+                  <div className="p-3 md:p-4 rounded-xl md:rounded-2xl liquid-mini text-primary">
+                    <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold mb-1">AI-Powered</h4>
-                    <p className="text-sm">Integrating modern AI tools and building smart automation workflows.</p>
+                    <h4 className="text-white font-bold mb-1 text-base md:text-lg">AI-Powered</h4>
+                    <p className="text-xs md:text-sm">Integrating modern AI tools and building smart automation workflows.</p>
                   </div>
                 </div>
 
@@ -898,14 +869,14 @@ const aiTools = [
         {/* Timeline */}
         <div className="relative">
           {/* Refined Vertical Line */}
-          <div className="absolute left-1/2 top-0 -translate-x-1/2 w-[2px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+          <div className="absolute left-4 md:left-1/2 top-0 -translate-x-1/2 md:-translate-x-1/2 w-[2px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
           
           <motion.div 
             initial={{ height: 0 }}
             whileInView={{ height: "100%" }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute left-1/2 top-0 -translate-x-1/2 w-[2px] bg-gradient-to-b from-primary via-primary/50 to-transparent shadow-[0_0_15px_rgba(25,230,189,0.5)] z-0"
+            className="absolute left-4 md:left-1/2 top-0 -translate-x-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-primary via-primary/50 to-transparent shadow-[0_0_15px_rgba(25,230,189,0.5)] z-0"
           />
 
           <div className="space-y-12 relative z-10">
@@ -938,14 +909,14 @@ const aiTools = [
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className={`relative flex items-center justify-between gap-8 md:gap-20 ${
-                  idx % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                className={`relative flex items-center justify-between gap-8 md:gap-20 flex-col md:flex-row ${
+                  idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                 }`}
               >
                 {/* Content Card */}
                 <motion.div 
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className={`w-[45%] p-6 md:p-8 rounded-2xl bg-[#1f2528]/80 backdrop-blur-sm border border-white/5 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(25,230,189,0.1)] transition-all duration-300 group`}
+                  className={`w-[calc(100%-3rem)] md:w-[45%] ml-10 md:ml-0 p-6 md:p-8 rounded-2xl bg-[#1f2528]/80 backdrop-blur-sm border border-white/5 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(25,230,189,0.1)] transition-all duration-300 group`}
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -971,7 +942,7 @@ const aiTools = [
                 </motion.div>
 
                 {/* Center Indicator */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                <div className="absolute left-4 md:left-1/2 top-10 md:top-1/2 -translate-x-1/2 md:-translate-x-1/2 -translate-y-1/2 z-20">
                   <div className="relative">
                     <motion.div 
                       initial={{ scale: 0, rotate: 0 }}
@@ -996,17 +967,17 @@ const aiTools = [
                     {/* Connection Line to Card */}
                     <motion.div 
                       initial={{ width: 0 }}
-                      whileInView={{ width: "30px" }}
+                      whileInView={{ width: "20px" }}
                       transition={{ delay: idx * 0.2 + 0.5 }}
                       className={`absolute top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-primary/50 to-transparent ${
-                        idx % 2 === 0 ? "left-10" : "right-10 rotate-180"
-                      }`}
+                        idx % 2 === 0 ? "left-10" : "right-10 md:right-10 rotate-180"
+                      } ${idx % 2 !== 0 ? "md:rotate-180" : ""}`}
                     />
                   </div>
                 </div>
 
                 {/* Empty Space for the other side */}
-                <div className="w-[45%]" />
+                <div className="hidden md:block w-[45%]" />
               </motion.div>
             ))}
           </div>
@@ -1049,9 +1020,9 @@ const aiTools = [
 
       {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div>
-            <h2 className="text-5xl md:text-6xl font-bold text-white  ">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
               Let's Connect
             </h2>
             <p className="text-muted-foreground text-lg mb-12">
@@ -1129,7 +1100,7 @@ const aiTools = [
             </div>
           </div>
 
-          <div className="bg-[#1f2528]/50 p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-sm">
+          <div className="bg-[#1f2528]/50 p-6 md:p-12 rounded-2xl md:rounded-3xl border border-white/5 backdrop-blur-sm">
             <form 
               className="space-y-8"
               onSubmit={async (e) => {
