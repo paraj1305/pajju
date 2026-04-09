@@ -71,7 +71,7 @@ export const Footer = () => {
                         </h4>
                         <ul className="space-y-4 text-sm font-mono text-muted-foreground">
                             <li><a href="/#contact" className="hover:text-primary transition-colors">Contact Me</a></li>
-                            <li><a href="mailto:parajbhatasanaparaj@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
+                            <li><a href="mailto:bhatasanaparaj@gmail.com" className="hover:text-primary transition-colors">Email</a></li>
                             <li><a href="https://www.linkedin.com/in/paraj1305/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
                             <li><button onClick={() => window.open("/resume.pdf", "_blank")} className="hover:text-primary transition-colors">Resume</button></li>
                         </ul>

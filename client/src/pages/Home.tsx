@@ -1039,7 +1039,7 @@ const aiTools = [
                     Email
                   </p>
                   <p className="text-white font-medium">
-                    parajbhatasanaparaj@gmail.com
+                    bhatasanaparaj@gmail.com
                   </p>
                 </div>
               </div>

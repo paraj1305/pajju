@@ -28,7 +28,7 @@ export async function registerRoutes(
 
       const mailOptions = {
         from: `"${name}" <${process.env.VITE_SMTP_USER}>`,
-        to: "parajbhatasanaparaj@gmail.com",
+        to: "bhatasanaparaj@gmail.com",
         subject: `New Inquiry from Portfolio: ${name}`,
         text: `From: ${name} (${email})\n\nMessage:\n${message}`,
         replyTo: email
