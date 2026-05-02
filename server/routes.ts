@@ -50,18 +50,26 @@ export async function registerRoutes(
       return res.status(400).json({ message: "Message is required" });
     }
 
-    const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
-    if (!apiKey || apiKey === "your_gemini_api_key_here") {
-      return res.json({ 
-        message: "I'm currently in offline mode (Gemini API key not set in .env). I can still tell you that Paraj is an expert Backend Developer specializing in Python, AI, and Laravel. Please add your API key to enable full AI responses!" 
-      });
-    }
+    const fallbackResponse = (userMsg: string) => {
+      const lowerMsg = userMsg.toLowerCase();
+      let responseText = "";
+      
+      if (lowerMsg.includes("experience") || lowerMsg.includes("years")) {
+        responseText += "Paraj has over 5 years of experience and has successfully completed over 50 projects.";
+      } else if (lowerMsg.includes("skill") || lowerMsg.includes("stack") || lowerMsg.includes("tech")) {
+        responseText += "Paraj specializes in Python (FastAPI, Django), Laravel, and modern AI automation tools like n8n and LangChain.";
+      } else if (lowerMsg.includes("contact") || lowerMsg.includes("email") || lowerMsg.includes("hire")) {
+        responseText += "You can contact Paraj at bhatasanaparaj@gmail.com.";
+      } else if (lowerMsg.includes("location") || lowerMsg.includes("where")) {
+        responseText += "Paraj is based in Ahmedabad, Gujarat.";
+      } else {
+        responseText += "I can tell you about Paraj's skills, experience, location, or contact info. What would you like to know?";
+      }
+      return responseText;
+    };
 
     try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
-        systemInstruction: `You are build.withPAJJU AI Assistant. You should only answer based on the following website content about Paraj Bhatasana:
+      const systemInstruction = `You are build.withPAJJU AI Assistant. You should only answer based on the following website content about Paraj Bhatasana:
         - Role: Backend Developer & AI Solutions Engineer
         - Location: Ahmedabad, Gujarat
         - Expertise: Python (Django, FastAPI), Laravel, REST APIs, AI-powered automation, WhatsApp Business API.
@@ -70,19 +78,41 @@ export async function registerRoutes(
         - Contact: bhatasanaparaj@gmail.com
         - Mission: Building scalable systems and self-evolving intelligent systems.
         - Logo: build.withPAJJU
-        Be professional, friendly, and concise. Only talk about Paraj's work and skills. If asked something else, politely stay on topic about Paraj.`
+        Be professional, friendly, and concise. Only talk about Paraj's work and skills. If asked something else, politely stay on topic about Paraj.`;
+
+      const openAiMessages = [
+        { role: "system", content: systemInstruction },
+        ...(history || []).map((h: any) => ({
+          role: h.role === "model" ? "assistant" : "user",
+          content: h.parts && h.parts[0] ? h.parts[0].text : ""
+        })),
+        { role: "user", content: message }
+      ];
+
+      const pollResponse = await fetch("https://text.pollinations.ai/openai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: openAiMessages,
+          model: "openai",
+          temperature: 0.7
+        })
       });
 
-      const chat = model.startChat({
-        history: history || [],
-      });
+      if (!pollResponse.ok) {
+        throw new Error("Free LLM API failed");
+      }
 
-      const result = await chat.sendMessage(message);
-      const response = await result.response;
-      res.json({ message: response.text() });
+      const data = await pollResponse.json();
+      const botMessage = data.choices[0].message.content;
+
+      res.json({ message: botMessage });
     } catch (error: any) {
       console.error("Chat Error:", error);
-      res.status(500).json({ message: "The AI is feeling a bit tired. Please try again in a moment." });
+      // Fallback if the free LLM API fails
+      return res.json({ message: "I am using my backup brain due to an API issue. " + fallbackResponse(message) });
     }
   });
 

@@ -34,6 +34,7 @@ import { blogPosts } from "@/data/blogData";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 // Typewriter Effect Component
 const Typewriter = ({ sentences }: { sentences: string[] }) => {
@@ -468,6 +469,7 @@ const projects = [
 };
 
 const Home = () => {
+  const { toast } = useToast();
 const techSkills = [
   {
     name: "Python",
@@ -1156,13 +1158,20 @@ const aiTools = [
                   });
                   
                   if (response.ok) {
-                    alert("Message sent successfully!");
+                    toast({
+                      title: "Message sent!",
+                      description: "Thank you for reaching out. I'll get back to you soon.",
+                    });
                     form.reset();
                   } else {
                     throw new Error("Failed to send");
                   }
                 } catch (error) {
-                  alert("Failed to send message. Please try again later.");
+                  toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "Failed to send message. Please try again later.",
+                  });
                 }
               }}
             >

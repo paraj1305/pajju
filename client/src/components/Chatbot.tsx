@@ -28,10 +28,12 @@ export const Chatbot = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           message: userMessage,
-          history: messages.map(m => ({ 
-            role: m.role === "user" ? "user" : "model", 
-            parts: [{ text: m.content }] 
-          }))
+          history: messages
+            .filter((m, i) => i !== 0) // Skip welcome message to ensure history starts with 'user'
+            .map(m => ({ 
+              role: m.role === "user" ? "user" : "model", 
+              parts: [{ text: m.content }] 
+            }))
         }),
       });
 
