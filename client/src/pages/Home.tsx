@@ -160,9 +160,44 @@ const MarqueeRow = ({
   direction?: "left" | "right";
 }) => {
   const duplicatedSkills = [...skills, ...skills, ...skills, ...skills];
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    if (scrollRef.current) {
+      setStartX(e.pageX - scrollRef.current.offsetLeft);
+      setScrollLeft(scrollRef.current.scrollLeft);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll-fast
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   return (
-    <div className="relative flex overflow-hidden py-16 md:py-32 mask-fade-edges -my-12 md:-my-24 z-20 hover:z-30 transition-all duration-300">
+    <div 
+      ref={scrollRef}
+      onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      className={`relative flex overflow-x-auto py-16 md:py-32 mask-fade-edges -my-12 md:-my-24 z-20 hover:z-30 transition-all duration-300 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
+    >
       <motion.div
         animate={{
           x: direction === "left" ? [0, -1035] : [-1035, 0],
@@ -172,7 +207,7 @@ const MarqueeRow = ({
           repeat: Infinity,
           ease: "linear",
         }}
-        className="flex gap-4 md:gap-6 pr-6"
+        className="flex gap-4 md:gap-6 pr-6 w-max"
       >
         {duplicatedSkills.map((skill, idx) => (
           <div key={idx} className="relative py-8 ">
