@@ -847,14 +847,20 @@ const aiTools = [
       
       {/* Skills Section */}
       <section id="skills" className="py-24 relative overflow-visible">
-        <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="px-6 md:px-12 max-w-7xl mx-auto mb-16"
+        >
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold text-white flex items-center">
               My Stack
             </h2>
             <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
           </div>
-        </div>
+        </motion.div>
 
         <div className="space-y-8 overflow-visible">
           <div>
@@ -1023,7 +1029,13 @@ const aiTools = [
       
       {/* Work Section */}
       <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center justify-between gap-4 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center justify-between gap-4 mb-16"
+        >
           <div className="flex items-center gap-4 flex-grow">
             <h2 className="text-3xl font-bold text-white">Work</h2>
             <div className="h-px bg-gradient-to-r from-primary/50 to-transparent flex-grow"></div>
@@ -1037,7 +1049,7 @@ const aiTools = [
             See All Projects
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Button>
-        </div>
+        </motion.div>
 
         <VerticalProjectMarquee />
 
@@ -1058,7 +1070,12 @@ const aiTools = [
       {/* Contact Section */}
       <section id="contact" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
               Let's Connect
             </h2>
@@ -1067,77 +1084,68 @@ const aiTools = [
             </p>
 
             <div className="space-y-6">
-              <div className="bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5 liquid-mini">
-                <div className="w-12 h-12 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
-                    Email
-                  </p>
-                  <p className="text-white font-medium">
-                    bhatasanaparaj@gmail.com
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5 liquid-mini">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
-                    Location
-                  </p>
-                  <p className="text-white font-medium">
-                    Ahmedabad, Gujarat - India
-                  </p>
-                </div>
-              </div>
+              {[
+                { icon: Mail, color: "sky", label: "Email", value: "bhatasanaparaj@gmail.com" },
+                { icon: MapPin, color: "emerald", label: "Location", value: "Ahmedabad, Gujarat - India" },
+              ].map(({ icon: Icon, color, label, value }, i) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.15 }}
+                  whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                  className={`bg-[#1f2528] p-6 rounded-2xl flex items-center gap-4 border border-white/5 liquid-mini cursor-default`}
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-${color}-500/20 flex items-center justify-center text-${color}-400`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">{label}</p>
+                    <p className="text-white font-medium">{value}</p>
+                  </div>
+                </motion.div>
+              ))}
 
               <div className="pt-8">
-                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest my-4 ">
+                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest my-4">
                   Connect on Social
                 </p>
                 <div className="flex gap-4">
-                  <a
-                    href="https://github.com/paraj1305"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://x.com/paraj1305"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
-                  >
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/paraj1305/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://wa.me/917202920152"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all liquid-mini"
-                  >
-                    <Phone className="w-5 h-5" />
-                  </a>
+                  {[
+                    { href: "https://github.com/paraj1305", icon: Github, delay: 0 },
+                    { href: "https://x.com/paraj1305", icon: Twitter, delay: 0.1 },
+                    { href: "https://www.linkedin.com/in/paraj1305/", icon: Linkedin, delay: 0.2 },
+                    { href: "https://wa.me/917202920152", icon: Phone, delay: 0.3 },
+                  ].map(({ href, icon: Icon, delay }) => (
+                    <motion.a
+                      key={href}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 300, damping: 18, delay }}
+                      whileHover={{ y: -5, scale: 1.15 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="w-12 h-12 rounded-full bg-[#1f2528] border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors liquid-mini"
+                    >
+                      <Icon className="w-5 h-5" />
+                    </motion.a>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-[#1f2528]/50 p-6 md:p-12 rounded-2xl md:rounded-3xl border border-white/5 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
+            className="bg-[#1f2528]/50 p-6 md:p-12 rounded-2xl md:rounded-3xl border border-white/5 backdrop-blur-sm"
+          >
             <form 
               className="space-y-8"
               onSubmit={async (e) => {
@@ -1213,7 +1221,7 @@ const aiTools = [
                 Send Message
               </Button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </section>
       {/* Footer */}
